@@ -89,7 +89,6 @@ public class StarWarsLiveWallpaper extends BaseGameWallpaperService implements I
 
 	public EngineOptions onCreateEngineOptions() {
 		
-		android.os.Debug.waitForDebugger(); 
 		//Debug.setDebugLevel(DebugLevel.NONE);
 		//Toast.makeText(this, "You move my sprite right round, right round...", Toast.LENGTH_LONG).show();
 		Debug.d("toast", "onCreateEngineOptions");
@@ -260,7 +259,7 @@ public class StarWarsLiveWallpaper extends BaseGameWallpaperService implements I
 	boolean doFadeOut = false;
 	
 	public void onUpdate(float pSecondsElapsed) {
-		Debug.d("update handler");
+//		Debug.d("update handler");
 		if(doFadeOut){
 			benjiBSO.setVolume(Math.max(0f, benjiBSO.getVolume()-pSecondsElapsed/2*this.fadeOutSpeed));
 			if(benjiBSO.getVolume() == 0f){

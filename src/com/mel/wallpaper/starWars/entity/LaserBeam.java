@@ -106,15 +106,6 @@ public class LaserBeam implements IEntity, IMovable
 	}
 	
 	public boolean isBusy(){
-		return isFliying();
-	}
-	
-	public boolean isFliying(){
-		if(this.origin != null && this.destination !=null){
-			float distanciaRecorrida = getTraveledDistance();
-			float distanciaTotal = getTotalDistance();
-			return distanciaTotal > 80 && distanciaRecorrida/distanciaTotal < 0.3f;
-		}
 		return false;
 	}
 	
