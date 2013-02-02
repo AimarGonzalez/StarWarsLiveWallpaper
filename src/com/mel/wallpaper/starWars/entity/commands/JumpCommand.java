@@ -20,7 +20,7 @@ public class JumpCommand extends Command
 	
 	
 	public JumpCommand(Jumper jumper) {
-		super(jumper);
+		player = jumper;
 		this.jumper = jumper;
 	}
 	

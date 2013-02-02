@@ -41,7 +41,7 @@ public class MoveCommand extends Command
 	}
 	
 	public MoveCommand(Walker player, float speedFactor, IEaseFunction easeFunction) {
-		super(player);
+		this.player = player;
 		this.speedFactor = speedFactor;
 		this.easeFunction = easeFunction;
 	}

@@ -56,6 +56,7 @@ public class WalkersProcess extends Process
 			MoveCommand move = new MoveCommand(jedi);
 			move.setMovable(jedi);
 			move.destination = map.walls.getRandomPoint();
+			jedi.addCommand(move);
 		}
 	
 		Walker jedi = jedis.get(0);
