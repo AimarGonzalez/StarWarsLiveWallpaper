@@ -19,7 +19,6 @@ import com.mel.wallpaper.starWars.entity.Walker;
 public class MoveCommand extends Command
 {
 	public Point destination;
-	public Point finalDestination;
 	public IMovable movable;
 	public IEaseFunction easeFunction;
 	public float speedFactor;
@@ -93,7 +92,4 @@ public class MoveCommand extends Command
 	private void startMoveAnimation(IMovable currentMovable){
 		currentMovable.goTo(this.destination.clone());
 	}
-	
-	
-	
 }
