@@ -7,33 +7,33 @@ import org.andengine.entity.sprite.Sprite;
 import com.mel.entityframework.Game;
 import com.mel.entityframework.Process;
 import com.mel.util.Point;
-import com.mel.wallpaper.starWars.entity.Field;
-import com.mel.wallpaper.starWars.entity.GoalKeeper;
-import com.mel.wallpaper.starWars.entity.Partido;
-import com.mel.wallpaper.starWars.entity.Player;
+import com.mel.wallpaper.starWars.entity.InvisibleWalls;
+import com.mel.wallpaper.starWars.entity.Jumper;
+import com.mel.wallpaper.starWars.entity.Map;
+import com.mel.wallpaper.starWars.entity.Walker;
 import com.mel.wallpaper.starWars.view.PlayerAnimation;
 import com.mel.wallpaper.starWars.view.SpriteFactory;
 
-public class RenderPlayersProcess extends Process
+public class RenderWalkersProcess extends Process
 {
-	private Field field;
+	private InvisibleWalls field;
 
-	private List<Player> players;
+	private List<Walker> walkers;
 	private Sprite canvas;
 	
-	public RenderPlayersProcess(Sprite canvas){
+	public RenderWalkersProcess(Sprite canvas){
 		this.canvas = canvas;
 	}
 	
 	@Override
 	public void onAddToGame(Game game){
 		
-		this.field = ((Partido)game.getEntity(Partido.class)).field;
+		this.field = ((Map)game.getEntity(Map.class)).walls;
 
-		this.players = (List<Player>) game.getEntities(GoalKeeper.class);
-		this.players.addAll(game.getEntities(Player.class));		
+		this.walkers = (List<Walker>) game.getEntities(Jumper.class);
+		this.walkers.addAll(game.getEntities(Walker.class));		
 	
-		for(Player p : this.players){
+		for(Walker p : this.walkers){
 			this.canvas.attachChild(p.position);
 			this.canvas.attachChild(p.sprite);
 		}
@@ -41,9 +41,9 @@ public class RenderPlayersProcess extends Process
 	
 	@Override
 	public void onRemoveFromGame(Game game){
-		if(players != null){
-			players.clear();
-			players = null;
+		if(walkers != null){
+			walkers.clear();
+			walkers = null;
 		}
 		
 		canvas = null;
@@ -54,8 +54,8 @@ public class RenderPlayersProcess extends Process
 	public void update(){
 		
 		
-		for(Player player : this.players){
-			Point playerCenter = Field.cartesianToEngineCoordinates(player.position);
+		for(Walker player : this.walkers){
+			Point playerCenter = InvisibleWalls.cartesianToEngineCoordinates(player.position);
 			Point fixedCoord = new Point(playerCenter.getX()-player.getSpriteOffsetX(), playerCenter.getY()-player.getSpriteOffsetY());
 			player.sprite.setPosition(fixedCoord.getX(), fixedCoord.getY());
 			

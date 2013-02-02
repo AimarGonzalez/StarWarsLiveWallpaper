@@ -6,8 +6,8 @@ import org.andengine.util.modifier.ease.IEaseFunction;
 
 import com.mel.entityframework.IMovable;
 import com.mel.util.Point;
-import com.mel.wallpaper.starWars.entity.Partido;
-import com.mel.wallpaper.starWars.entity.Player;
+import com.mel.wallpaper.starWars.entity.Map;
+import com.mel.wallpaper.starWars.entity.Walker;
 
 public class StopCommand extends Command
 {
@@ -15,25 +15,17 @@ public class StopCommand extends Command
 	public IMovable movable;
 	public IEaseFunction easeFunction = EaseLinear.getInstance();
 	
-	public StopCommand(PlayerSnapshot player) {
-		this(player.originalPlayer, player.originalPlayer);
+	public StopCommand(Walker walker) {
+		this(walker, walker);
 	}
 	
-	public StopCommand(PlayerSnapshot player, PlayerSnapshot movableSnapshot) {
-		this(player.originalPlayer, movableSnapshot.originalPlayer);
-	}
-	
-	public StopCommand(PlayerSnapshot player, BallSnapshot movableSnapshot) {
-		this(player.originalPlayer, movableSnapshot.originalBall);
-	}	
-	
-	public StopCommand(Player player, IMovable movable) {
-		super(player);
+	public StopCommand(Walker walker, IMovable movable) {
+		super(walker);
 		this.movable = movable;
 	}
 	
 	@Override
-	public void execute(Partido p) {
+	public void execute(Map p) {
 		this.movable.forceStopMovement();
 	}
 	

@@ -1,7 +1,7 @@
 package com.mel.wallpaper.starWars.view;
 
 import com.mel.util.Point;
-import com.mel.wallpaper.starWars.entity.GoalKeeper;
+import com.mel.wallpaper.starWars.entity.Jumper;
 
 public class GoalKeeperAnimation {
 	
@@ -30,7 +30,7 @@ public class GoalKeeperAnimation {
 		}
 		
 	}
-	public static PlayerAnimation calculateJumpAnimation(GoalKeeper gk, Point destination, PlayerAnimation initialAnimation){
+	public static PlayerAnimation calculateJumpAnimation(Jumper gk, Point destination, PlayerAnimation initialAnimation){
 		float direction = destination.getY() - gk.position.getY();
 		switch (initialAnimation) {
 			case STOP_E:

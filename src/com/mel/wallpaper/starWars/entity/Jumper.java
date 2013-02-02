@@ -21,7 +21,7 @@ import com.mel.wallpaper.starWars.view.Position;
 import com.mel.wallpaper.starWars.view.SpriteFactory;
 
 
-public class GoalKeeper extends Player implements IMovable
+public class Jumper extends Walker implements IMovable
 {
 	
 	private static final float	VERTICAL_CENTER	= 35f*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR;
@@ -117,24 +117,24 @@ public class GoalKeeper extends Player implements IMovable
 //	}
 	
 	/* Constructor */
-	public GoalKeeper(int dorsal, float x, float y, String textureId, PlayerAnimation initialAnimation){
-		this(dorsal, new Point(x,y), GoalKeeper.GOLAKEEPER_DEFAULT_SPEED, textureId, initialAnimation, Rol.PORTER);
+	public Jumper(int dorsal, float x, float y, String textureId, PlayerAnimation initialAnimation){
+		this(dorsal, new Point(x,y), Jumper.GOLAKEEPER_DEFAULT_SPEED, textureId, initialAnimation, Rol.CHUWAKA);
 	}
 	
-	public GoalKeeper(int dorsal, float x, float y, float speed, String textureId, PlayerAnimation initialAnimation){
-		this(dorsal, new Point(x,y), speed, textureId, initialAnimation, Rol.PORTER);
+	public Jumper(int dorsal, float x, float y, float speed, String textureId, PlayerAnimation initialAnimation){
+		this(dorsal, new Point(x,y), speed, textureId, initialAnimation, Rol.JEDI);
 	}
 	
-	public GoalKeeper(int dorsal, Point p, String textureId, PlayerAnimation initialAnimation){
-		this(dorsal, p, GoalKeeper.GOLAKEEPER_DEFAULT_SPEED, textureId, initialAnimation, Rol.PORTER);
+	public Jumper(int dorsal, Point p, String textureId, PlayerAnimation initialAnimation){
+		this(dorsal, p, Jumper.GOLAKEEPER_DEFAULT_SPEED, textureId, initialAnimation, Rol.JEDI);
 	}
 
-	public GoalKeeper(int dorsal, Point p, float speed, String textureId, PlayerAnimation initialAnimation){
-		this(dorsal, p, speed, textureId, initialAnimation, Rol.PORTER);
+	public Jumper(int dorsal, Point p, float speed, String textureId, PlayerAnimation initialAnimation){
+		this(dorsal, p, speed, textureId, initialAnimation, Rol.JEDI);
 	}
 	
-	public GoalKeeper(int dorsal, Point p, float speed, String textureId, PlayerAnimation initialAnimation, Rol r){
-		super(dorsal, p, speed, textureId, initialAnimation, Rol.PORTER);
+	public Jumper(int dorsal, Point p, float speed, String textureId, PlayerAnimation initialAnimation, Rol r){
+		super(dorsal, p, speed, textureId, initialAnimation, Rol.JEDI);
 	
 		this.initialPosition = this.defaultPosition.clone();
 	}
@@ -203,18 +203,6 @@ public class GoalKeeper extends Player implements IMovable
 		}
 	}
 	
-	public boolean canStopBall(Partido partido){
-		Ball ball = partido.ball;
-		
-		//Point ballSpritePosition = partido.field.cartesianToEngineCoordinates(ball.position);
-		//if(sprite.contains(ballSpritePosition.getX(), ballSpritePosition.getY())){ //OJO!, contains, que coordenadas pide? del engine?
-		if(this.position.distance(ball.position) < Ball.BLOCK_DISTANCE){ //OJO!, contains, que coordenadas pide? del engine?
-			return true;
-		}else{
-			return false;
-		}
-	}
-	
 	public void stopBall(){
 		this.isOnStopBallCooldown = true;
 		TimerHelper.startTimer(this.position, 1.5f,  new ITimerCallback() {                      
@@ -239,7 +227,7 @@ public class GoalKeeper extends Player implements IMovable
         });
 	}
 	
-	public void passBallTo(GoalKeeper destination){
+	public void passBallTo(Jumper destination){
 		this.passTarget = destination;
 		animatePass();
 	}

@@ -7,52 +7,48 @@ import org.andengine.util.modifier.ease.IEaseFunction;
 
 import com.mel.util.MathUtil;
 import com.mel.util.Point;
-import com.mel.wallpaper.starWars.entity.GoalKeeper;
-import com.mel.wallpaper.starWars.entity.Partido;
+import com.mel.wallpaper.starWars.entity.Jumper;
+import com.mel.wallpaper.starWars.entity.Map;
 
 public class JumpCommand extends Command
 {
 	public Point destination;
 	protected Point finalDestination;
-	public GoalKeeper goalKeeper;
+	public Jumper jumper;
 	public IEaseFunction easeFunction = EaseLinear.getInstance();
 	
 	
-	public JumpCommand(PlayerSnapshot player) {
-		this((GoalKeeper)player.originalPlayer);
-	}
-		
 	
-	public JumpCommand(GoalKeeper player) {
-		super(player);
-		this.goalKeeper = player;
+	public JumpCommand(Jumper jumper) {
+		super(jumper);
+		this.jumper = jumper;
 	}
 	
 	@Override
-	public void execute(Partido p) {
-		this.goalKeeper.forceStopMovement();
+	public void execute(Map p) {
+		this.jumper.forceStopMovement();
 		
 		moveObject();
 		
-		this.goalKeeper.jump(this.finalDestination);
+		this.jumper.jump(this.finalDestination);
 	}
 
 	protected void moveObject() {
-		Point origen = (Point)this.goalKeeper.getPosition().toPoint();
+		Point origen = (Point)this.jumper.getPosition().toPoint();
 		this.finalDestination = fixDestinationCoordenates(this.destination);
 		
 		float angle = MathUtil.getAngulo(origen.getX(), origen.getY(), this.finalDestination.getX(), this.finalDestination.getY());
 		
 		float distance =  origen.distance(this.finalDestination);
 		float jumpDistance =  distance/2f;
-		if(distance > GoalKeeper.MAX_JUMP_DISTANCE){
-			distance = GoalKeeper.MAX_JUMP_DISTANCE;
+		if(distance > Jumper.MAX_JUMP_DISTANCE){
+			distance = Jumper.MAX_JUMP_DISTANCE;
 		}
 		
 		this.finalDestination.setX(origen.getX()+(float)Math.cos(angle)*jumpDistance-factor*distance/2f); //hacemos que se tire un poco delante de la pelota
 		this.finalDestination.setY(origen.getY()+(float)Math.sin(angle)*jumpDistance);
 		
-		if(origen.distance(this.finalDestination) > GoalKeeper.MAX_JUMP_DISTANCE){
+		if(origen.distance(this.finalDestination) > Jumper.MAX_JUMP_DISTANCE){
 			Debug.d("jump eeeerrooorrr!!");
 		}
 	}

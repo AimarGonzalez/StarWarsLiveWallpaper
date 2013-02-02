@@ -12,9 +12,9 @@ import org.andengine.util.modifier.ease.IEaseFunction;
 import com.mel.entityframework.IMovable;
 import com.mel.util.MathUtil;
 import com.mel.util.Point;
-import com.mel.wallpaper.starWars.entity.Ball;
-import com.mel.wallpaper.starWars.entity.Partido;
-import com.mel.wallpaper.starWars.entity.Player;
+import com.mel.wallpaper.starWars.entity.LaserBeam;
+import com.mel.wallpaper.starWars.entity.Map;
+import com.mel.wallpaper.starWars.entity.Walker;
 
 public class MoveCommand extends Command
 {
@@ -29,23 +29,15 @@ public class MoveCommand extends Command
 	private static final float DEFAULT_SPEED_FACTOR = 1f;
 	protected float MAXIMUM_DISTANCE = 0f;;
 	
-	public MoveCommand(PlayerSnapshot player) {
-		this(player.originalPlayer, player.originalPlayer);
+	public MoveCommand(Walker walker) {
+		this(walker, walker);
 	}
 	
-	public MoveCommand(PlayerSnapshot player, PlayerSnapshot movableSnapshot) {
-		this(player.originalPlayer, movableSnapshot.originalPlayer);
-	}
-	
-	public MoveCommand(PlayerSnapshot player, BallSnapshot movableSnapshot) {
-		this(player.originalPlayer, movableSnapshot.originalBall);
-	}
-	
-	public MoveCommand(Player player, IMovable movable) {
+	public MoveCommand(Walker player, IMovable movable) {
 		this(player, movable, DEFAULT_SPEED_FACTOR, DEFAULT_EASE_FUNCTION);
 	}
 	
-	public MoveCommand(Player player, IMovable movable, float speedFactor, IEaseFunction easeFunction) {
+	public MoveCommand(Walker player, IMovable movable, float speedFactor, IEaseFunction easeFunction) {
 		super(player);
 		this.movable = movable;
 		this.speedFactor = speedFactor;
@@ -53,7 +45,7 @@ public class MoveCommand extends Command
 	}
 
 	@Override
-	public void execute(Partido p) {
+	public void execute(Map p) {
 		moveObject(this.movable, this.speedFactor);
 	}
 
@@ -61,7 +53,7 @@ public class MoveCommand extends Command
 		currentMovable.removeOldMovementOrders();
 		
 		Point origien = (Point)currentMovable.getPosition().toPoint();
-		Point destino = getFinalDestination(currentMovable);
+		Point destino = this.destination.clone();
 		
 		float distance =  origien.distance(destino);
 		// Protegim el PathModifier de que generi NaN quan origen = desti
@@ -99,35 +91,7 @@ public class MoveCommand extends Command
 	}
 	
 	private void startMoveAnimation(IMovable currentMovable){
-		currentMovable.goTo(getFinalDestination(currentMovable));
-	}
-	
-	protected Point getFinalDestination(IMovable currentMovable){
-		if(this.finalDestination == null){
-			this.finalDestination =  calcFinalDestination(currentMovable);
-		}
-		return this.finalDestination;
-	}
-	
-	protected Point calcFinalDestination(IMovable currentMovable){
-		//Este metodo solo se puede usar dentro de executeCommand(), NUNCA ANTES pq no tendrias el factor!
-		Point finalDestination = (Point)this.destination.clone();
-		finalDestination.setLocation(finalDestination.getX()*factor, finalDestination.getY()*factor);//aplicamos factor de inversion de campo (-1 o 1)
-		
-		float distance = currentMovable.getPosition().distance(finalDestination);
-		// limitar a distancia maxima
-		if(MAXIMUM_DISTANCE > 0f && distance > MAXIMUM_DISTANCE){ //acortamos el destino segun la distancia maxima a la que se puede xutar la pelota
-			finalDestination = MathUtil.getPuntDesti(currentMovable.getPosition().toPoint(), finalDestination, MAXIMUM_DISTANCE);
-			distance = MAXIMUM_DISTANCE;
-		}
-		
-		// agregar dispersion
-		if(currentMovable instanceof Ball && (this instanceof HitBallCommand || this instanceof PassBallCommand)){
-			finalDestination.setX(finalDestination.getX()+distance*MathUtils.random(0f,+0.08f)*MathUtils.randomSign());
-			finalDestination.setY(finalDestination.getY()+distance*MathUtils.random(0f,+0.08f)*MathUtils.randomSign());
-		}
-		
-		return finalDestination;
+		currentMovable.goTo(this.destination.clone());
 	}
 	
 	

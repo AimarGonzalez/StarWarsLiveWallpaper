@@ -12,12 +12,12 @@ import android.widget.Toast;
 
 import com.mel.entityframework.Game;
 import com.mel.entityframework.Process;
-import com.mel.wallpaper.starWars.entity.Ball;
-import com.mel.wallpaper.starWars.entity.Field;
-import com.mel.wallpaper.starWars.entity.GoalKeeper;
-import com.mel.wallpaper.starWars.entity.Partido;
-import com.mel.wallpaper.starWars.entity.Partido.Status;
-import com.mel.wallpaper.starWars.entity.Player;
+import com.mel.wallpaper.starWars.entity.LaserBeam;
+import com.mel.wallpaper.starWars.entity.InvisibleWalls;
+import com.mel.wallpaper.starWars.entity.Jumper;
+import com.mel.wallpaper.starWars.entity.Map;
+import com.mel.wallpaper.starWars.entity.Map.Status;
+import com.mel.wallpaper.starWars.entity.Walker;
 import com.mel.wallpaper.starWars.settings.GameSettings;
 import com.mel.wallpaper.starWars.timer.TimerHelper;
 
@@ -25,29 +25,27 @@ import com.mel.wallpaper.starWars.timer.TimerHelper;
 
 public class GameProcess extends Process
 {
-	private Partido partido;
-	private Ball ball;
-	private List<Player> players;
+	private Map partido;
+//	private LaserBeam ball;
+	private List<Walker> players;
 	
 	private Context toastBoard;
 	private Engine engine;
 	private Scene starWarsScene;
-	private Scene loadingScene;
 	
 	
-	public GameProcess(Engine engine, Scene starWarsScene, Scene loadingScene){
+	public GameProcess(Engine engine, Scene starWarsScene){
 		this.engine = engine;
 		this.starWarsScene = starWarsScene;
-		this.loadingScene = loadingScene;
 	}
 	
 	@Override
 	public void onAddToGame(Game game){
-		this.partido = (Partido)game.getEntity(Partido.class);
-		this.ball = (Ball)game.getEntity(Ball.class);
+		this.partido = (Map)game.getEntity(Map.class);
+		
 
-		this.players = (List<Player>) game.getEntities(GoalKeeper.class);
-		this.players.addAll(game.getEntities(Player.class));
+		this.players = (List<Walker>) game.getEntities(Jumper.class);
+		this.players.addAll(game.getEntities(Walker.class));
 	}
 	
 	@Override
@@ -57,7 +55,6 @@ public class GameProcess extends Process
 			players = null;
 		}
 		
-		this.ball = null;
 		this.partido = null;
 	}
 	
@@ -75,18 +72,15 @@ public class GameProcess extends Process
 					this.engine.setScene(this.starWarsScene);
 				}
 				
-				partido.status = Partido.Status.WAIT_A_SECOND;
+				partido.status = Map.Status.WAIT_A_SECOND;
 				TimerHelper.startTimer(this.engine.getScene(), 0.5f,  new ITimerCallback() {                      
 		            public void onTimePassed(final TimerHandler pTimerHandler){
-		            	partido.status = Partido.Status.RESUME_GAME;
+		            	partido.status = Map.Status.RESUME_GAME;
 		            }
 		        });
 				break;
 			
 			case PAUSE:
-				if(GameSettings.getInstance().loadingScreenEnabled && this.engine.getScene()!=this.loadingScene){
-					this.engine.setScene(this.loadingScene);
-				}
 				
 				//teleportPlayersToInitialPositions();
 				//forceBallToCenter();
@@ -98,42 +92,42 @@ public class GameProcess extends Process
 				}
 				
 				//disimula el tiempo de carga de recursos a GPU
-				partido.status = Partido.Status.WAIT_A_SECOND;
+				partido.status = Map.Status.WAIT_A_SECOND;
 				TimerHelper.startTimer(this.engine.getScene(), 1.5f,  new ITimerCallback() {                      
 		            public void onTimePassed(final TimerHandler pTimerHandler){
-		            	partido.status = Partido.Status.PLAYING;
+		            	partido.status = Map.Status.PLAYING;
 		            }
 		        });
-				//partido.status = Partido.Status.PLAYING;
+				//map.status = Map.Status.PLAYING;
 				break;
 			
 			case PLAYING:
 				
-				if(isGol()){
-					this.partido.status = Partido.Status.GOAL_CINEMATIC;
-					break;
-				}
+//				if(isGol()){
+//					this.partido.status = Map.Status.GOAL_CINEMATIC;
+//					break;
+//				}
 				
-				if(isBallOutOfBounds()){
-					this.partido.status = Partido.Status.PERFORM_OUTSIDE;
-					break;
-				}
+//				if(isBallOutOfBounds()){
+//					this.partido.status = Map.Status.PERFORM_OUTSIDE;
+//					break;
+//				}
 				
 				break;
 				
 			case GOAL_CINEMATIC:
-				this.partido.status = Partido.Status.GOTO_INITIAL_POS;
+				this.partido.status = Map.Status.GOTO_INITIAL_POS;
 				break;
 				
 			case PERFORM_OUTSIDE:
-				this.partido.status = Partido.Status.GOTO_INITIAL_POS;
+				this.partido.status = Map.Status.GOTO_INITIAL_POS;
 				break;
 				
 			case GOTO_INITIAL_POS:
-				if(isBallStopped() && areAllPlayersAtInitialPosition()){
-					forceBallToCenter();
-					partido.status = Partido.Status.RESUME_GAME;
-				}
+//				if(isBallStopped() && areAllPlayersAtInitialPosition()){
+//					forceBallToCenter();
+//					partido.status = Map.Status.RESUME_GAME;
+//				}
 				break;
 			
 			
@@ -145,27 +139,16 @@ public class GameProcess extends Process
 	}
 	
 	private void teleportPlayersToInitialPositions(){
-		for(Player player : this.players){
+		for(Walker player : this.players){
 			player.position.setLocation(player.initialPosition.getX(), player.initialPosition.getY());
 			player.forceStopMovement();
 		}
 	}
-	
-	private boolean isBallStopped(){
-		return this.ball.destination==null;
-	}
-	
-	private boolean isGol(){
-		return Field.isGoal(this.ball.position.toPoint());
-	}
 
-	private boolean isBallOutOfBounds(){
-		return Field.isOutField(this.ball.position.toPoint());
-	}
 	
 	
 	private boolean areAllPlayersAtInitialPosition(){
-		for(Player p : this.players){
+		for(Walker p : this.players){
 			if(!p.isAtInitialPosition()){
 				return false;
 			}
@@ -173,10 +156,6 @@ public class GameProcess extends Process
 		return true;
 	}
 	
-	private void forceBallToCenter(){
-		this.ball.forceStopMovement();
-		this.ball.position.setPosition(0,0);
-	}
 
 
 

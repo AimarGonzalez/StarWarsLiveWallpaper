@@ -6,7 +6,7 @@ import org.andengine.util.math.MathUtils;
 import com.mel.util.Point;
 import com.mel.wallpaper.starWars.view.Position;
 
-public class Field
+public class InvisibleWalls
 {
 	public Sprite background;
 	public float width;
@@ -30,7 +30,7 @@ public class Field
 	public static float leftGoalEnd;
 	public static float rightGoalEnd;
 	
-	public Field(float paddingLeft, float paddingRight, float paddingTop, float paddingBottom, Sprite background){
+	public InvisibleWalls(float paddingLeft, float paddingRight, float paddingTop, float paddingBottom, Sprite background){
 		this.background = background;
 
 		this.paddingLeft = paddingLeft;
@@ -40,12 +40,12 @@ public class Field
 		
 		this.width = background.getWidth()-(paddingLeft+paddingRight);
 		this.height = background.getHeight()-(paddingTop+paddingBottom);
-		Field.correccionCampoX = paddingLeft+this.width/2;
-		Field.correccionCampoY = paddingTop+this.height/2;
-		Field.rightWall = this.width/2;
-		Field.leftWall = -this.width/2;
-		Field.topWall = this.height/2;
-		Field.bottomWall = -this.height/2;
+		InvisibleWalls.correccionCampoX = paddingLeft+this.width/2;
+		InvisibleWalls.correccionCampoY = paddingTop+this.height/2;
+		InvisibleWalls.rightWall = this.width/2;
+		InvisibleWalls.leftWall = -this.width/2;
+		InvisibleWalls.topWall = this.height/2;
+		InvisibleWalls.bottomWall = -this.height/2;
 	}
 	
 	public Point getRandomPoint() {

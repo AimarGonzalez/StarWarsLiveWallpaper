@@ -17,14 +17,16 @@ import com.mel.entityframework.Game;
 import com.mel.entityframework.Process;
 import com.mel.util.Point;
 import com.mel.wallpaper.starWars.StarWarsLiveWallpaper;
-import com.mel.wallpaper.starWars.entity.Partido;
-import com.mel.wallpaper.starWars.entity.Player;
+import com.mel.wallpaper.starWars.entity.Jumper;
+import com.mel.wallpaper.starWars.entity.Map;
+import com.mel.wallpaper.starWars.entity.Walker;
 import com.mel.wallpaper.starWars.settings.GameSettings;
 import com.mel.wallpaper.starWars.view.SpriteFactory;
 
 public class TouchProcess extends Process implements IOnSceneTouchListener
 {
-	private Partido partido;
+	private Map partido;
+	private List<Walker> jedis;
 	private Scene scene;
 	private Context toastBoard;
 	private RectangularShape touchMarker;
@@ -32,8 +34,7 @@ public class TouchProcess extends Process implements IOnSceneTouchListener
 	
 	private int TOUCH_RATIO = 45;
 	
-	public TouchProcess(Partido partido, Scene scene, Context context){
-		this.partido = partido;
+	public TouchProcess(Scene scene, Context context){
 		this.scene = scene;
 		this.toastBoard = context;
 		this.touchMarker = SpriteFactory.getInstance().newBall(6, 6);
@@ -46,6 +47,11 @@ public class TouchProcess extends Process implements IOnSceneTouchListener
 		//inicializar listeners (touch, accelerometer?, keyboard?)
 		scene.setTouchAreaBindingOnActionDownEnabled(true);
 		scene.setOnSceneTouchListener(this);
+		
+		this.partido = (Map)game.getEntity(Map.class);
+
+		this.jedis = (List<Walker>) game.getEntities(Jumper.class);
+		this.jedis.addAll(game.getEntities(Walker.class));
 	}
 	
 	@Override
@@ -78,10 +84,10 @@ public class TouchProcess extends Process implements IOnSceneTouchListener
 		
 
 		if(GameSettings.getInstance().godsFingerEnabled){
-			List<Player> touchedPlayers = getPlayersUnderTouch(touchEvent, TOUCH_RATIO);
+			List<Walker> touchedPlayers = getPlayersUnderTouch(touchEvent, TOUCH_RATIO);
 		
 			if(touchedPlayers.size() > 0){
-				for(Player p:touchedPlayers){
+				for(Walker p:touchedPlayers){
 					p.aplastar();
 				}
 				return true;
@@ -92,17 +98,10 @@ public class TouchProcess extends Process implements IOnSceneTouchListener
 		return true;
 	}
 	
-	private List<Player> getPlayersUnderTouch(TouchEvent pSceneTouchEvent, int touchRatio){
-		ArrayList<Player> touchedPlayers = new ArrayList<Player>();
+	private List<Walker> getPlayersUnderTouch(TouchEvent pSceneTouchEvent, int touchRatio){
+		ArrayList<Walker> touchedPlayers = new ArrayList<Walker>();
 		Point spriteCenter = null;
-		for(Player p:this.partido.teams[0].players){
-			spriteCenter = new Point(p.sprite.getSceneCenterCoordinates());
-			if(spriteCenter.distance(pSceneTouchEvent.getX(), pSceneTouchEvent.getY()) < TOUCH_RATIO){
-				touchedPlayers.add(p);
-			}
-		}
-		
-		for(Player p:this.partido.teams[1].players){
+		for(Walker p:this.jedis){
 			spriteCenter = new Point(p.sprite.getSceneCenterCoordinates());
 			if(spriteCenter.distance(pSceneTouchEvent.getX(), pSceneTouchEvent.getY()) < TOUCH_RATIO){
 				touchedPlayers.add(p);
@@ -116,11 +115,11 @@ public class TouchProcess extends Process implements IOnSceneTouchListener
 	private void printTouchDebuger(TouchEvent touchEvent){
 		if(this.touchMarker != null){
 			if(!this.touchMarker.hasParent()){
-				//partido.field.background.attachChild(this.touchMarker);
+				//map.field.background.attachChild(this.touchMarker);
 				this.scene.attachChild(this.touchMarker);
 			}
 			
-			//float[] pointOnField = partido.field.background.convertSceneToLocalCoordinates(touchEvent.getX(), touchEvent.getY());
+			//float[] pointOnField = map.field.background.convertSceneToLocalCoordinates(touchEvent.getX(), touchEvent.getY());
 			float[] pointOnField = {touchEvent.getX(), touchEvent.getY()};
 			
 			this.touchMarker.setPosition(pointOnField[0]-touchMarker.getRotationCenterX(), pointOnField[1]-touchMarker.getRotationCenterY());
@@ -134,7 +133,7 @@ public class TouchProcess extends Process implements IOnSceneTouchListener
 	/* TOUCH LISTENERS */
 	public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
 		pSceneTouchEvent.set(pSceneTouchEvent.getX(), pSceneTouchEvent.getY()+10);
-		if(this.partido.status == Partido.Status.PLAYING){
+		if(this.partido.status == Map.Status.PLAYING){
 			this.lastTouch = pSceneTouchEvent;
 			return true;
 		}else{

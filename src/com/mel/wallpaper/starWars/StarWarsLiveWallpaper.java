@@ -34,7 +34,7 @@ import org.andengine.util.modifier.ease.EaseSineOut;
 import android.util.DisplayMetrics;
 import android.widget.Toast;
 
-import com.mel.wallpaper.starWars.entity.Partido;
+import com.mel.wallpaper.starWars.entity.Map;
 import com.mel.wallpaper.starWars.settings.GameSettings;
 import com.mel.wallpaper.starWars.timer.TimerHelper;
 
@@ -97,8 +97,8 @@ public class StarWarsLiveWallpaper extends BaseGameWallpaperService implements I
 
 	public EngineOptions onCreateEngineOptions() {
 		
-		//android.os.Debug.waitForDebugger(); 
-		Debug.setDebugLevel(DebugLevel.NONE);
+		android.os.Debug.waitForDebugger(); 
+		//Debug.setDebugLevel(DebugLevel.NONE);
 		//Toast.makeText(this, "You move my sprite right round, right round...", Toast.LENGTH_LONG).show();
 		Debug.d("toast", "onCreateEngineOptions");
 

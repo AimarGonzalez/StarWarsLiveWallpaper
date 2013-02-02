@@ -15,13 +15,12 @@ import org.andengine.util.modifier.IModifier;
 import com.mel.entityframework.IEntity;
 import com.mel.entityframework.IMovable;
 import com.mel.util.Point;
-import com.mel.wallpaper.starWars.entity.commands.BallSnapshot;
 import com.mel.wallpaper.starWars.timer.TimerHelper;
 import com.mel.wallpaper.starWars.view.PlayerAnimation;
 import com.mel.wallpaper.starWars.view.Position;
 import com.mel.wallpaper.starWars.view.SpriteFactory;
 
-public class Ball implements IEntity, IMovable
+public class LaserBeam implements IEntity, IMovable
 {
 	
 	public static final float BLOCK_DISTANCE = 20f; //distancia para que el portero bloquee
@@ -87,22 +86,17 @@ public class Ball implements IEntity, IMovable
 	}
 	
 	/* Constructor */
-	public Ball(float x, float y, String textureId){
+	public LaserBeam(float x, float y, String textureId){
 		this(new Position(x,y), textureId);
 	}
-	public Ball(Position p, String textureId){
+	public LaserBeam(Position p, String textureId){
 		this.position = p;
-		this.speed = Ball.DEFAULT_SPEED;
+		this.speed = LaserBeam.DEFAULT_SPEED;
 		this.sprite = (AnimatedSprite) SpriteFactory.getMe().newSprite(SpriteFactory.BALL, 19*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR, 19*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR);
 	}
 	
 	
 	/* Methods */
-	public BallSnapshot getSnapshot(int factor){
-		BallSnapshot p = new BallSnapshot(this, factor);
-		return p;
-	}
-	
 	public void recycle(){
 		this.sprite.detachSelf();
 		this.sprite.unregisterEntityModifiers(null);

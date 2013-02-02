@@ -2,7 +2,7 @@ package com.mel.wallpaper.starWars.view;
 
 import com.mel.util.MathUtil;
 import com.mel.util.Point;
-import com.mel.wallpaper.starWars.entity.Player;
+import com.mel.wallpaper.starWars.entity.Walker;
 
 public enum PlayerAnimation {
 	RUN_N, RUN_S, RUN_E, RUN_W, 
@@ -31,7 +31,7 @@ public enum PlayerAnimation {
 		}
 	}
 	
-	public static PlayerAnimation calculatePassAnimation(Player p, Point destination){
+	public static PlayerAnimation calculatePassAnimation(Walker p, Point destination){
 		double angulo = MathUtil.getAngulo(p.position.getX(), p.position.getY(), destination.getX(), destination.getY());
 		
 		if(angulo>=0 && angulo<MathUtil.PI_Q){
@@ -58,7 +58,7 @@ public enum PlayerAnimation {
 		throw new RuntimeException("Error calculando angulo!");
 	}
 	
-	public static PlayerAnimation calculateShootAnimation(Player p, Point destination){
+	public static PlayerAnimation calculateShootAnimation(Walker p, Point destination){
 		double angulo = MathUtil.getAngulo(p.position.getX(), p.position.getY(), destination.getX(), destination.getY());
 		
 		if(angulo>=0 && angulo<MathUtil.PI_Q){
@@ -85,7 +85,7 @@ public enum PlayerAnimation {
 		throw new RuntimeException("Error calculando angulo!");
 	}
 	
-	public static PlayerAnimation calculateRunAnimation(Player p, Point destination){
+	public static PlayerAnimation calculateRunAnimation(Walker p, Point destination){
 		double angulo = MathUtil.getAngulo(p.position.getX(), p.position.getY(), destination.getX(), destination.getY());
 		
 		if(angulo>=0 && angulo<MathUtil.PI_Q){

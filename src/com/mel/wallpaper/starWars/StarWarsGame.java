@@ -1,5 +1,8 @@
 package com.mel.wallpaper.starWars;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.handler.IUpdateHandler;
@@ -19,17 +22,20 @@ import android.content.ContextWrapper;
 import android.content.SharedPreferences;
 
 import com.mel.entityframework.Game;
-import com.mel.wallpaper.starWars.entity.Field;
-import com.mel.wallpaper.starWars.entity.Partido;
-import com.mel.wallpaper.starWars.process.BallPhisicsProcess;
+import com.mel.wallpaper.starWars.entity.InvisibleWalls;
+import com.mel.wallpaper.starWars.entity.Jumper;
+import com.mel.wallpaper.starWars.entity.Map;
+import com.mel.wallpaper.starWars.entity.Walker;
+import com.mel.wallpaper.starWars.entity.Walker.Rol;
 import com.mel.wallpaper.starWars.process.GameProcess;
-import com.mel.wallpaper.starWars.process.PlayersProcess;
-import com.mel.wallpaper.starWars.process.RenderBallsProcess;
-import com.mel.wallpaper.starWars.process.RenderPlayersProcess;
+import com.mel.wallpaper.starWars.process.WalkersProcess;
+import com.mel.wallpaper.starWars.process.RenderLaserProcess;
+import com.mel.wallpaper.starWars.process.RenderWalkersProcess;
 import com.mel.wallpaper.starWars.process.TouchProcess;
 import com.mel.wallpaper.starWars.settings.GameSettings;
 import com.mel.wallpaper.starWars.settings.GameSettingsActivity;
 import com.mel.wallpaper.starWars.timer.TimerHelper;
+import com.mel.wallpaper.starWars.view.PlayerAnimation;
 import com.mel.wallpaper.starWars.view.SpriteFactory;
 
 public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeListener
@@ -39,25 +45,22 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 	public Engine engine;
 	public Context context;
 	
-	public Scene loadingScene;
 	public Scene starWarsScene;
 	
 	public Game game;
 	
-	private Partido partido;
+	public Map map;
 	
 	private GameProcess gameProcess;
 	private TouchProcess touchProcess;
-	private BallPhisicsProcess ballPhisicsProcess;
-	private PlayersProcess playersCommandsProcess;
-	private RenderPlayersProcess renderPlayersProcess;
-	private RenderBallsProcess renderBallsProcess;
+	private WalkersProcess playersCommandsProcess;
+	private RenderWalkersProcess renderPlayersProcess;
+	private RenderLaserProcess renderBallsProcess;
 	
 
 	private float screenOffsetX = 0;
 	private float gameOffsetX = 0;
 	
-	private Sprite loadingBackground;
 	private Sprite background;
 	
 	private float backgroundScaleFactor;
@@ -112,7 +115,6 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 		//this.grassBackground = new RepeatingSpriteBackground(this.camera.getWidth(), this.camera.getHeight(), this.engine.getTextureManager(), AssetBitmapTextureAtlasSource.create(this.context.getAssets(), "gfx/background_grass.png"), this.engine.getVertexBufferObjectManager());
 				
 		this.background = getBackground();
-		this.loadingBackground = getBackground();
 		updateBackgroundPosition();
 		
 		
@@ -120,19 +122,12 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 	}
 	
 	public Scene onCreateScene(){
-		this.loadingScene = new Scene();
-		this.loadingScene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
-		this.loadingScene.attachChild(this.loadingBackground);
 		
 		this.starWarsScene = new Scene();
 		this.starWarsScene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 		this.starWarsScene.attachChild(this.background);
 		
-		if(GameSettings.getInstance().loadingScreenEnabled){
-			return this.loadingScene;
-		}else{
-			return this.starWarsScene;
-		}
+		return this.starWarsScene;
 	}
 	
 
@@ -203,37 +198,31 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 	public void initialize(){
 		//initialize model
 		float sf = this.backgroundScaleFactor;
-		Field field = new Field(sf*52f, sf*52f, sf*92f, sf*52f, this.background); //TODO: cambiar esto por un campo horizontal mas largo
-		Field loadingField = new Field(sf*52f, sf*52f, sf*92f, sf*52f, this.loadingBackground); //TODO: cambiar esto por un campo horizontal mas largo
-		addGoals(field);
-		addGoals(loadingField);
+		InvisibleWalls walls = new InvisibleWalls(sf*52f, sf*52f, sf*92f, sf*52f, this.background); //TODO: cambiar esto por un campo horizontal mas largo
+		addGoals(walls);
 		
 		
 		
 		//TESTING DIMENSIONES CAMPO
-		//this.background.attachChild(new Rectangle(500,field.offsetY, 40, 40, this.engine.getVertexBufferObjectManager()));
-		//this.background.attachChild(new Rectangle(field.offsetX+field.width/2, field.offsetY+field.height/2, 40, 40, this.engine.getVertexBufferObjectManager()));
+		//this.background.attachChild(new Rectangle(500,walls.offsetY, 40, 40, this.engine.getVertexBufferObjectManager()));
+		//this.background.attachChild(new Rectangle(walls.offsetX+walls.width/2, walls.offsetY+walls.height/2, 40, 40, this.engine.getVertexBufferObjectManager()));
 
 		//initialize entity framework
-		this.partido = new Partido(field);
+		map = new Map(walls);
+		
 		this.game = new Game();
-		this.game.addEntity(partido);
-		this.game.addEntities(partido.teams[0].players);
-		this.game.addEntities(partido.teams[1].players);
-		this.game.addEntity(partido.ball);
+		this.game.addEntity(map);
+		this.game.addEntities(map.walkers);
 		
 		
-		
-		this.gameProcess = new GameProcess(this.engine, this.starWarsScene, this.loadingScene);
-		this.touchProcess = new TouchProcess(partido,this.starWarsScene, this.context);
-		this.ballPhisicsProcess = new BallPhisicsProcess(partido);
-		this.playersCommandsProcess = new PlayersProcess(partido);
-		this.renderPlayersProcess = new RenderPlayersProcess(this.background);
-		this.renderBallsProcess = new RenderBallsProcess(this.background);
+		this.gameProcess = new GameProcess(this.engine, this.starWarsScene);
+		this.touchProcess = new TouchProcess(this.starWarsScene, this.context);
+		this.playersCommandsProcess = new WalkersProcess(map);
+		this.renderPlayersProcess = new RenderWalkersProcess(this.background);
+		this.renderBallsProcess = new RenderLaserProcess(this.background);
 		
 		game.addProcess(this.gameProcess, 1);
 		game.addProcess(this.touchProcess, 10);
-		game.addProcess(this.ballPhisicsProcess, 20);
 		game.addProcess(this.playersCommandsProcess, 21);
 		game.addProcess(this.renderPlayersProcess, 98);
 		game.addProcess(this.renderBallsProcess, 99);
@@ -249,12 +238,6 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 			//Debug.d("gameOffset: "+this.gameOffsetX);
 			this.background.setPosition(calcCenterX(), calcCenterY());
 		}
-		
-		if(this.loadingBackground!=null){
-			this.gameOffsetX = getGameOffset(screenOffsetX, this.loadingBackground);
-			//Debug.d("gameOffset: "+this.gameOffsetX);
-			this.loadingBackground.setPosition(calcCenterX(), calcCenterY());
-		}
 	}
 	
 	private float getGameOffset(float screenOffsetX, RectangularShape background) {
@@ -265,16 +248,16 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 		return gameOffset;
 	}
 	
-	private void addGoals(Field field){
+	private void addGoals(InvisibleWalls field){
 		float goalWidth = 36f;
 		float goalHeight = 114f;
 		
-		Field.topGoal = goalHeight/2f;
-		Field.bottomGoal = -goalHeight/2f;
-		Field.goalWidth = goalWidth;
+		InvisibleWalls.topGoal = goalHeight/2f;
+		InvisibleWalls.bottomGoal = -goalHeight/2f;
+		InvisibleWalls.goalWidth = goalWidth;
 		
-		Field.leftGoalEnd = Field.leftWall-goalWidth+5;
-		Field.rightGoalEnd = Field.rightWall+goalWidth-5;;
+		InvisibleWalls.leftGoalEnd = InvisibleWalls.leftWall-goalWidth+5;
+		InvisibleWalls.rightGoalEnd = InvisibleWalls.rightWall+goalWidth-5;;
 		
 		Sprite goal_izq = SpriteFactory.getInstance().newSprite(SpriteFactory.GOAL_LEFT, goalWidth, goalHeight);
 		Sprite goal_der = SpriteFactory.getInstance().newSprite(SpriteFactory.GOAL_RIGHT, goalWidth, goalHeight);
@@ -284,13 +267,13 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 		
 		//left goal
 		x = 5 + field.paddingLeft - goalWidth;
-		y = Field.correccionCampoY - goalHeight/2;
+		y = InvisibleWalls.correccionCampoY - goalHeight/2;
 		goal_izq.setPosition(x, y);
 		goal_izq.setZIndex(9999);
 
 		//right goal
 		x = field.background.getWidth() - field.paddingRight - 5;
-		y = Field.correccionCampoY - goalHeight/2;
+		y = InvisibleWalls.correccionCampoY - goalHeight/2;
 		goal_der.setPosition(x, y);
 		goal_der.setZIndex(9999);
 		
@@ -305,49 +288,39 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 	// GAME LIFE CYCLE
 	private void startGame(){
 		
-		if(partido.status == Partido.Status.INITIAL_STATE){
+		if(map.status == Map.Status.INITIAL_STATE){
 			
 			// wait for resources to load and start playing
-//			partido.status = Partido.Status.LOADING;
+//			map.status = Map.Status.LOADING;
 //			TimerHelper.startTimer(this.engine.getScene(), 2f,  new ITimerCallback() {                      
 //				public void onTimePassed(final TimerHandler pTimerHandler){
-//					partido.status = Partido.Status.INTRO;
+//					map.status = Map.Status.INTRO;
 //				}
 //			});
 			
 			
-			partido.status = Partido.Status.INTRO;
+			map.status = Map.Status.INTRO;
 		}
 	}
 	
 	private void pauseGame(){
-		if(partido.status != Partido.Status.PAUSE){
-			partido.status = Partido.Status.PAUSE;
+		if(map.status != Map.Status.PAUSE){
+			map.status = Map.Status.PAUSE;
 			
 			this.starWarsScene.setChildrenIgnoreUpdate(true);
 			
-			if(GameSettings.getInstance().loadingScreenEnabled){
-				engine.setScene(loadingScene);
-			}
 		}
 	}
 	
 	private void resumeGame(){
 		
-		if(partido.status == Partido.Status.PAUSE){
+		if(map.status == Map.Status.PAUSE){
 			
 			this.starWarsScene.setChildrenIgnoreUpdate(false);
 
-			// wait for resources to load and start playing
-//			partido.status = Partido.Status.LOADING;
-//			TimerHelper.startTimer(engine.getScene(), 2f,  new ITimerCallback() {                      
-//				public void onTimePassed(final TimerHandler pTimerHandler){
-//					partido.status = Partido.Status.RESUME_GAME;
-//				}
-//			});
 			
 			
-			partido.status = Partido.Status.RESUME_GAME;
+			map.status = Map.Status.RESUME_GAME;
 		}
 	}
 	

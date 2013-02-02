@@ -24,7 +24,7 @@
     <!-- Application name -->
     <string name="applicationName">StarWars Wallpaper</string>
     <string name="wallpaperName">StarWars Live Wallpaper</string>
-    <string name="wallpaperDesc">Animated wallpaper inspired by &quot;Oliver y Benji&quot;</string>
+    <string name="wallpaperDesc">Animated wallpaper inspired by StarWars universe</string>
     <string name="author">Playmobil Team</string>
     <string name="preferences_string">Settings</string>
 

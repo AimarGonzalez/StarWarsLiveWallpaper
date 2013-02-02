@@ -1,5 +1,6 @@
 package com.mel.wallpaper.starWars.process;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.andengine.entity.shape.Shape;
@@ -8,18 +9,18 @@ import org.andengine.entity.sprite.Sprite;
 import com.mel.entityframework.Game;
 import com.mel.entityframework.Process;
 import com.mel.util.Point;
-import com.mel.wallpaper.starWars.entity.Ball;
-import com.mel.wallpaper.starWars.entity.Field;
-import com.mel.wallpaper.starWars.entity.Partido;
+import com.mel.wallpaper.starWars.entity.LaserBeam;
+import com.mel.wallpaper.starWars.entity.InvisibleWalls;
+import com.mel.wallpaper.starWars.entity.Map;
 
-public class RenderBallsProcess extends Process
+public class RenderLaserProcess extends Process
 {
-	private Field field;
+	private InvisibleWalls field;
 
-	private List<Ball> balls;
+	private List<LaserBeam> balls;
 	private Sprite canvas;
 	
-	public RenderBallsProcess(Sprite canvas){
+	public RenderLaserProcess(Sprite canvas){
 		this.canvas = canvas;
 	}
 	
@@ -29,11 +30,12 @@ public class RenderBallsProcess extends Process
 	
 	@Override
 	public void onAddToGame(Game game){
-		Partido partido = (Partido)game.getEntity(Partido.class);
-		this.field = partido.field;
+		Map partido = (Map)game.getEntity(Map.class);
+		this.field = partido.walls;
 		
-		this.balls = (List<Ball>) game.getEntities(Ball.class);
-		for(Ball b : this.balls){
+		//this.balls = (List<LaserBeam>) game.getEntities(LaserBeam.class);
+		this.balls = new ArrayList<LaserBeam>();
+		for(LaserBeam b : this.balls){
 			this.canvas.attachChild(b.position);
 			this.canvas.attachChild(b.sprite);
 		}
@@ -59,9 +61,9 @@ public class RenderBallsProcess extends Process
 	public void update(){
 		
 		
-		for(Ball ball : this.balls){
+		for(LaserBeam ball : this.balls){
 			
-			Point ballCenter= Field.cartesianToEngineCoordinates(ball.position);
+			Point ballCenter= InvisibleWalls.cartesianToEngineCoordinates(ball.position);
 			Point fixedCoord = new Point(ballCenter.getX()-ball.getSpriteOffsetX(), ballCenter.getY()-ball.getSpriteOffsetY());
 			ball.sprite.setPosition(fixedCoord.getX(), fixedCoord.getY());
 			//Ordenar profundidad en el campo

@@ -18,7 +18,6 @@ import com.mel.entityframework.IEntity;
 import com.mel.entityframework.IMovable;
 import com.mel.util.Point;
 import com.mel.wallpaper.starWars.entity.commands.Command;
-import com.mel.wallpaper.starWars.entity.commands.PlayerSnapshot;
 import com.mel.wallpaper.starWars.settings.GameSettings;
 import com.mel.wallpaper.starWars.timer.TimerHelper;
 import com.mel.wallpaper.starWars.view.PlayerAnimation;
@@ -26,21 +25,21 @@ import com.mel.wallpaper.starWars.view.Position;
 import com.mel.wallpaper.starWars.view.SpriteFactory;
 
 
-public class Player implements IEntity, IMovable
+public class Walker implements IEntity, IMovable
 {
 	
 	
 	public static final float DEFAULT_SPEED = 50;
 	
 	public AnimatedSprite sprite;
+	public Position position;
 
 	public int dorsal;
 	public Point defaultPosition;
 	public Point initialPosition;
-	public Position position;
 	public Point destination;
 	public Point shootTarget;
-	public Player passTarget;
+	public Walker passTarget;
 	public float speed;
 	public Rol rol;
 	public String textureId;
@@ -58,20 +57,17 @@ public class Player implements IEntity, IMovable
 	public ArrayList<Command> pendingCommands = new ArrayList<Command>();
 	
 	public enum Rol {
-        PORTER("POR"),
-        DEFENSA("DEF"),
-        MIGCAMPISTA("MIG"),
-        DAVANTER("DAV"),
-        ESTRELLA("EST");
+        JEDI("JEDI"),
+        CHUWAKA("CHUWAKA");
         
-        private final String valor;
+        private final String rolId;
 
         Rol(String valor) {
-            this.valor = valor;
+            this.rolId = valor;
         }
 
-        public String getValor() {
-            return this.valor;
+        public String toString() {
+            return this.rolId;
         }
     }	
 	
@@ -145,18 +141,18 @@ public class Player implements IEntity, IMovable
 	}
 	
 	/* Constructor */
-	public Player(int dorsal, float x, float y, float speed, String textureId, PlayerAnimation initialAnimation, Rol r) {
+	public Walker(int dorsal, float x, float y, float speed, String textureId, PlayerAnimation initialAnimation, Rol r) {
 		this(dorsal, new Point(x,y), speed, textureId, initialAnimation, r);
 	}
 
-	public Player(int dorsal, float x, float y, String textureId, PlayerAnimation initialAnimation, Rol r){
+	public Walker(int dorsal, float x, float y, String textureId, PlayerAnimation initialAnimation, Rol r){
 		this(dorsal, new Point(x,y), DEFAULT_SPEED, textureId, initialAnimation, r);
 	}
 	
-	public Player(int dorsal, Point p, String textureId, PlayerAnimation initialAnimation, Rol r){
+	public Walker(int dorsal, Point p, String textureId, PlayerAnimation initialAnimation, Rol r){
 		this(dorsal, p, DEFAULT_SPEED, textureId, initialAnimation, r);
 	}
-	public Player(int dorsal, Point p, float speed, String textureId, PlayerAnimation initialAnimation, Rol r){
+	public Walker(int dorsal, Point p, float speed, String textureId, PlayerAnimation initialAnimation, Rol r){
 		this.dorsal = dorsal;
 		this.textureId = textureId;
 		this.defaultPosition = p.clone();
@@ -175,7 +171,7 @@ public class Player implements IEntity, IMovable
 	
 	public Point calcInitialPosition(Point pos){
 		Point ini = pos.clone();
-		ini.setX((ini.getX()+Field.leftWall)/2f); //a mitad de recorrido
+		ini.setX((ini.getX()+InvisibleWalls.leftWall)/2f); //a mitad de recorrido
 		ini.setX(ini.getX()+50f);
 		
 		//que no este en campo contrario, y que no este dentro de circulo de saque
@@ -210,10 +206,6 @@ public class Player implements IEntity, IMovable
 	
 	
 	/* methods */
-	public PlayerSnapshot getSnapshot(int factor){
-		PlayerSnapshot p = new PlayerSnapshot(this, factor);
-		return p;
-	}
 	
 	public void recycle(){
 		this.sprite.detachSelf();
@@ -257,7 +249,7 @@ public class Player implements IEntity, IMovable
         });
 	}
 	
-	public void passBallTo(Player destination){
+	public void passBallTo(Walker destination){
 		this.passTarget = destination;
 		animatePass();
 	}
