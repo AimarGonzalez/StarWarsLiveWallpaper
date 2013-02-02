@@ -127,7 +127,8 @@ public class StarWarsLiveWallpaper extends BaseGameWallpaperService implements I
 
 		try {
 			//MusicFactory.createMusicFromAsset(this.mEngine.getMusicManager(), this, "sfx/benji-small.ogg").getMediaPlayer().
-			benjiBSO = SoundFactory.createSoundFromAsset(this.mEngine.getSoundManager(), this, "sfx/benji-small.ogg");
+//			benjiBSO = SoundFactory.createSoundFromAsset(this.mEngine.getSoundManager(), this, "sfx/benji-small.ogg");
+			benjiBSO = SoundFactory.createSoundFromAsset(this.mEngine.getSoundManager(), this, "sfx/The_Yellow_Dart-Saberdown.wav");
 			benjiBSO.setVolume(0); //AG: lo uso para saber si estoy reproduciendo, sino no se comprobarlo :/
 
 			this.mEngine.registerUpdateHandler(this);
@@ -227,7 +228,7 @@ public class StarWarsLiveWallpaper extends BaseGameWallpaperService implements I
 	public void onTapFromGame(TouchEvent event) {
 		Debug.d("tap on " + event.getX() + "x" + event.getY());
 		
-//		playMusic();
+		playMusic();
 	}
 	
 	void playMusic(){
@@ -259,10 +260,11 @@ public class StarWarsLiveWallpaper extends BaseGameWallpaperService implements I
 	boolean doFadeOut = false;
 	
 	public void onUpdate(float pSecondsElapsed) {
+		Debug.d("update handler");
 		if(doFadeOut){
 			benjiBSO.setVolume(Math.max(0f, benjiBSO.getVolume()-pSecondsElapsed/2*this.fadeOutSpeed));
 			if(benjiBSO.getVolume() == 0f){
-				//Debug.d("fadeOut-end");
+				Debug.d("fadeOut-end");
 				benjiBSO.stop();
 				doFadeOut = false;
 			}
