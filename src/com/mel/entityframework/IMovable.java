@@ -1,7 +1,7 @@
 package com.mel.entityframework;
 
 import com.mel.util.Point;
-import com.mel.wallpaper.football.view.Position;
+import com.mel.wallpaper.starWars.view.Position;
 
 public interface IMovable
 {

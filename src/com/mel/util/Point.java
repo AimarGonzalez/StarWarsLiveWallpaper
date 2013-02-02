@@ -1,6 +1,6 @@
 package com.mel.util;
 
-import com.mel.wallpaper.football.view.Position;
+import com.mel.wallpaper.starWars.view.Position;
 
 
 public class Point

@@ -9,10 +9,10 @@ import org.andengine.entity.shape.Shape;
 import org.andengine.input.touch.TouchEvent;
 
 import com.mel.util.Point;
-import com.mel.wallpaper.football.FootballLiveWallpaper;
-import com.mel.wallpaper.football.entity.Partido;
-import com.mel.wallpaper.football.entity.Player;
-import com.mel.wallpaper.football.settings.GameSettings;
+import com.mel.wallpaper.starWars.StarWarsLiveWallpaper;
+import com.mel.wallpaper.starWars.entity.Partido;
+import com.mel.wallpaper.starWars.entity.Player;
+import com.mel.wallpaper.starWars.settings.GameSettings;
 
 public class TouchListener implements IOnSceneTouchListener
 {
@@ -32,7 +32,7 @@ public class TouchListener implements IOnSceneTouchListener
 	public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
 		pSceneTouchEvent.set(pSceneTouchEvent.getX(), pSceneTouchEvent.getY()+10);
 		
-		FootballLiveWallpaper flWalpaper = FootballLiveWallpaper.getSharedInstance();
+		StarWarsLiveWallpaper flWalpaper = StarWarsLiveWallpaper.getSharedInstance();
 		
 		printTouchDebuger(pSceneTouchEvent);
 		
