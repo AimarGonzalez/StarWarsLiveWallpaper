@@ -69,13 +69,7 @@ public class TouchProcess extends Process implements IOnSceneTouchListener
 	public boolean processLastTouch(TouchEvent touchEvent) {
 		StarWarsLiveWallpaper flWalpaper = StarWarsLiveWallpaper.getSharedInstance();
 		
-		//printTouchDebuger(touchEvent);
-		
-		if(flWalpaper.isPlayingSplash()){
-			flWalpaper.onTapFromGame(touchEvent);
-			return true;
-		}
-		
+		//printTouchDebuger(touchEvent);		
 
 		if(GameSettings.getInstance().godsFingerEnabled){
 			List<Player> touchedPlayers = getPlayersUnderTouch(touchEvent, TOUCH_RATIO);

@@ -34,13 +34,7 @@ public class TouchListener implements IOnSceneTouchListener
 		
 		StarWarsLiveWallpaper flWalpaper = StarWarsLiveWallpaper.getSharedInstance();
 		
-		printTouchDebuger(pSceneTouchEvent);
-		
-		if(flWalpaper.isPlayingSplash()){
-			flWalpaper.onTapFromGame(pSceneTouchEvent);
-			return true;
-		}
-		
+		printTouchDebuger(pSceneTouchEvent);	
 
 		if(GameSettings.getInstance().godsFingerEnabled){
 			List<Player> touchedPlayers = getPlayersUnderTouch(pSceneTouchEvent,TOUCH_RATIO);

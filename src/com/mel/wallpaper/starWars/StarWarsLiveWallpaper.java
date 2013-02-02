@@ -58,17 +58,9 @@ public class StarWarsLiveWallpaper extends BaseGameWallpaperService implements I
 	private StarWarsGame game;
 	Scene starWarsScene;
 	
-	ArrayList<Splash> splashes;
-	Splash currentSplash;
-	int splashCount = 0;
 	int fadeOutSpeed = 1;
 	
 	Sound benjiBSO;
-	
-	public boolean isPlayingSplash(){
-		boolean playing = this.currentSplash != null || this.benjiBSO.getVolume() > 0;
-		return playing;
-	}
 	
 	// ===========================================================
 	// Constructors
@@ -128,10 +120,22 @@ public class StarWarsLiveWallpaper extends BaseGameWallpaperService implements I
 		this.game = new StarWarsGame(this.getEngine(), this);
 		this.game.onCreateResources();
 		
-		
-		createSplashResources();
 		createMediaResources();
-		splashes.get(splashCount%splashes.size()).loadTextureAndNext();
+	}
+	
+	private void createMediaResources() {
+
+		try {
+			//MusicFactory.createMusicFromAsset(this.mEngine.getMusicManager(), this, "sfx/benji-small.ogg").getMediaPlayer().
+			benjiBSO = SoundFactory.createSoundFromAsset(this.mEngine.getSoundManager(), this, "sfx/benji-small.ogg");
+			benjiBSO.setVolume(0); //AG: lo uso para saber si estoy reproduciendo, sino no se comprobarlo :/
+
+			this.mEngine.registerUpdateHandler(this);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public Scene onCreateScene() {
@@ -221,54 +225,9 @@ public class StarWarsLiveWallpaper extends BaseGameWallpaperService implements I
 //	}
 	
 	public void onTapFromGame(TouchEvent event) {
-		//Debug.d("splash", "tap on " + pX + "x" + pY);
+		Debug.d("tap on " + event.getX() + "x" + event.getY());
 		
-		if(isPlayingSplash()){
-			Debug.d("splash", "removeSplash()");
-			removeSplash();
-		}else{
-			Debug.d("splash", "launchSplash()");
-			launchSplash();
-		}
-	}
-	
-
-	private void launchSplash() {
-		if(GameSettings.getInstance().splashEnabled == false){
-			return;
-		}
-		
-		
-		if(isPlayingSplash())
-		{
-			//Debug.d("splash", "launchSplash - CurrentSplash not null, skipping launch");
-			return;
-		}
-		
-		if(splashes == null)
-		{
-			//Debug.d("splash", "launchSplash - Splashes not yet initialized, skipping launch");
-			return;
-		}
-		
-		playMusic();
-		
-		currentSplash = splashes.get(splashCount%splashes.size());
-		splashCount++;
-
-		
-		//Debug.d("splash", "launchSplash - Attaching sprite for " + currentSplash.filename);
-		this.starWarsScene.attachChild(currentSplash.loadSprite());
-	}
-	
-	private void removeSplash(){
-		if(this.currentSplash != null){
-			this.starWarsScene.detachChild(this.currentSplash.loadSprite());
-			this.currentSplash.modifier.reset();
-			this.currentSplash = null;
-		}
-		stopMusic(3);
-		
+//		playMusic();
 	}
 	
 	void playMusic(){
@@ -297,155 +256,6 @@ public class StarWarsLiveWallpaper extends BaseGameWallpaperService implements I
 		}
 	}
 
-
-	// ===========================================================
-	// Methods
-	// ===========================================================
-
-	
-	
-	private void createSplashResources()
-	{
-		final int w = CAMERA_WIDTH;
-		final int h = CAMERA_HEIGHT;
-
-		final Splash splash1_3 = new Splash("splash1.3.jpg",
-											320,239,
-											1.7f,
-											0,0,
-											-401,0,
-											null);
-		
-		final Splash splash3_3 = new Splash("splash3.3.jpg",
-											w,h,
-											2,
-											1.5f,1f,
-											50,500,
-											null);
-		
-		splashes = new ArrayList<Splash>() {		
-			{	
-				add(new Splash("splash1.2.jpg",
-											w,h,
-											2f,
-											1.5f,1f,
-											50,50,
-											splash1_3));
-				add( new Splash("splash2.1.jpg",
-								w,h,
-								1.7f,
-								1f,2f,
-								150,120,
-								new Splash("splash2.2.jpg",
-											w,h,
-											1.7f,
-											1.6f,1f,
-											400,550,
-											new Splash("splash2.3.jpg",
-														w,h,
-														1.7f,
-														1f,2f,
-														250,475,
-														splash1_3))));
-				
-				add( new Splash("splash3.1.jpg",
-								w,h,
-								1.5f,
-								1.5f,1f,
-								300,250,
-								new Splash("splash3.2.jpg",
-											w,h,
-											2,
-											1f,2f,
-											225,600,
-											splash3_3)));
-				
-				add( new Splash("splash4.1.jpg",
-								w,h,
-								1.5f,
-								2.5f,1.3f,
-								300,300,
-								new Splash("splash4.2.jpg",
-											500,375,
-											1.5f,
-											0,0,
-											-450,0,
-											new Splash("splash4.3.jpg",
-														w,h,
-														1.5f,
-														1.5f,1f,
-														100,100,
-														new Splash("splash4.4.jpg",
-																w,h,
-																1.5f,
-																1.6f,1f,
-																400,600,
-																null)))));
-
-
-				add( new Splash("splash6.1.jpg",
-								480,360,
-								1.7f,
-								-100,0,
-								-200,0,
-								new Splash("splash6.2.jpg",
-											320,239,
-											1.7f,
-											0,0,
-											-400,0,
-											new Splash("splash6.3.jpg",
-														(int)(880*1.5),(int)(800*1.5),
-														1.6f,
-														-500,-400,
-														-500,0,
-														splash3_3))));
-
-				add( new Splash("splash8.jpg",
-								484,414,
-								4,
-								3f,1f,
-								630,400,
-								null));
-				
-				add( new Splash("splash9.jpg",
-								431,321,
-								4,
-								2f,1f,
-								1300,400,
-								null));
-			}
-		};
-
-		//Debug.d("starWars", "splashes size " + splashes.size());
-		
-		splashes.get(0).loadTextureAndNext();
-		
-		for(Splash splash : splashes)
-		{
-			splashes.get(splashCount%splashes.size()).loadTextureAndNext();
-			splashes.get(splashCount%splashes.size()).loadSpriteAndNext();
-		}
-
-
-	}
-	
-	private void createMediaResources() {
-		
-		try {
-			//MusicFactory.createMusicFromAsset(this.mEngine.getMusicManager(), this, "sfx/benji-small.ogg").getMediaPlayer().
-			benjiBSO = SoundFactory.createSoundFromAsset(this.mEngine.getSoundManager(), this, "sfx/benji-small.ogg");
-			benjiBSO.setVolume(0); //AG: lo uso para saber si estoy reproduciendo, sino no se comprobarlo :/
-			
-			this.mEngine.registerUpdateHandler(this);
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	
-	
 	boolean doFadeOut = false;
 	
 	public void onUpdate(float pSecondsElapsed) {
@@ -462,169 +272,5 @@ public class StarWarsLiveWallpaper extends BaseGameWallpaperService implements I
 	public void reset() {
 		// TODO Auto-generated method stub
 		
-	}
-	
-	
-	
-	// ===========================================================
-	// Inner and Anonymous Classes
-	// ===========================================================
-	public class Splash implements IEntityModifierListener{
-			
-		public String filename;
-		public int w,h;
-		public float duration = 1.5f;
-		public float initialScale, endScale;
-		public int x, y, toX, toY;
-		
-		private IEntityModifier modifier;
-
-		private BitmapTextureAtlas mBitmapTextureAtlasBig;
-		private TextureRegion texture;
-		private Sprite sprite;
-		
-		private Splash nextSplash;
-		
-		public Splash(String filename, int w, int h, float duration, float initialScale, float endScale, int scaleXcenter, int scaleYcenter, Splash next)
-		{
-			this.filename = filename;
-			this.w = w;
-			this.h = h;
-			this.duration = duration;
-			this.initialScale = initialScale;
-			this.endScale = endScale;
-			this.x = scaleXcenter;
-			this.y = scaleYcenter;
-			this.nextSplash = next;
-			
-			modifier = new ScaleAtModifier(duration,initialScale,endScale,scaleXcenter,scaleYcenter,EaseSineOut.getInstance());
-			modifier.addModifierListener(this);
-		}
-		
-		public Splash(String filename, int w, int h, float duration, int fromX, int fromY, int toX, int toY, Splash next)
-		{
-			this.filename = filename;
-			this.w = w;
-			this.h = h;
-			this.duration = duration;
-			this.x = fromX;
-			this.y = fromY;
-			this.toX = toX;
-			this.toY = toY;
-			this.nextSplash = next;
-			
-			modifier = new MoveModifier(duration, x, toX, y, toY, EaseSineOut.getInstance());
-			modifier.addModifierListener(this);
-		}
-
-		public void loadTexture()
-		{
-			Debug.d("starWars", "loadTexture " + filename);
-			
-			if(texture!=null)
-				return;
-			
-			Debug.d("starWars", "loadTexture, first time");
-			
-			mBitmapTextureAtlasBig = new BitmapTextureAtlas(instance.getTextureManager(), 512, 512);
-			
-			texture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBitmapTextureAtlasBig,
-																			StarWarsLiveWallpaper.getSharedInstance(),
-																			filename,0,0);	
-			mBitmapTextureAtlasBig.load();
-			
-		}
-		
-		public void loadTextureAndNext()
-		{
-			loadTexture();
-			
-			if(nextSplash!=null)
-				nextSplash.loadTextureAndNext();
-		}
-		
-		public void loadSpriteAndNext()
-		{
-			loadSprite();
-			
-			if(nextSplash!=null)
-				nextSplash.loadSpriteAndNext();
-		}
-		
-		public Sprite loadSprite()
-		{
-			loadTexture();
-			
-			if(sprite==null)
-			{
-				Debug.d("starWars", "loadSprite, first time");
-				
-				Debug.d("starWars", "loadSprite old w:" + w + "x h:" + h);
-//					while( w!=CAMERA_WIDTH && h!=CAMERA_HEIGHT ) // poor man's scale
-				while( h<CAMERA_HEIGHT ) // poor man's scale
-				{
-					w++; h++;
-				}
-				Debug.d("starWars", "loadSprite new w:" + w + " h:" + h);
-				
-				sprite = new Sprite(0,0,
-									w,h, 
-									texture,
-									instance.getVertexBufferObjectManager());
-				
-//					texture = null;
-//					instance.mBitmapTextureAtlasBig.unload();
-//					instance.mBitmapTextureAtlasBig = null;
-//					System.gc();
-				
-				modifier.reset();
-				sprite.registerEntityModifier(modifier);
-			}
-			
-			return sprite;
-		}
-		
-		public boolean hasNext() {
-			return (nextSplash!=null);
-		}
-		
-		public Splash next() {
-			return nextSplash;
-		}
-		
-		public void onModifierFinished(IModifier<IEntity> arg0, IEntity arg1) {
-			
-			//Debug.d("starWars", "onModifierFinished " + arg1);
-			
-			starWarsScene.detachChild(currentSplash.loadSprite());
-			
-//				currentSplash.sprite = null;
-			currentSplash.modifier.reset();
-			
-			if(currentSplash.hasNext())
-			{
-				currentSplash = currentSplash.next();
-				
-				if(!currentSplash.hasNext()){
-					stopMusic();
-				}
-				
-				//Debug.d("starWars", "attaching sprite for " + currentSplash.filename);
-				starWarsScene.attachChild(currentSplash.loadSprite());
-			}
-			else
-			{
-				stopMusic();
-				currentSplash = null;
-			}
-		}
-
-		
-		public void onModifierStarted(IModifier<IEntity> arg0, IEntity arg1) {
-			//Debug.d("starWars", "onModifierStarted " + arg1);
-		}
-
-	}
-
-	
+	}	
 }
