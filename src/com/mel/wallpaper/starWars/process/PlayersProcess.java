@@ -53,7 +53,16 @@ public class PlayersProcess extends Process
 		switch(this.partido.status){
 			
 			case PLAYING:
-				getIACommands(allFixedCommands);
+//				getIACommands(allFixedCommands);
+				
+				for(Player player : players)
+				{
+					float x = player.position.getX();
+					float y = player.position.getY();
+					player.position.setX((float)(x+Math.random()*2)-1);
+					player.position.setY((float)(y+Math.random()*2)-1);
+				}
+				
 				break;
 				
 			case GOTO_INITIAL_POS:
