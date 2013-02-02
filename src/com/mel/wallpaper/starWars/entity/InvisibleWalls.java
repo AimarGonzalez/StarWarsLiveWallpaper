@@ -60,27 +60,8 @@ public class InvisibleWalls
 		return new Point(MathUtils.random(leftWall+leftMargin, rightWall-rightMargin), MathUtils.random(bottomWall+topMargin, topWall-bottomMargin));
 	}
 	
-	public Point getDefensePoint() {
-		return new Point(MathUtils.random(leftWall, 0), MathUtils.random(bottomWall, topWall));
-	}
-	
-	public Point getOffensePoint() {
-		return new Point(MathUtils.random(0, rightWall), MathUtils.random(bottomWall, topWall));
-	}
-	
 	public Point getRandomPointOut() {
 		return new Point(MathUtils.random(leftWall,  rightWall), MathUtils.random(topWall, topWall+100));
-	}
-	
-	public Point getGoalPoint() {
-		return new Point(rightWall, 0);
-	}
-
-	public Point getLeftGoalPos() {
-		return new Point(leftWall, 0);
-	}
-	public Point getRightGoalPos() {
-		return new Point(rightWall, 0);
 	}
 	
 	public static  boolean isOutTouchLine(Point posicio) {
