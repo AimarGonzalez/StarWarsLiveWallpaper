@@ -3,13 +3,6 @@
     android:key="mel.starWars.preferences"
     android:title="@string/preferences_string" >
 
-   
-    <CheckBoxPreference
-        android:defaultValue="true"
-        android:key="splash_enabled"
-        android:summaryOff="Splash pictures disabled"
-        android:summaryOn="Shows anime splash pictures when screen is touched"
-        android:title="Enable splash pictures" />
      <CheckBoxPreference
         android:defaultValue="true"
         android:key="music_enabled"

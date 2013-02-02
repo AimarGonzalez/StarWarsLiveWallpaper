@@ -134,12 +134,10 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
 		GameSettings settings = GameSettings.getInstance();
 		settings.godsFingerEnabled = sharedPreferences.getBoolean(GameSettings.GODSFINGER_KEY, true);
-		settings.splashEnabled = sharedPreferences.getBoolean(GameSettings.SPLASH_KEY, true);
-		settings.musicEnabled = settings.splashEnabled && sharedPreferences.getBoolean(GameSettings.MUSIC_KEY, true);
+		settings.musicEnabled = sharedPreferences.getBoolean(GameSettings.MUSIC_KEY, true);
 		
 		Debug.d("settings", "onSharedPreferenceChanged()");
 		Debug.d("settings", "godsFingerEnabled: "+settings.godsFingerEnabled);
-		Debug.d("settings", "splashEnabled: "+settings.splashEnabled);
 		Debug.d("settings", "musicEnabled: "+settings.musicEnabled);
 	}
 	
