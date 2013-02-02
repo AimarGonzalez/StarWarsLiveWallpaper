@@ -73,6 +73,11 @@ public class Point
 		this.y += y;
 	}
 	
+	public void translate(Point p)
+	{
+		translate(p.x,p.y);
+	}
+	
 	public Point clone(){		
 		return new Point(this.x, this.y);
 	}
