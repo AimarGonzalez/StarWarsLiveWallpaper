@@ -13,6 +13,7 @@ import com.mel.wallpaper.starWars.entity.Map;
 import com.mel.wallpaper.starWars.entity.Walker;
 import com.mel.wallpaper.starWars.entity.commands.Command;
 import com.mel.wallpaper.starWars.entity.commands.MoveCommand;
+import com.mel.wallpaper.starWars.entity.commands.ShootLaserCommand;
 
 
 
@@ -53,9 +54,14 @@ public class WalkersProcess extends Process
 				continue;
 			
 			MoveCommand move = new MoveCommand(jedi);
+			move.setMovable(jedi);
 			move.destination = map.walls.getRandomPoint();
 		}
 	
+		Walker jedi = jedis.get(0);
+		
+		ShootLaserCommand laser = new ShootLaserCommand(jedi);
+		
 		executeCommandsByRandomPlayer();	
 	}
 

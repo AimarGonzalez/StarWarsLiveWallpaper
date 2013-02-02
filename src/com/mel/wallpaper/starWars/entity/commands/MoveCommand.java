@@ -20,6 +20,14 @@ public class MoveCommand extends Command
 {
 	public Point destination;
 	public IMovable movable;
+	public IMovable getMovable() {
+		return movable;
+	}
+
+	public void setMovable(IMovable movable) {
+		this.movable = movable;
+	}
+
 	public IEaseFunction easeFunction;
 	public float speedFactor;
 	
@@ -28,17 +36,12 @@ public class MoveCommand extends Command
 	private static final float DEFAULT_SPEED_FACTOR = 1f;
 	protected float MAXIMUM_DISTANCE = 0f;;
 	
-	public MoveCommand(Walker walker) {
-		this(walker, walker);
+	public MoveCommand(Walker player) {
+		this(player, DEFAULT_SPEED_FACTOR, DEFAULT_EASE_FUNCTION);
 	}
 	
-	public MoveCommand(Walker player, IMovable movable) {
-		this(player, movable, DEFAULT_SPEED_FACTOR, DEFAULT_EASE_FUNCTION);
-	}
-	
-	public MoveCommand(Walker player, IMovable movable, float speedFactor, IEaseFunction easeFunction) {
+	public MoveCommand(Walker player, float speedFactor, IEaseFunction easeFunction) {
 		super(player);
-		this.movable = movable;
 		this.speedFactor = speedFactor;
 		this.easeFunction = easeFunction;
 	}

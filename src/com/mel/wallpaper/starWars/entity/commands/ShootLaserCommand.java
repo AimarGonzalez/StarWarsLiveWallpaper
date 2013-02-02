@@ -14,8 +14,9 @@ public class ShootLaserCommand extends MoveCommand
 	public LaserBeam laser;
 	
 	
-	public ShootLaserCommand(Walker walker, LaserBeam laser) {
-		super(walker, laser, 1.4f, EaseLinear.getInstance());
+	public ShootLaserCommand(Walker walker) {
+		super(walker, 1.4f, EaseLinear.getInstance());
+		movable = laser;
 		//this.easeFunction = EaseStrongOut.getInstance();
 		//this.easeFunction = EaseExponentialOut.getInstance();
 		//this.easeFunction = EaseSineOut.getInstance();
