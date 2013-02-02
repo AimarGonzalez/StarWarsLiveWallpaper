@@ -61,7 +61,9 @@ public class WalkersProcess extends Process
 	
 		Walker jedi = jedis.get(0);
 		
-//		ShootLaserCommand laser = new ShootLaserCommand(jedi);
+		ShootLaserCommand laser = new ShootLaserCommand(jedi);
+		laser.destination = map.walls.getRandomPoint();
+		jedi.addCommand(laser);
 		
 		executeCommandsByRandomPlayer();	
 	}

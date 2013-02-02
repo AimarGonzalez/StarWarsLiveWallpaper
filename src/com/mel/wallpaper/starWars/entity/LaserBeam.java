@@ -44,109 +44,14 @@ public class LaserBeam implements IEntity, IMovable
 	public boolean isOnVColisionCooldown = false;
 	public boolean isOnHColisionCooldown = false;
 	
-	/* Getters/Setters */
-	public Position getPosition() {
-		return this.position;
-	}
-	public float getSpeed() {
-		return this.speed;
-	}
-	public void goTo(Point destination) {
-		this.origin = position.toPoint();
-		this.destination = destination;
-		//Debug.d("ball.goTo(): "+(int)destination.getX()+","+(int)destination.getY());
-		animateMove();
-	}
-	
-	public void forceStopMovement(){
-		removeOldMovementOrders();
-		animateStop();
-	}
-	
-	public void endMovement(){
-		//testing code
-		if(this.position.getEntityModifierCount() > 1){
-			Debug.d("ball","ALERT: paramos animacion jugador y tenemos MODIFIERS acumulados: "+this.position.getEntityModifierCount());
-		}// testing code
-		
-		this.destination = null;
-		animateStop();
-	}
-	
-	public float getSpriteOffsetX(){
-		return this.sprite.getWidth()/2;
-	}
-	public float getSpriteOffsetY(){
-		return this.sprite.getHeight()/2;
-	}
-	
-	public Point getSpriteOffset(){
-		Point spriteCenter = new Point(getSpriteOffsetX(), getSpriteOffsetY());
-		return spriteCenter;
-	}
-	
 	/* Constructor */
-	public LaserBeam(float x, float y, String textureId){
-		this(new Position(x,y), textureId);
+	public LaserBeam(float x, float y){
+		this(new Position(x,y));
 	}
-	public LaserBeam(Position p, String textureId){
+	public LaserBeam(Position p){
 		this.position = p;
 		this.speed = LaserBeam.DEFAULT_SPEED;
 		this.sprite = (AnimatedSprite) SpriteFactory.getMe().newSprite(SpriteFactory.BALL, 19*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR, 19*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR);
-	}
-	
-	
-	/* Methods */
-	public void recycle(){
-		this.sprite.detachSelf();
-		this.sprite.unregisterEntityModifiers(null);
-		this.sprite.unregisterUpdateHandlers(null);
-		this.speed = 0;
-		this.position.setLocation(0, 0);
-	}
-	
-	public boolean isBusy(){
-		return false;
-	}
-	
-	public float getTraveledDistance(){
-		return this.position.distance(this.origin);
-	}
-	
-	public float getTotalDistance(){
-		return this.origin.distance(this.destination);
-	}
-	
-	public boolean isMoving(){
-		return this.destination != null;
-	}
-	
-	public void startCollisionVertical(){
-		isOnVColisionCooldown = true;
-		TimerHelper.startTimer(this.position, 1f,  new ITimerCallback() {                      
-            
-            public void onTimePassed(final TimerHandler pTimerHandler){
-            	endColisionVertical();
-            }
-        });
-	}
-	
-	private void endColisionVertical(){
-		isOnVColisionCooldown = false;
-	}
-	
-	public void startCollisionHorizontal(){
-		isOnHColisionCooldown = true;
-		TimerHelper.startTimer(this.position, 1f,  new ITimerCallback() {                      
-            
-            public void onTimePassed(final TimerHandler pTimerHandler){
-            	endColisionHorizontal();
-            }
-        });
-	}
-	
-	private void endColisionHorizontal(){
-		isOnHColisionCooldown = false;
 	}
 	
 	public void animateMove(){
@@ -170,14 +75,90 @@ public class LaserBeam implements IEntity, IMovable
             } 
         });
 	}
-	
 	public void animateStop(){
 		int stopTile = MathUtils.random(0, 4);
 		//Debug.d("ball", "animate - STOP! ("+stopTile+")");
 		sprite.stopAnimation(stopTile);
 	}
 	
+	private void endColisionHorizontal(){
+		isOnHColisionCooldown = false;
+	}
 	
+	private void endColisionVertical(){
+		isOnVColisionCooldown = false;
+	}
+	
+	public void endMovement(){
+		//testing code
+		if(this.position.getEntityModifierCount() > 1){
+			Debug.d("ball","ALERT: paramos animacion jugador y tenemos MODIFIERS acumulados: "+this.position.getEntityModifierCount());
+		}// testing code
+		
+		this.destination = null;
+		animateStop();
+	}
+	
+	public void forceStopMovement(){
+		removeOldMovementOrders();
+		animateStop();
+	}
+	
+	/* Getters/Setters */
+	public Position getPosition() {
+		return this.position;
+	}
+	
+	public float getSpeed() {
+		return this.speed;
+	}
+	
+	public Point getSpriteOffset(){
+		Point spriteCenter = new Point(getSpriteOffsetX(), getSpriteOffsetY());
+		return spriteCenter;
+	}
+	
+	public float getSpriteOffsetX(){
+		return this.sprite.getWidth()/2;
+	}
+	public float getSpriteOffsetY(){
+		return this.sprite.getHeight()/2;
+	}
+	
+	public float getTotalDistance(){
+		return this.origin.distance(this.destination);
+	}
+
+	
+	public float getTraveledDistance(){
+		return this.position.distance(this.origin);
+	}
+	
+
+	
+	public void goTo(Point destination) {
+		this.origin = position.toPoint();
+		this.destination = destination;
+		//Debug.d("ball.goTo(): "+(int)destination.getX()+","+(int)destination.getY());
+		animateMove();
+	}
+	
+	public boolean isBusy(){
+		return false;
+	}
+	
+	public boolean isMoving(){
+		return this.destination != null;
+	}
+	
+	/* Methods */
+	public void recycle(){
+		this.sprite.detachSelf();
+		this.sprite.unregisterEntityModifiers(null);
+		this.sprite.unregisterUpdateHandlers(null);
+		this.speed = 0;
+		this.position.setLocation(0, 0);
+	}
 	
 	/* HELPERS */
 	public void removeOldMovementOrders(){
@@ -189,6 +170,28 @@ public class LaserBeam implements IEntity, IMovable
 				return matches;
 			}
 		});
+	}
+	
+	public void startCollisionHorizontal(){
+		isOnHColisionCooldown = true;
+		TimerHelper.startTimer(this.position, 1f,  new ITimerCallback() {                      
+            
+            public void onTimePassed(final TimerHandler pTimerHandler){
+            	endColisionHorizontal();
+            }
+        });
+	}
+	
+	
+	
+	public void startCollisionVertical(){
+		isOnVColisionCooldown = true;
+		TimerHelper.startTimer(this.position, 1f,  new ITimerCallback() {                      
+            
+            public void onTimePassed(final TimerHandler pTimerHandler){
+            	endColisionVertical();
+            }
+        });
 	}
 	
 	
