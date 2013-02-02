@@ -24,9 +24,9 @@ public class Map implements IEntity
 	public Status status = Map.Status.INITIAL_STATE;
 		
 	
-	public Map(InvisibleWalls field){
+	public Map(InvisibleWalls walls){
 		
-		this.walls = field;
+		this.walls = walls;
 
 		walkers.add(new Jumper(walkers.size()+1, -300, 0, SpriteFactory.BENJI, PlayerAnimation.STOP_E));
 		walkers.add(new Walker(walkers.size()+1, 0, 200, SpriteFactory.MP_WHITE,PlayerAnimation.STOP_S, Rol.JEDI));
