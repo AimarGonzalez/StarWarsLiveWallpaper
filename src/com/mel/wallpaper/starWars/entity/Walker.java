@@ -275,6 +275,11 @@ public class Walker implements IEntity, IMovable
 		animateMovementEnd();
 	}
 	
+	public boolean hasDestination()
+	{
+		return (destination!=null);
+	}
+	
 	public void aplastar(){
 		if(!GameSettings.getInstance().godsFingerEnabled){
 			return;
