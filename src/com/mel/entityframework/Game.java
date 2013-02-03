@@ -50,12 +50,22 @@ public class Game
 	}
 	
 	public IEntity getEntity(Object entityType){
-		return (IEntity)this.entities.get(entityType).get(0);
+		List<IEntity> entities = this.entities.get(entityType);
+		if(entities!=null && entities.size()>0){
+			return entities.get(0);
+		}else{
+			return null;
+		}
 	}
 	
 	public void removeEntity(IEntity entity){
+		if(entity == null)
+			return;
+		
 		List entitiesList = this.entities.get(entity.getClass());
-		entitiesList.remove(entity);
+		if(entitiesList!=null){
+			entitiesList.remove(entity);
+		}
 		entity.recycle();
 	}
 	
