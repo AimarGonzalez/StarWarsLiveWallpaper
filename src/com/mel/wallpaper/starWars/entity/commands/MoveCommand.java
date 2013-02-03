@@ -40,8 +40,8 @@ public class MoveCommand extends Command
 		this(player, DEFAULT_SPEED_FACTOR, DEFAULT_EASE_FUNCTION);
 	}
 	
-	public MoveCommand(Walker player, float speedFactor, IEaseFunction easeFunction) {
-		this.player = player;
+	public MoveCommand(Walker walker, float speedFactor, IEaseFunction easeFunction) {
+		this.walker = walker;
 		this.speedFactor = speedFactor;
 		this.easeFunction = easeFunction;
 	}

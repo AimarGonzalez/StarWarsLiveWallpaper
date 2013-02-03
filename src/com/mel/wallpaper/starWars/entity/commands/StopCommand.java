@@ -20,7 +20,7 @@ public class StopCommand extends Command
 	}
 	
 	public StopCommand(Walker walker, IMovable movable) {
-		player = walker;
+		walker = walker;
 		this.movable = movable;
 	}
 	
