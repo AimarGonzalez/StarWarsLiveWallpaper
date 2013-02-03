@@ -208,27 +208,23 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 		//initialize entity framework
 		map = new Map(walls);
 		
-		this.game = new Game();
+		this.game = new Game(background);
 		this.game.addEntity(map);
 		this.game.addEntities(map.walkers);
 		
 		
-		this.gameProcess = new GameProcess(this.engine, this.starWarsScene);
-		this.touchProcess = new TouchProcess(this.starWarsScene, this.context);
-		this.playersCommandsProcess = new WalkersProcess(map);
-		this.renderPlayersProcess = new RenderWalkersProcess(this.background);
-		this.renderBallsProcess = new RenderLaserProcess(this.background);
+		this.gameProcess = new GameProcess(game, this.engine, this.starWarsScene);
+		this.touchProcess = new TouchProcess(game, this.starWarsScene, this.context);
+		this.playersCommandsProcess = new WalkersProcess(game,map);
+		this.renderPlayersProcess = new RenderWalkersProcess(game, this.background);
+		this.renderBallsProcess = new RenderLaserProcess(game, this.background);
 		
 		game.addProcess(this.gameProcess, 1);
 		game.addProcess(this.touchProcess, 10);
 		game.addProcess(this.playersCommandsProcess, 21);
 		game.addProcess(this.renderPlayersProcess, 98);
 		game.addProcess(this.renderBallsProcess, 99);
-		
-		
 	}
-	
-	
 	
 	private void updateBackgroundPosition(){
 		if(this.background!=null){

@@ -34,7 +34,7 @@ public class TouchProcess extends Process implements IOnSceneTouchListener
 	
 	private int TOUCH_RATIO = 45;
 	
-	public TouchProcess(Scene scene, Context context){
+	public TouchProcess(Game game, Scene scene, Context context){
 		this.scene = scene;
 		this.toastBoard = context;
 		this.touchMarker = SpriteFactory.getInstance().newBall(6, 6);

@@ -8,8 +8,6 @@ public class Point
 	private float x;
 	private float y;
 	
-	
-	
 	public float getX() {
 		return x;
 	}
@@ -26,6 +24,11 @@ public class Point
 	public Point(float x, float y){		
 		this.x = x;
 		this.y = y;
+	}
+
+	public Point(Point point){		
+		this.x = point.x;
+		this.y = point.y;
 	}
 	
 	public Point(float[] coords){		
@@ -62,6 +65,17 @@ public class Point
 	
 	public float distance(Position pos) {
 		return distance(pos.toPoint());
+	}
+	
+	public void translate(float x, float y)
+	{
+		this.x += x;
+		this.y += y;
+	}
+	
+	public void translate(Point p)
+	{
+		translate(p.x,p.y);
 	}
 	
 	public Point clone(){		

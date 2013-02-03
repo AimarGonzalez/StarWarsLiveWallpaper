@@ -213,7 +213,7 @@ public class Jumper extends Walker implements IMovable
         });
 	}
 	
-	public void shootAt(Point destination){
+	public void animateShootAt(Point destination){
 		this.shootTarget = destination;
 		animateShoot();
 		

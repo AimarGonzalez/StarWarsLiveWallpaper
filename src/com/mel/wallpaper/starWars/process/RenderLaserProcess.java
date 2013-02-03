@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.andengine.entity.shape.Shape;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.util.debug.Debug;
 
 import com.mel.entityframework.Game;
 import com.mel.entityframework.Process;
@@ -16,11 +17,12 @@ import com.mel.wallpaper.starWars.entity.Map;
 public class RenderLaserProcess extends Process
 {
 	private InvisibleWalls field;
-
-	private List<LaserBeam> balls;
+	private Game game;
+	private List<LaserBeam> beams;
 	private Sprite canvas;
 	
-	public RenderLaserProcess(Sprite canvas){
+	public RenderLaserProcess(Game game, Sprite canvas){
+		this.game = game;
 		this.canvas = canvas;
 	}
 	
@@ -30,38 +32,34 @@ public class RenderLaserProcess extends Process
 	
 	@Override
 	public void onAddToGame(Game game){
+		getEntitiesFromGame(game);
+	}
+	
+	public void getEntitiesFromGame(Game game) {
 		Map partido = (Map)game.getEntity(Map.class);
+		this.beams = (List<LaserBeam>) game.getEntities(LaserBeam.class);
 		this.field = partido.walls;
-		
-		//this.balls = (List<LaserBeam>) game.getEntities(LaserBeam.class);
-		this.balls = new ArrayList<LaserBeam>();
-		for(LaserBeam b : this.balls){
-			this.canvas.attachChild(b.position);
-			this.canvas.attachChild(b.sprite);
-		}
-		
-		if(miniball != null){
-			this.canvas.attachChild(miniball);
-		}
 	}
 	
 	@Override
 	public void onRemoveFromGame(Game game){
-		if(balls != null){
-			balls.clear();
-			balls = null;
+		if(beams != null){
+			beams.clear();
+			beams = null;
 		}
 		
 		canvas = null;
 		field = null;
-		
 	}
 	
 	@Override
 	public void update(){
 		
+		getEntitiesFromGame(game);
 		
-		for(LaserBeam ball : this.balls){
+//		Debug.d("Number of beams: " + beams.size());		
+		
+		for(LaserBeam ball : this.beams){
 			
 			Point ballCenter= InvisibleWalls.cartesianToEngineCoordinates(ball.position);
 			Point fixedCoord = new Point(ballCenter.getX()-ball.getSpriteOffsetX(), ballCenter.getY()-ball.getSpriteOffsetY());

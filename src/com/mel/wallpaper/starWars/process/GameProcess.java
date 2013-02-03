@@ -34,7 +34,7 @@ public class GameProcess extends Process
 	private Scene starWarsScene;
 	
 	
-	public GameProcess(Engine engine, Scene starWarsScene){
+	public GameProcess(Game game, Engine engine, Scene starWarsScene){
 		this.engine = engine;
 		this.starWarsScene = starWarsScene;
 	}

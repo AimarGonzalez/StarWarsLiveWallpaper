@@ -19,8 +19,15 @@ import com.mel.wallpaper.starWars.entity.Walker;
 public class MoveCommand extends Command
 {
 	public Point destination;
-	public Point finalDestination;
 	public IMovable movable;
+	public IMovable getMovable() {
+		return movable;
+	}
+
+	public void setMovable(IMovable movable) {
+		this.movable = movable;
+	}
+
 	public IEaseFunction easeFunction;
 	public float speedFactor;
 	
@@ -29,17 +36,12 @@ public class MoveCommand extends Command
 	private static final float DEFAULT_SPEED_FACTOR = 1f;
 	protected float MAXIMUM_DISTANCE = 0f;;
 	
-	public MoveCommand(Walker walker) {
-		this(walker, walker);
+	public MoveCommand(Walker player) {
+		this(player, DEFAULT_SPEED_FACTOR, DEFAULT_EASE_FUNCTION);
 	}
 	
-	public MoveCommand(Walker player, IMovable movable) {
-		this(player, movable, DEFAULT_SPEED_FACTOR, DEFAULT_EASE_FUNCTION);
-	}
-	
-	public MoveCommand(Walker player, IMovable movable, float speedFactor, IEaseFunction easeFunction) {
-		super(player);
-		this.movable = movable;
+	public MoveCommand(Walker player, float speedFactor, IEaseFunction easeFunction) {
+		this.player = player;
 		this.speedFactor = speedFactor;
 		this.easeFunction = easeFunction;
 	}
@@ -83,6 +85,7 @@ public class MoveCommand extends Command
 	//				});
 				}
 			},easeFunction);
+			
 			currentMovable.getPosition().registerEntityModifier(moveModifier);
 			
 			startMoveAnimation(currentMovable);
@@ -93,7 +96,4 @@ public class MoveCommand extends Command
 	private void startMoveAnimation(IMovable currentMovable){
 		currentMovable.goTo(this.destination.clone());
 	}
-	
-	
-	
 }

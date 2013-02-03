@@ -10,6 +10,7 @@ import org.andengine.entity.modifier.MoveModifier;
 import org.andengine.entity.modifier.PathModifier;
 import org.andengine.entity.modifier.PathModifier.Path;
 import org.andengine.entity.sprite.AnimatedSprite;
+import org.andengine.entity.sprite.Sprite;
 import org.andengine.util.debug.Debug;
 import org.andengine.util.math.MathUtils;
 import org.andengine.util.modifier.IModifier;
@@ -234,7 +235,7 @@ public class Walker implements IEntity, IMovable
         });
 	}
 	
-	public void shootAt(Point destination){
+	public void animateShootAt(Point destination){
 		this.shootTarget = destination;
 		animateShoot();
 		
@@ -273,6 +274,11 @@ public class Walker implements IEntity, IMovable
 		
 		this.destination = null;
 		animateMovementEnd();
+	}
+	
+	public boolean hasDestination()
+	{
+		return (destination!=null);
 	}
 	
 	public void aplastar(){
@@ -442,6 +448,8 @@ public class Walker implements IEntity, IMovable
 			}
 		});
 	}
-	
-	
+
+	public Sprite getSprite() {
+		return sprite;
+	}
 }
