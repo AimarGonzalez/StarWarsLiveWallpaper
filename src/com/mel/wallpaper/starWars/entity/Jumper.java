@@ -24,7 +24,7 @@ import com.mel.wallpaper.starWars.view.SpriteFactory;
 public class Jumper extends Walker implements IMovable
 {
 	
-	private static final float	VERTICAL_CENTER	= 35f*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR;
+	private static final float	VERTICAL_CENTER	= 87.5f*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR;
 	public static final float GOLAKEEPER_DEFAULT_SPEED = 50;
 	public static final float MAX_JUMP_DISTANCE = 30;
 
@@ -140,7 +140,7 @@ public class Jumper extends Walker implements IMovable
 	}
 	
 	public float getTextureSize(){
-		return 70*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR;
+		return 175*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR;
 	}
 	
 	public Point getRotationCenter(){

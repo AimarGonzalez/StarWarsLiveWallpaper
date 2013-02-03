@@ -32,6 +32,9 @@ public class Walker implements IEntity, IMovable
 	
 	public static final float DEFAULT_SPEED = 50;
 	
+	public static final float SPRITE_HEIGHT = 100;
+	
+	
 	public AnimatedSprite sprite;
 	public Position position;
 
@@ -133,7 +136,7 @@ public class Walker implements IEntity, IMovable
 		return this.sprite.getWidth()/2;
 	}
 	public float getSpriteOffsetY(){
-		return this.sprite.getHeight()-5*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR;
+		return this.sprite.getHeight()-15*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR;
 	}
 	
 	public Point getSpriteOffset(){
@@ -198,7 +201,7 @@ public class Walker implements IEntity, IMovable
 //	}
 	
 	public float getTextureSize(){
-		return 40*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR;
+		return SPRITE_HEIGHT*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR;
 	}
 	
 	public Point getRotationCenter(){

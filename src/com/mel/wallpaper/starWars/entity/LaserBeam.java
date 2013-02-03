@@ -33,17 +33,19 @@ public class LaserBeam implements IEntity, IMovable
 	public static final float MAX_REACH_DISTANCE = 350f;
 	public static final float MIN_REACH_DISTANCE = 70f;
 	
-	public static final float DEFAULT_SPEED = 65f;
+	public static final float DEFAULT_SPEED = 500f;
+	
+	public static final float BEAM_SIZE = 50f;
 	
 	public Position position;
 	public float speed;
-	public AnimatedSprite sprite;
+	public Sprite sprite;
 	
 	public Point origin;
 	public Point destination;
 	
-	public boolean isOnVColisionCooldown = false;
-	public boolean isOnHColisionCooldown = false;
+	public boolean isOnExlplosionCooldown = false;
+	public boolean hasExploded = false;
 	
 	/* Constructor */
 	public LaserBeam(float x, float y){
@@ -52,58 +54,11 @@ public class LaserBeam implements IEntity, IMovable
 	public LaserBeam(Position p){
 		this.position = (Position) p.clone();
 		this.speed = LaserBeam.DEFAULT_SPEED;
-		this.sprite = (AnimatedSprite) SpriteFactory.getMe().newSprite(SpriteFactory.BALL, 19*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR, 19*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR);
+		this.sprite = (Sprite) SpriteFactory.getMe().newSprite(SpriteFactory.LASER, BEAM_SIZE*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR, BEAM_SIZE*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR);
+		this.sprite.setRotationCenter(BEAM_SIZE/2, BEAM_SIZE/2);
 	}
 	
-	public void animateMove(){
-		
-		//Debug.d("ball", "animate - MOVE!");
-		long tileDuration = 1000;
-		float speedFactor = 0f;
-		if(getTotalDistance() - getTraveledDistance() > 2){
-			speedFactor = getTraveledDistance()/getTotalDistance();
-			tileDuration = 15 + (long)(speedFactor*100) + (long)(1000f/getTotalDistance()); //un maximo / segun distancia recorida / segun fuerza chute
-		}
-		
-		sprite.animate(new long[]{tileDuration, tileDuration, tileDuration, tileDuration, tileDuration}, 0, 4, true);
-		
-		TimerHelper.startTimer(this.position, Math.max(0.5f, 5f*(float)tileDuration/1000f),  new ITimerCallback() 
-		{                      
-            public void onTimePassed(final TimerHandler pTimerHandler) {
-            	if(destination != null){
-            		animateMove();
-            	}
-            } 
-        });
-	}
-	public void animateStop(){
-		int stopTile = MathUtils.random(0, 4);
-		//Debug.d("ball", "animate - STOP! ("+stopTile+")");
-		sprite.stopAnimation(stopTile);
-	}
 	
-	private void endColisionHorizontal(){
-		isOnHColisionCooldown = false;
-	}
-	
-	private void endColisionVertical(){
-		isOnVColisionCooldown = false;
-	}
-	
-	public void endMovement(){
-		//testing code
-		if(this.position.getEntityModifierCount() > 1){
-			Debug.d("ball","ALERT: paramos animacion jugador y tenemos MODIFIERS acumulados: "+this.position.getEntityModifierCount());
-		}// testing code
-		
-		this.destination = null;
-		animateStop();
-	}
-	
-	public void forceStopMovement(){
-		removeOldMovementOrders();
-		animateStop();
-	}
 	
 	/* Getters/Setters */
 	public Position getPosition() {
@@ -123,7 +78,7 @@ public class LaserBeam implements IEntity, IMovable
 		return this.sprite.getWidth()/2;
 	}
 	public float getSpriteOffsetY(){
-		return this.sprite.getHeight()/2;
+		return (Walker.SPRITE_HEIGHT*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR*0.6f);
 	}
 	
 	public float getTotalDistance(){
@@ -137,12 +92,6 @@ public class LaserBeam implements IEntity, IMovable
 	
 
 	
-	public void goTo(Point destination) {
-		this.origin = position.toPoint();
-		this.destination = destination;
-		//Debug.d("ball.goTo(): "+(int)destination.getX()+","+(int)destination.getY());
-		animateMove();
-	}
 	
 	public boolean isBusy(){
 		return false;
@@ -153,6 +102,65 @@ public class LaserBeam implements IEntity, IMovable
 	}
 	
 	/* Methods */
+	public void goTo(Point destination) {
+		this.origin = position.toPoint();
+		this.destination = destination;
+		
+		//TODO: configurar rotacion del laser!
+		
+	}
+	
+	public void endMovement(){
+		//testing code
+		if(this.position.getEntityModifierCount() > 1){
+			Debug.d("ball","ALERT: paramos animacion jugador y tenemos MODIFIERS acumulados: "+this.position.getEntityModifierCount());
+		}// testing code
+		
+		this.destination = null;
+		//animateStop(); //no aplica
+	}
+	
+	public void forceStopMovement(){
+		removeOldMovementOrders();
+		//animateStop(); //no aplica
+	}
+	
+	public void explode(){
+		//testing code
+		if(this.position.getEntityModifierCount() > 1){
+			Debug.d("laser","ALERT: paramos animacion jugador y tenemos MODIFIERS acumulados: "+this.position.getEntityModifierCount());
+		}// testing code
+		
+		this.destination = null;
+		animateExplosion();
+	}
+	
+	
+	public void animateExplosion(){
+		
+		//TODO: configurar animacion de explosión. Dejo comentado un codigo de ejemplo
+		/*
+		long tileDuration = 300;
+		sprite.animate(new long[]{tileDuration, tileDuration}, 1, 3, true);
+		*/
+		isOnExlplosionCooldown = true; 
+		
+		TimerHelper.startTimer(this.position, 300*2,  new ITimerCallback() 
+		{                      
+            public void onTimePassed(final TimerHandler pTimerHandler) {
+            	if(destination != null){
+            		explosionEnd();
+            	}
+            } 
+        });
+	}
+	
+	private void explosionEnd(){
+		this.isOnExlplosionCooldown = false;
+		this.hasExploded = true;
+	}
+	
+	
 	public void recycle(){
 		this.sprite.detachSelf();
 		this.sprite.unregisterEntityModifiers(null);
@@ -173,27 +181,7 @@ public class LaserBeam implements IEntity, IMovable
 		});
 	}
 	
-	public void startCollisionHorizontal(){
-		isOnHColisionCooldown = true;
-		TimerHelper.startTimer(this.position, 1f,  new ITimerCallback() {                      
-            
-            public void onTimePassed(final TimerHandler pTimerHandler){
-            	endColisionHorizontal();
-            }
-        });
-	}
-	
-	
-	
-	public void startCollisionVertical(){
-		isOnVColisionCooldown = true;
-		TimerHelper.startTimer(this.position, 1f,  new ITimerCallback() {                      
-            
-            public void onTimePassed(final TimerHandler pTimerHandler){
-            	endColisionVertical();
-            }
-        });
-	}
+
 	public Sprite getSprite() {
 		return sprite;
 	}
