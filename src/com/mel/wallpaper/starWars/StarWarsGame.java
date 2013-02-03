@@ -109,6 +109,7 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 		SpriteFactory.getMe().registerTexture(SpriteFactory.GOAL_RIGHT,"porteria_derecha.png", 64, 128);
 		SpriteFactory.getMe().registerTexture(SpriteFactory.GOAL_LEFT,"porteria_izquierda.png", 64, 128);
 		SpriteFactory.getMe().registerTiledTexture(SpriteFactory.BALL,"fb_ball.png", 128, 128, 4, 4);
+		SpriteFactory.getMe().registerTexture(SpriteFactory.LASER,"shooting.png", 128, 128);
 		
 		
 		//TODO: Cargar el fondo del campo correctamente 
@@ -197,8 +198,6 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 		//initialize model
 		float sf = this.backgroundScaleFactor;
 		InvisibleWalls walls = new InvisibleWalls(sf*52f, sf*52f, sf*92f, sf*52f, this.background); //TODO: cambiar esto por un campo horizontal mas largo
-		addGoals(walls);
-		
 		
 		
 		//TESTING DIMENSIONES CAMPO
@@ -241,42 +240,6 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 		float gameOffset = offsetTotalRange*(screenOffsetX-0.5f);
 		return gameOffset;
 	}
-	
-	private void addGoals(InvisibleWalls field){
-		float goalWidth = 36f;
-		float goalHeight = 114f;
-		
-		InvisibleWalls.topGoal = goalHeight/2f;
-		InvisibleWalls.bottomGoal = -goalHeight/2f;
-		InvisibleWalls.goalWidth = goalWidth;
-		
-		InvisibleWalls.leftGoalEnd = InvisibleWalls.leftWall-goalWidth+5;
-		InvisibleWalls.rightGoalEnd = InvisibleWalls.rightWall+goalWidth-5;;
-		
-		Sprite goal_izq = SpriteFactory.getInstance().newSprite(SpriteFactory.GOAL_LEFT, goalWidth, goalHeight);
-		Sprite goal_der = SpriteFactory.getInstance().newSprite(SpriteFactory.GOAL_RIGHT, goalWidth, goalHeight);
-		
-		float x;
-		float y;
-		
-		//left goal
-		x = 5 + field.paddingLeft - goalWidth;
-		y = InvisibleWalls.correccionCampoY - goalHeight/2;
-		goal_izq.setPosition(x, y);
-		goal_izq.setZIndex(9999);
-
-		//right goal
-		x = field.background.getWidth() - field.paddingRight - 5;
-		y = InvisibleWalls.correccionCampoY - goalHeight/2;
-		goal_der.setPosition(x, y);
-		goal_der.setZIndex(9999);
-		
-		field.background.attachChild(goal_izq);
-		field.background.attachChild(goal_der);
-		
-	}
-
-	
 	
 	
 	// GAME LIFE CYCLE

@@ -24,12 +24,13 @@ public class InvisibleWalls
 	public static float topWall;
 	public static float bottomWall;
 	
-	public static float topGoal;
-	public static float bottomGoal;
-	public static float goalWidth;
-	public static float leftGoalEnd;
-	public static float rightGoalEnd;
+	public static float mapWidth;
+	public static float mapHeight;
 	
+	public static float outOfScreenMargin = 100f;
+	
+	
+
 	public InvisibleWalls(float paddingLeft, float paddingRight, float paddingTop, float paddingBottom, Sprite background){
 		this.background = background;
 
@@ -38,10 +39,14 @@ public class InvisibleWalls
 		this.paddingTop = paddingTop;
 		this.paddingBottom = paddingBottom;
 		
+		this.mapWidth = this.background.getWidth();
+		this.mapHeight = this.background.getHeight();
+		
 		this.width = background.getWidth()-(paddingLeft+paddingRight);
 		this.height = background.getHeight()-(paddingTop+paddingBottom);
 		InvisibleWalls.correccionCampoX = paddingLeft+this.width/2;
 		InvisibleWalls.correccionCampoY = paddingTop+this.height/2;
+		
 		InvisibleWalls.rightWall = this.width/2;
 		InvisibleWalls.leftWall = -this.width/2;
 		InvisibleWalls.topWall = this.height/2;
@@ -72,29 +77,35 @@ public class InvisibleWalls
 		return (posicio.getX() > rightWall || posicio.getX() < leftWall);
 	}
 	
+	
 	public static  boolean isOutField(Point posicio) {
 		return (isOutTouchLine(posicio) || isOutGoalLine(posicio));
 	}
 	
-	public static  boolean isDefensiveField(Point posicio) {
-		return (posicio.getX() < -200 && !isOutField(posicio));
-	}
-
-	public static  boolean isOffensiveField(Point posicio) {
-		return (posicio.getX() >= 0 && !isOutField(posicio));
-	}	
 	
-	public static  boolean isGoal(Point posicio) {
-		return (isInLeftGoal(posicio) || isInRightGoal(posicio));
+	
+	public static boolean isOutOfScreen(Point posicio){
+		if(posicio.getX() > mapWidth/2 + outOfScreenMargin){
+			return true;
+		}
+		
+		if(posicio.getX() < -(mapWidth/2 + outOfScreenMargin)){
+			return true;
+		}
+		
+		if(posicio.getY() > mapHeight/2 + outOfScreenMargin){
+			return true;
+		}
+		
+		if(posicio.getY() < -(mapHeight/2 + outOfScreenMargin)){
+			return true;
+		}
+		
+		return false;
 	}
 	
-	private static  boolean isInLeftGoal(Point p){
-		return (p.getX()<leftWall && p.getX()>leftGoalEnd && p.getY()<topGoal && p.getY()>bottomGoal);
-	}
-	private static  boolean isInRightGoal(Point p){
-		return (p.getX()>rightWall && p.getX()<rightGoalEnd && p.getY()<topGoal && p.getY()>bottomGoal);
-	}
-
+	
+	/* helpers */
 	public static  Point cartesianToEngineCoordinates(Position coordenadas){
 		return cartesianToEngineCoordinates(coordenadas.toPoint());
 	}

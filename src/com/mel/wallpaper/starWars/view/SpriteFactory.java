@@ -20,7 +20,7 @@ import android.content.Context;
 public class SpriteFactory
 {
 	
-	public final static float PLAYERS_SPRITE_SCALEFACTOR = 1.3f;
+	public final static float PLAYERS_SPRITE_SCALEFACTOR = 1f;
 	
 	public final static String DEFAULT_PLAYER_TEXTURE = "player";
 
@@ -51,6 +51,7 @@ public class SpriteFactory
 	public final static String GOAL_LEFT = "GOAL_LEFT";
 	public final static String GOAL_RIGHT = "GOAL_RIGHT";
 	public final static String BALL = "ball";
+	public final static String LASER = "laser";
 
 	public Context context;
 	public Engine engine;
