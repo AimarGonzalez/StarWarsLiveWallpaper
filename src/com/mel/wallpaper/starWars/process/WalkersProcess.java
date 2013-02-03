@@ -19,7 +19,7 @@ public class WalkersProcess extends Process
 {
 	private Map map;
 	private Game game;
-	private List<Walker> jedis;
+	private List<Walker> walkers;
 	
 	
 	public WalkersProcess(Game game, Map map) {
@@ -35,15 +35,15 @@ public class WalkersProcess extends Process
 	public void getEntitiesFromGame(Game game) {
 		this.map = (Map)game.getEntity(Map.class);
 
-		this.jedis = (List<Walker>) game.getEntities(Jumper.class);
-		this.jedis.addAll(game.getEntities(Walker.class));
+		this.walkers = (List<Walker>) game.getEntities(Jumper.class);
+		this.walkers.addAll(game.getEntities(Walker.class));
 	}
 	
 	@Override
 	public void onRemoveFromGame(Game game){
-		if(jedis != null){
-			jedis.clear();
-			jedis = null;
+		if(walkers != null){
+			walkers.clear();
+			walkers = null;
 		}
 		
 		this.map = null;
@@ -54,18 +54,18 @@ public class WalkersProcess extends Process
 
 		getEntitiesFromGame(game);
 		
-		for(Walker jedi : jedis) {
+		for(Walker walker : walkers) {
 			
-			if(jedi.hasDestination()||jedi.isBusy())
+			if(walker.hasDestination()||walker.isBusy())
 				continue;
 			
-			MoveCommand move = new MoveCommand(jedi);
-			move.setMovable(jedi);
+			MoveCommand move = new MoveCommand(walker);
+			move.setMovable(walker);
 			move.destination = map.walls.getRandomPoint();
-			jedi.addCommand(move);
+			walker.addCommand(move);
 		}
 	
-		Walker jedi = jedis.get(0);
+		Walker jedi = walkers.get(0);
 
 		if(!jedi.isBusy())
 		{
@@ -78,8 +78,8 @@ public class WalkersProcess extends Process
 	}
 
 	private void executeCommandsByRandomPlayer(){
-		Collections.shuffle(this.jedis);
-		for(Walker player:this.jedis){
+		Collections.shuffle(this.walkers);
+		for(Walker player:this.walkers){
 			for(Command c:player.pendingCommands){
 				c.execute(this.map);
 			}
