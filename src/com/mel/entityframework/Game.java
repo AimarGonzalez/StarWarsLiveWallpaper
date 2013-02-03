@@ -27,17 +27,18 @@ public class Game
 	}
 	
 	public void addEntity(IEntity entity){
+		//add entity to Game
 		if(this.entities.containsKey(entity.getClass())==false){
 			this.entities.put(entity.getClass(), new ArrayList<IEntity>());
-
-			if(entity.getSprite()!=null)
-				this.canvas.attachChild(entity.getSprite());
-
-			if(entity.getPosition()!=null)
-				this.canvas.attachChild(entity.getPosition());
 		}
-		
 		this.entities.get(entity.getClass()).add(entity);
+		
+		//add entity to AndEngine
+		if(entity.getSprite()!=null)
+			this.canvas.attachChild(entity.getSprite());
+
+		if(entity.getPosition()!=null)
+			this.canvas.attachChild(entity.getPosition());
 	}
 	
 	public List getEntities(Object entityType){
@@ -46,7 +47,7 @@ public class Game
 		if(entities!=null)
 			return new ArrayList<IEntity>(entities);
 		else
-			return null;
+			return new ArrayList<IEntity>();
 	}
 	
 	public IEntity getEntity(Object entityType){
