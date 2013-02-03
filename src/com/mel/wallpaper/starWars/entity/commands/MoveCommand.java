@@ -85,6 +85,7 @@ public class MoveCommand extends Command
 	//				});
 				}
 			},easeFunction);
+			
 			currentMovable.getPosition().registerEntityModifier(moveModifier);
 			
 			startMoveAnimation(currentMovable);

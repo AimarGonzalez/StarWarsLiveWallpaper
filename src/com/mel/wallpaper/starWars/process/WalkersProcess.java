@@ -15,19 +15,24 @@ import com.mel.wallpaper.starWars.entity.commands.Command;
 import com.mel.wallpaper.starWars.entity.commands.MoveCommand;
 import com.mel.wallpaper.starWars.entity.commands.ShootLaserCommand;
 
-
-
 public class WalkersProcess extends Process
 {
 	private Map map;
+	private Game game;
 	private List<Walker> jedis;
 	
 	
-	public WalkersProcess(Map partido){
+	public WalkersProcess(Game game, Map map) {
+		this.map = map;
+		this.game = game;
 	}
-	
+
 	@Override
 	public void onAddToGame(Game game){
+		getEntitiesFromGame(game);
+	}
+	
+	public void getEntitiesFromGame(Game game) {
 		this.map = (Map)game.getEntity(Map.class);
 
 		this.jedis = (List<Walker>) game.getEntities(Jumper.class);
@@ -46,11 +51,12 @@ public class WalkersProcess extends Process
 	
 	@Override
 	public void update(){
-		//TODO:add commands to each player
-	
+
+		getEntitiesFromGame(game);
+		
 		for(Walker jedi : jedis) {
 			
-			if(jedi.hasDestination())
+			if(jedi.hasDestination()||jedi.isBusy())
 				continue;
 			
 			MoveCommand move = new MoveCommand(jedi);
@@ -60,10 +66,13 @@ public class WalkersProcess extends Process
 		}
 	
 		Walker jedi = jedis.get(0);
-		
-		ShootLaserCommand laser = new ShootLaserCommand(jedi);
-		laser.destination = map.walls.getRandomPoint();
-		jedi.addCommand(laser);
+
+		if(!jedi.isBusy())
+		{
+			ShootLaserCommand laserCmd = new ShootLaserCommand(jedi,game);
+			laserCmd.destination = map.walls.getRandomPoint();
+			jedi.addCommand(laserCmd);
+		}
 		
 		executeCommandsByRandomPlayer();	
 	}

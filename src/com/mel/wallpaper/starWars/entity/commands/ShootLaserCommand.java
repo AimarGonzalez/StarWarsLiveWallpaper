@@ -4,6 +4,7 @@ package com.mel.wallpaper.starWars.entity.commands;
 import org.andengine.util.modifier.ease.EaseLinear;
 import org.andengine.util.modifier.ease.EaseQuartOut;
 
+import com.mel.entityframework.Game;
 import com.mel.wallpaper.starWars.entity.LaserBeam;
 import com.mel.wallpaper.starWars.entity.Map;
 import com.mel.wallpaper.starWars.entity.Walker;
@@ -12,8 +13,9 @@ import com.mel.wallpaper.starWars.view.SpriteFactory;
 public class ShootLaserCommand extends MoveCommand
 {
 	public LaserBeam laser;
+	private Game game;
 	
-	public ShootLaserCommand(Walker player) {
+	public ShootLaserCommand(Walker player, Game game) {
 		super(player, 1.4f, EaseLinear.getInstance());
 
 		//this.easeFunction = EaseStrongOut.getInstance();
@@ -24,6 +26,7 @@ public class ShootLaserCommand extends MoveCommand
 
 		this.laser = new LaserBeam(player.position);
 		this.movable = laser;
+		game.addEntity(laser);
 	}
 	
 	@Override
@@ -34,10 +37,6 @@ public class ShootLaserCommand extends MoveCommand
 		}
 		
 		player.forceStopMovement();
-		startShootAnimation();
-	}
-	
-	public void startShootAnimation(){
 		player.animateShootAt(this.destination.clone());//consiga darle a la bola o no, se ve que el jugador chuta
 	}
 	

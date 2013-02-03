@@ -67,4 +67,9 @@ public class Position extends Shape
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public Position clone()
+	{
+		return new Position(this.toPoint());
+	}
 }

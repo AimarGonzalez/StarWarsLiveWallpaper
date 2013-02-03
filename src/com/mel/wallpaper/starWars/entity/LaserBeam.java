@@ -8,6 +8,7 @@ import org.andengine.entity.modifier.IEntityModifier;
 import org.andengine.entity.modifier.MoveModifier;
 import org.andengine.entity.modifier.PathModifier;
 import org.andengine.entity.sprite.AnimatedSprite;
+import org.andengine.entity.sprite.Sprite;
 import org.andengine.util.debug.Debug;
 import org.andengine.util.math.MathUtils;
 import org.andengine.util.modifier.IModifier;
@@ -49,7 +50,7 @@ public class LaserBeam implements IEntity, IMovable
 		this(new Position(x,y));
 	}
 	public LaserBeam(Position p){
-		this.position = p;
+		this.position = (Position) p.clone();
 		this.speed = LaserBeam.DEFAULT_SPEED;
 		this.sprite = (AnimatedSprite) SpriteFactory.getMe().newSprite(SpriteFactory.BALL, 19*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR, 19*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR);
 	}
@@ -192,6 +193,9 @@ public class LaserBeam implements IEntity, IMovable
             	endColisionVertical();
             }
         });
+	}
+	public Sprite getSprite() {
+		return sprite;
 	}
 	
 	
