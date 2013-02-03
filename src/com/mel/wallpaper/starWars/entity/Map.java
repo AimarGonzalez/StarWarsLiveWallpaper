@@ -3,9 +3,12 @@ package com.mel.wallpaper.starWars.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.andengine.entity.sprite.Sprite;
+
 import com.mel.entityframework.IEntity;
 import com.mel.wallpaper.starWars.entity.Walker.Rol;
 import com.mel.wallpaper.starWars.view.PlayerAnimation;
+import com.mel.wallpaper.starWars.view.Position;
 import com.mel.wallpaper.starWars.view.SpriteFactory;
 
 
@@ -24,9 +27,9 @@ public class Map implements IEntity
 	public Status status = Map.Status.INITIAL_STATE;
 		
 	
-	public Map(InvisibleWalls field){
+	public Map(InvisibleWalls walls){
 		
-		this.walls = field;
+		this.walls = walls;
 
 		walkers.add(new Jumper(walkers.size()+1, -300, 0, SpriteFactory.BENJI, PlayerAnimation.STOP_E));
 		walkers.add(new Walker(walkers.size()+1, 0, 200, SpriteFactory.MP_WHITE,PlayerAnimation.STOP_S, Rol.JEDI));
@@ -41,6 +44,16 @@ public class Map implements IEntity
 		this.status = Map.Status.INITIAL_STATE;
 		
 		//mover los jugadores a posicion inicial
+	}
+
+
+	public Sprite getSprite() {
+		return null;
+	}
+
+
+	public Position getPosition() {
+		return null;
 	}
 	
 	

@@ -1,46 +1,24 @@
 package com.mel.wallpaper.starWars;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import org.andengine.BaseGameWallpaperService;
 import org.andengine.audio.sound.Sound;
 import org.andengine.audio.sound.SoundFactory;
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.handler.IUpdateHandler;
-import org.andengine.engine.handler.timer.ITimerCallback;
-import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
-import org.andengine.engine.options.resolutionpolicy.FillResolutionPolicy;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.andengine.entity.IEntity;
-import org.andengine.entity.modifier.IEntityModifier;
-import org.andengine.entity.modifier.IEntityModifier.IEntityModifierListener;
-import org.andengine.entity.modifier.MoveModifier;
-import org.andengine.entity.modifier.ScaleAtModifier;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.input.touch.TouchEvent;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
-import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.util.debug.Debug;
-import org.andengine.util.debug.Debug.DebugLevel;
-import org.andengine.util.modifier.IModifier;
-import org.andengine.util.modifier.ease.EaseSineOut;
 
-import android.util.DisplayMetrics;
-import android.widget.Toast;
-
-import com.mel.wallpaper.starWars.entity.Map;
 import com.mel.wallpaper.starWars.settings.GameSettings;
-import com.mel.wallpaper.starWars.timer.TimerHelper;
 
 public class StarWarsLiveWallpaper extends BaseGameWallpaperService implements IUpdateHandler
 {
-	//android.os.Debug.waitForDebugger(); 
 
 	public static final int CAMERA_WIDTH = 480;
 	public static final int CAMERA_HEIGHT = 800;
@@ -89,7 +67,8 @@ public class StarWarsLiveWallpaper extends BaseGameWallpaperService implements I
 
 	public EngineOptions onCreateEngineOptions() {
 		
-		android.os.Debug.waitForDebugger(); 
+		android.os.Debug.waitForDebugger();
+		
 		//Debug.setDebugLevel(DebugLevel.NONE);
 		//Toast.makeText(this, "You move my sprite right round, right round...", Toast.LENGTH_LONG).show();
 		Debug.d("toast", "onCreateEngineOptions");
@@ -215,16 +194,6 @@ public class StarWarsLiveWallpaper extends BaseGameWallpaperService implements I
 		super.onResumeGame();
 	}
 	
-
-//	
-//	protected void onTap(int pX, int pY) {
-//		//super.onTap(pX, pY);
-//		if(splashEnabled){
-//			Debug.d("starWars", "tap on " + pX + "x" + pY);
-//			launchSplash();
-//		}
-//	}
-	
 	public void onTapFromGame(TouchEvent event) {
 		Debug.d("tap on " + event.getX() + "x" + event.getY());
 		
@@ -260,7 +229,7 @@ public class StarWarsLiveWallpaper extends BaseGameWallpaperService implements I
 	boolean doFadeOut = false;
 	
 	public void onUpdate(float pSecondsElapsed) {
-		Debug.d("update handler");
+//		Debug.d("update handler");
 		if(doFadeOut){
 			benjiBSO.setVolume(Math.max(0f, benjiBSO.getVolume()-pSecondsElapsed/2*this.fadeOutSpeed));
 			if(benjiBSO.getVolume() == 0f){

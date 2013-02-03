@@ -17,26 +17,26 @@ import com.mel.wallpaper.starWars.view.SpriteFactory;
 public class RenderWalkersProcess extends Process
 {
 	private InvisibleWalls field;
-
+	private Game game;
 	private List<Walker> walkers;
 	private Sprite canvas;
 	
-	public RenderWalkersProcess(Sprite canvas){
+	public RenderWalkersProcess(Game game, Sprite canvas){
+		this.game = game;
 		this.canvas = canvas;
 	}
 	
 	@Override
 	public void onAddToGame(Game game){
-		
+		getEntitiesFromGame(game);
+	}
+
+	public void getEntitiesFromGame(Game game)
+	{
 		this.field = ((Map)game.getEntity(Map.class)).walls;
 
 		this.walkers = (List<Walker>) game.getEntities(Jumper.class);
 		this.walkers.addAll(game.getEntities(Walker.class));		
-	
-		for(Walker p : this.walkers){
-			this.canvas.attachChild(p.position);
-			this.canvas.attachChild(p.sprite);
-		}
 	}
 	
 	@Override
@@ -52,7 +52,8 @@ public class RenderWalkersProcess extends Process
 	
 	@Override
 	public void update(){
-		
+
+		getEntitiesFromGame(game);
 		
 		for(Walker player : this.walkers){
 			Point playerCenter = InvisibleWalls.cartesianToEngineCoordinates(player.position);
