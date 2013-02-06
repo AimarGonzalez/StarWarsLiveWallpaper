@@ -18,14 +18,15 @@ import com.mel.wallpaper.starWars.timer.TimerHelper;
 import com.mel.wallpaper.starWars.view.GoalKeeperAnimation;
 import com.mel.wallpaper.starWars.view.PlayerAnimation;
 import com.mel.wallpaper.starWars.view.Position;
+import com.mel.wallpaper.starWars.view.ShooterAnimation;
 import com.mel.wallpaper.starWars.view.SpriteFactory;
 
 
-public class Jumper extends Walker implements IMovable
+public class Shooter extends Walker implements IMovable
 {
 	
-	private static final float	VERTICAL_CENTER	= 87.5f*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR;
-	public static final float GOLAKEEPER_DEFAULT_SPEED = 50;
+	private static final float	VERTICAL_CENTER	= 36*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR;
+	public static final float DEFAULT_SPEED = 30;
 	public static final float MAX_JUMP_DISTANCE = 30;
 
 	private boolean isOnShootingCooldown = false;
@@ -117,24 +118,20 @@ public class Jumper extends Walker implements IMovable
 //	}
 	
 	/* Constructor */
-	public Jumper(int dorsal, float x, float y, String textureId, PlayerAnimation initialAnimation){
-		this(dorsal, new Point(x,y), Jumper.GOLAKEEPER_DEFAULT_SPEED, textureId, initialAnimation, Rol.CHUWAKA);
+	public Shooter(float x, float y, String textureId, PlayerAnimation initialAnimation, Rol r){
+		this(new Point(x,y), Shooter.DEFAULT_SPEED, textureId, initialAnimation, r);
 	}
 	
-	public Jumper(int dorsal, float x, float y, float speed, String textureId, PlayerAnimation initialAnimation){
-		this(dorsal, new Point(x,y), speed, textureId, initialAnimation, Rol.JEDI);
+	public Shooter(float x, float y, float speed, String textureId, PlayerAnimation initialAnimation, Rol r){
+		this(new Point(x,y), speed, textureId, initialAnimation, r);
 	}
 	
-	public Jumper(int dorsal, Point p, String textureId, PlayerAnimation initialAnimation){
-		this(dorsal, p, Jumper.GOLAKEEPER_DEFAULT_SPEED, textureId, initialAnimation, Rol.JEDI);
-	}
-
-	public Jumper(int dorsal, Point p, float speed, String textureId, PlayerAnimation initialAnimation){
-		this(dorsal, p, speed, textureId, initialAnimation, Rol.JEDI);
+	public Shooter(Point p, String textureId, PlayerAnimation initialAnimation, Rol r){
+		this(p, Shooter.DEFAULT_SPEED, textureId, initialAnimation, r);
 	}
 	
-	public Jumper(int dorsal, Point p, float speed, String textureId, PlayerAnimation initialAnimation, Rol r){
-		super(dorsal, p, speed, textureId, initialAnimation, Rol.JEDI);
+	public Shooter(Point p, float speed, String textureId, PlayerAnimation initialAnimation, Rol r){
+		super(99, p, speed, textureId, initialAnimation, r);
 	
 		this.initialPosition = this.defaultPosition.clone();
 	}
@@ -166,53 +163,6 @@ public class Jumper extends Walker implements IMovable
         });
 	}
 	
-	public void jump(Point destination){
-		this.destination = destination;
-		this.isOnJumpingCooldown = true;
-		 
-		Debug.d("gk", "jump: "+destination);
-		
-		
-		
-		if(this.position.distance(this.destination) > 0 ){
-			animateJump();
-			
-			Path jumpPath = new Path(2).to(this.position.getX(), this.position.getY()).to(destination.getX(), destination.getY());
-			PathModifier moveModifier = new PathModifier(1f, jumpPath, new IPathModifierListener()
-			{
-				
-				public void onPathWaypointStarted(PathModifier pPathModifier, IEntity pEntity, int pWaypointIndex) {
-				}
-				public void onPathWaypointFinished(PathModifier pPathModifier, IEntity pEntity, int pWaypointIndex) {
-				}
-				public void onPathStarted(PathModifier pPathModifier, IEntity pEntity) {
-				}
-				public void onPathFinished(PathModifier pPathModifier, IEntity pEntity) {
-					setJumpingEnd();
-				}
-			},EaseExponentialOut.getInstance());
-			this.position.registerEntityModifier(moveModifier);
-			
-		}else{
-			TimerHelper.startTimer(this.position, 1f,  new ITimerCallback() {                      
-	            public void onTimePassed(final TimerHandler pTimerHandler)
-	            {
-	            	setJumpingEnd();
-	            }
-	        });
-		}
-	}
-	
-	public void stopBall(){
-		this.isOnStopBallCooldown = true;
-		TimerHelper.startTimer(this.position, 1.5f,  new ITimerCallback() {                      
-            public void onTimePassed(final TimerHandler pTimerHandler)
-            {
-            	isOnStopBallCooldown = false;
-            }
-        });
-	}
-	
 	public void animateShootAndStartCooldowns(Point destination){
 		this.shootTarget = destination;
 		animateShoot();
@@ -225,11 +175,6 @@ public class Jumper extends Walker implements IMovable
             	setShootingEnd();
             }
         });
-	}
-	
-	public void passBallTo(Jumper destination){
-		this.passTarget = destination;
-		animatePass();
 	}
 	
 	public void forceStopMovement(){
@@ -298,82 +243,12 @@ public class Jumper extends Walker implements IMovable
 	
 	
 	
-		
-	
-	
-	
-	protected void animateRun(){
-		animate(this.initialAnimation);
-	}
-	
-	protected void animateJump(){
-		PlayerAnimation a = GoalKeeperAnimation.calculateJumpAnimation(this, this.destination, this.initialAnimation);
-		animate(a);
-	}
-	
-	
-	protected void animateStop(){
-		animate(this.initialAnimation);
-	}
-	
-	protected void animatePass(){
-		PlayerAnimation a = GoalKeeperAnimation.calculatePassAnimation(this.initialAnimation);
-		animate(a);
-	}
-	
-	protected void animateShoot(){
-		PlayerAnimation a = GoalKeeperAnimation.calculateShootAnimation(this.initialAnimation);
-		animate(a);
-	}
-	
-	protected void animate(PlayerAnimation a){
+	public void animate(PlayerAnimation a){
 		if(this.lastAnimation == a){
 			return;
 		}
+		ShooterAnimation.animate(a, sprite);
 		
-		//sprite.setRotation(0);
-		
-		//TODO: este codigo habria que convertirlo en un ImageXXXanimationManager, para poder tener players con distintas imagenes (y a su vez distintas animaciones).
-		switch(a) {
-			case STOP_E: //derecha
-				sprite.stopAnimation(0); 
-				break;
-			case STOP_W: //izquierda
-				sprite.stopAnimation(8);  //fila6 
-				break;
-			case SHOOT_E: //derecha
-				sprite.animate(new long[]{500,100}, new int[]{3,0}, false);
-				break;
-			case SHOOT_W: //izquierda
-				sprite.animate(new long[]{500,100}, new int[]{11,8}, false);
-				break;
-			case PAS_E: //derecha
-				sprite.animate(new long[]{200,200,100}, new int[]{1,2,0}, false);
-				break;
-			case PAS_W: //izquierda
-				sprite.animate(new long[]{200,200,100}, new int[]{10,9,8}, false);
-				break;
-				
-			case JUMP_SE: //derecha
-				sprite.animate(new long[]{200,400,100}, new int[]{4,5,0}, false);
-				break;
-			case JUMP_NE: //izquierda
-				sprite.animate(new long[]{200,400,100}, new int[]{6,7,0}, false);
-				break;
-			case JUMP_SW: //derecha
-				sprite.animate(new long[]{200,400,100}, new int[]{12,13,8}, false);
-				break;
-			case JUMP_NW: //izquierda
-				sprite.animate(new long[]{200,400,100}, new int[]{14,15,8}, false);
-				break;
-			
-			case APLASTADO:
-				sprite.stopAnimation(MathUtils.random(16, 17)); //aqui habra que poner un random, y quizas una rotacion?
-				//sprite.setRotation(MathUtils.random(0, 360)); //random
-				break;
-			default: //parado_s
-				animate(initialAnimation);  //fila5
-		}
 		this.lastAnimation = a;
 	}
 	

@@ -15,6 +15,7 @@ import org.andengine.util.modifier.IModifier;
 
 import com.mel.entityframework.IEntity;
 import com.mel.entityframework.IMovable;
+import com.mel.util.MathUtil;
 import com.mel.util.Point;
 import com.mel.wallpaper.starWars.timer.TimerHelper;
 import com.mel.wallpaper.starWars.view.PlayerAnimation;
@@ -55,7 +56,7 @@ public class LaserBeam implements IEntity, IMovable
 		this.position = (Position) p.clone();
 		this.speed = LaserBeam.DEFAULT_SPEED;
 		this.sprite = (Sprite) SpriteFactory.getMe().newSprite(SpriteFactory.LASER, BEAM_SIZE*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR, BEAM_SIZE*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR);
-		this.sprite.setRotationCenter(BEAM_SIZE/2, BEAM_SIZE/2);
+		this.sprite.setRotationCenter(BEAM_SIZE*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR/2, BEAM_SIZE*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR/2);
 	}
 	
 	
@@ -102,15 +103,16 @@ public class LaserBeam implements IEntity, IMovable
 	}
 	
 	/* Methods */
-	public void goTo(Point destination) {
+	public void animateMoveAndStartCooldowns(Point destination) {
 		this.origin = position.toPoint();
 		this.destination = destination;
 		
-		//TODO: configurar rotacion del laser!
+		//this.sprite.setRotation(MathUtil.PI_HALF);
+		this.sprite.setRotation(-1*MathUtil.RAD_TO_DEG*MathUtil.getAngulo(this.origin, this.destination));
 		
 	}
 	
-	public void endMovement(){
+	public void animateStopAndStartCooldowns(){
 		//testing code
 		if(this.position.getEntityModifierCount() > 1){
 			Debug.d("ball","ALERT: paramos animacion jugador y tenemos MODIFIERS acumulados: "+this.position.getEntityModifierCount());
@@ -162,11 +164,16 @@ public class LaserBeam implements IEntity, IMovable
 	
 	
 	public void recycle(){
-		this.sprite.detachSelf();
-		this.sprite.unregisterEntityModifiers(null);
-		this.sprite.unregisterUpdateHandlers(null);
-		this.speed = 0;
+		this.speed = LaserBeam.DEFAULT_SPEED;
+
+		this.sprite.clearEntityModifiers();
+		this.sprite.clearUpdateHandlers();
+		
 		this.position.setLocation(0, 0);
+		this.position.clearEntityModifiers();
+		this.position.clearUpdateHandlers();
+
+		this.sprite.detachSelf();
 	}
 	
 	/* HELPERS */

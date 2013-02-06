@@ -13,6 +13,9 @@ public class MathUtil
 	public static final float DEG_TO_RAD = PI / 180.0f;
 	public static final float RAD_TO_DEG = 180.0f / PI;
 	
+	public static float getAngulo(Point origin, Point destination){
+		return getAngulo(origin.getX(), origin.getY(), destination.getX(), destination.getY());
+	}
 	public static float getAngulo(double x0, double y0, double xD, double yD){
 		double ang=0;
 		double dy=yD-y0;

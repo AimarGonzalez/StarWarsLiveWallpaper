@@ -9,9 +9,9 @@ public interface IMovable
 	
 	public float getSpeed();
 	
-	public void goTo(Point destination);
+	public void animateMoveAndStartCooldowns(Point destination);
 	
-	public void endMovement();
+	public void animateStopAndStartCooldowns();
 
 	public void forceStopMovement();
 	

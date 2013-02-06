@@ -62,7 +62,8 @@ public class Walker implements IEntity, IMovable
 	
 	public enum Rol {
         JEDI("JEDI"),
-        CHUWAKA("CHUWAKA");
+        CHUWAKA("CHUWAKA"),
+        STORM_TROOPER("STORM_TROOPER");
         
         private final String rolId;
 
@@ -221,7 +222,7 @@ public class Walker implements IEntity, IMovable
 	
 	
 	
-	public void goTo(Point destination){
+	public void animateMoveAndStartCooldowns(Point destination){
 		//Debug.d("player.goTo(): "+(int)destination.getX()+","+(int)destination.getY());
 		this.destination = destination;
 		animateRun();
@@ -238,7 +239,7 @@ public class Walker implements IEntity, IMovable
         });
 	}
 	
-	public void animateShootAt(Point destination){
+	public void animateShootAndStartCooldowns(Point destination){
 		this.shootTarget = destination;
 		animateShoot();
 		
@@ -259,7 +260,7 @@ public class Walker implements IEntity, IMovable
 	}
 	
 	public void controlBall(Point destination) {
-		goTo(destination);
+		animateMoveAndStartCooldowns(destination);
 	}
 	
 	
@@ -269,7 +270,7 @@ public class Walker implements IEntity, IMovable
 		animateStop();
 	}
 	
-	public void endMovement(){
+	public void animateStopAndStartCooldowns(){
 		//testing code
 		if(this.position.getEntityModifierCount() > 1){
 			Debug.d("ball","ALERT: paramos animacion jugador y tenemos MODIFIERS acumulados: "+this.position.getEntityModifierCount());
@@ -284,7 +285,7 @@ public class Walker implements IEntity, IMovable
 		return (destination!=null);
 	}
 	
-	public void aplastar(){
+	public void animateAplastarAndStartCooldowns(){
 		if(!GameSettings.getInstance().godsFingerEnabled){
 			return;
 		}
@@ -340,31 +341,31 @@ public class Walker implements IEntity, IMovable
 	
 	
 	
-	private void animateRun(){
+	protected void animateRun(){
 		PlayerAnimation a = PlayerAnimation.calculateRunAnimation(this, this.destination);
 		animate(a);
 	}
 	
-	private void animateMovementEnd(){
+	protected void animateMovementEnd(){
 		PlayerAnimation a = PlayerAnimation.calculateStopAnimation(this.lastAnimation);
 		animate(a);
 	}
 	
-	private void animateStop(){
+	protected void animateStop(){
 		animate(this.initialAnimation);
 	}
 	
-	private void animatePass(){
+	protected void animatePass(){
 		PlayerAnimation a = PlayerAnimation.calculatePassAnimation(this, this.passTarget.position.toPoint());
 		animate(a);
 	}
 	
-	private void animateShoot(){
+	protected void animateShoot(){
 		PlayerAnimation a = PlayerAnimation.calculateShootAnimation(this, this.shootTarget);
 		animate(a);
 	}
 	
-	public void animate(PlayerAnimation a){
+	protected void animate(PlayerAnimation a){
 		if(this.lastAnimation == a){
 			return;
 		}
@@ -373,19 +374,19 @@ public class Walker implements IEntity, IMovable
 		
 		//TODO: este codigo habria que convertirlo en un ImageXXXanimationManager, para poder tener players con distintas imagenes (y a su vez distintas animaciones).
 		switch(a) {
-			case RUN_E: //derecha
+			case WALK_E: //derecha
 				tileDuration =  Math.round(10000/speed);
 				sprite.animate(new long[]{tileDuration, tileDuration, tileDuration, tileDuration},new int[]{3,2,1,0}, true); //fila1
 				break;
-			case RUN_W: //izquierda
+			case WALK_W: //izquierda
 				tileDuration =  Math.round(10000/speed);
 				sprite.animate(new long[]{tileDuration, tileDuration, tileDuration, tileDuration}, 8, 11, true);  //fila2 
 				break;
-			case RUN_N: //arriba
+			case WALK_N: //arriba
 				tileDuration =  Math.round(10000/speed);
 				sprite.animate(new long[]{tileDuration, tileDuration, tileDuration, tileDuration}, 16, 19, true); //fila3
 				break;
-			case RUN_S: //abajo
+			case WALK_S: //abajo
 				tileDuration =  Math.round(10000/speed);
 				sprite.animate(new long[]{tileDuration, tileDuration, tileDuration, tileDuration}, 24, 27, true); //fila4 
 				break;
@@ -426,12 +427,12 @@ public class Walker implements IEntity, IMovable
 				sprite.animate(new long[]{350,100},  new int[]{59, 34}, false);
 				break;
 			case APLASTADO:
-				if(this.textureId == SpriteFactory.MARC){
-					sprite.animate(new long[]{200,200}, new int[]{4, 6}, true);
-				}else{
+//				if(this.textureId == SpriteFactory.MARC){
+//					sprite.animate(new long[]{200,200}, new int[]{4, 6}, true);
+//				}else{
 					sprite.stopAnimation(MathUtils.random(4, 6)); //aqui habra que poner un random, y quizas una rotacion?
 					//sprite.setRotation(MathUtils.random(0, 360)); //random
-				}
+				//}
 				break;
 			default: //parado_s
 				sprite.stopAnimation(32);  //fila5

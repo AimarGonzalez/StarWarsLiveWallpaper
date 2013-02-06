@@ -34,8 +34,8 @@ public class Map implements IEntity
 		walkers.add(new Jumper(walkers.size()+1, -300, 0, SpriteFactory.BENJI, PlayerAnimation.STOP_E));
 		walkers.add(new Walker(walkers.size()+1, 0, 200, SpriteFactory.MP_WHITE,PlayerAnimation.STOP_S, Rol.JEDI));
 		walkers.add(new Walker(walkers.size()+1, 200, -200, SpriteFactory.MP_WHITE,PlayerAnimation.STOP_S, Rol.JEDI));
-		walkers.add(new Walker(walkers.size()+1, 200, 200, SpriteFactory.MP_WHITE,PlayerAnimation.STOP_S, Rol.JEDI));
-		walkers.add(new Walker(walkers.size()+1, -200, 200, SpriteFactory.MP_WHITE,PlayerAnimation.STOP_S, Rol.JEDI));
+		walkers.add(new Shooter(200, 200, SpriteFactory.STORM_TROOPER, PlayerAnimation.STOP_S, Rol.STORM_TROOPER));
+		walkers.add(new Shooter(-200, 200, SpriteFactory.STORM_TROOPER, PlayerAnimation.STOP_S, Rol.STORM_TROOPER));
 		
 	}
 	

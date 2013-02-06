@@ -22,35 +22,11 @@ public class SpriteFactory
 	
 	public final static float PLAYERS_SPRITE_SCALEFACTOR = 1f;
 	
-	public final static String DEFAULT_PLAYER_TEXTURE = "player";
-
-	public final static String OLIVER = "oliver";
 	public final static String BENJI = "benji";
-	public final static String BRUCE = "bruce";
 	
-	public final static String NT_BLACK = "NT_BLACK";
-	public final static String NT_WHITE = "NT_WHITE";
-	public final static String NT_BLOND = "NT_BLOND";
-	public final static String NT_BROWN = "NT_BROWN";
-	public final static String NT_BLACK2 = "NT_BLACK2";
-	public final static String NT_RED = "NT_RED";
-
-	
-	
-	public final static String MARC = "marc";
-	public final static String EDWARNER = "ed";
-	public final static String MP_SKINHEAD = "MP_SKINHEAD";
-	
-	public final static String MP_BLACK = "MP_BLACK";
+	public final static String STORM_TROOPER = "STORM_TROOPER";
 	public final static String MP_WHITE = "MP_WHITE";
-	public final static String MP_BLOND = "MP_BLOND";
-	public final static String MP_BROWN = "MP_BROWN";
-	public final static String MP_BLACK2 = "MP_BLACK2";
-	public final static String MP_RED = "MP_RED";
 
-	public final static String GOAL_LEFT = "GOAL_LEFT";
-	public final static String GOAL_RIGHT = "GOAL_RIGHT";
-	public final static String BALL = "ball";
 	public final static String LASER = "laser";
 
 	public Context context;

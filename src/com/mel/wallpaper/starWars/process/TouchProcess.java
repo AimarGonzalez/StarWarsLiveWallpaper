@@ -17,14 +17,19 @@ import com.mel.entityframework.Game;
 import com.mel.entityframework.Process;
 import com.mel.util.Point;
 import com.mel.wallpaper.starWars.StarWarsLiveWallpaper;
+import com.mel.wallpaper.starWars.entity.InvisibleWalls;
 import com.mel.wallpaper.starWars.entity.Jumper;
+import com.mel.wallpaper.starWars.entity.LaserBeam;
 import com.mel.wallpaper.starWars.entity.Map;
+import com.mel.wallpaper.starWars.entity.Shooter;
 import com.mel.wallpaper.starWars.entity.Walker;
+import com.mel.wallpaper.starWars.entity.commands.MoveCommand;
 import com.mel.wallpaper.starWars.settings.GameSettings;
 import com.mel.wallpaper.starWars.view.SpriteFactory;
 
 public class TouchProcess extends Process implements IOnSceneTouchListener
 {
+	private Game game;
 	private Map partido;
 	private List<Walker> jedis;
 	private Scene scene;
@@ -32,9 +37,10 @@ public class TouchProcess extends Process implements IOnSceneTouchListener
 	private RectangularShape touchMarker;
 	private TouchEvent lastTouch;
 	
-	private int TOUCH_RATIO = 45;
+	private int TOUCH_RATIO = 100;
 	
 	public TouchProcess(Game game, Scene scene, Context context){
+		this.game = game;
 		this.scene = scene;
 		this.toastBoard = context;
 		this.touchMarker = SpriteFactory.getInstance().newBall(6, 6);
@@ -48,10 +54,15 @@ public class TouchProcess extends Process implements IOnSceneTouchListener
 		scene.setTouchAreaBindingOnActionDownEnabled(true);
 		scene.setOnSceneTouchListener(this);
 		
+		getEntitiesFromGame(game);
+	}
+	
+	public void getEntitiesFromGame(Game game) {
 		this.partido = (Map)game.getEntity(Map.class);
 
 		this.jedis = (List<Walker>) game.getEntities(Jumper.class);
 		this.jedis.addAll(game.getEntities(Walker.class));
+		this.jedis.addAll(game.getEntities(Shooter.class));
 	}
 	
 	@Override
@@ -63,6 +74,8 @@ public class TouchProcess extends Process implements IOnSceneTouchListener
 	
 	@Override
 	public void update(){
+
+		getEntitiesFromGame(game);
 		
 		if(this.lastTouch != null){
 			processLastTouch(this.lastTouch);
@@ -81,8 +94,14 @@ public class TouchProcess extends Process implements IOnSceneTouchListener
 			List<Walker> touchedPlayers = getPlayersUnderTouch(touchEvent, TOUCH_RATIO);
 		
 			if(touchedPlayers.size() > 0){
-				for(Walker p:touchedPlayers){
-					p.aplastar();
+				for(Walker walker:touchedPlayers){
+					
+					MoveCommand move = new MoveCommand(walker);
+					move.setMovable(walker);
+					move.destination = InvisibleWalls.getRandomPoint();
+					walker.addCommand(move);
+					
+					//p.animateAplastarAndStartCooldowns();
 				}
 				return true;
 			}

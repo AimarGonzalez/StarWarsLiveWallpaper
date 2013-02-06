@@ -28,6 +28,7 @@ import com.mel.wallpaper.starWars.entity.Map;
 import com.mel.wallpaper.starWars.entity.Walker;
 import com.mel.wallpaper.starWars.entity.Walker.Rol;
 import com.mel.wallpaper.starWars.process.GameProcess;
+import com.mel.wallpaper.starWars.process.LaserBeamsProcess;
 import com.mel.wallpaper.starWars.process.WalkersProcess;
 import com.mel.wallpaper.starWars.process.RenderLaserProcess;
 import com.mel.wallpaper.starWars.process.RenderWalkersProcess;
@@ -54,6 +55,7 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 	private GameProcess gameProcess;
 	private TouchProcess touchProcess;
 	private WalkersProcess playersCommandsProcess;
+	private LaserBeamsProcess lasersProcess;
 	private RenderWalkersProcess renderPlayersProcess;
 	private RenderLaserProcess renderBallsProcess;
 	
@@ -84,33 +86,14 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 		SpriteFactory.getMe().context = this.context;
 		SpriteFactory.getMe().engine = this.engine;
 		
-		SpriteFactory.getMe().registerTiledTexture(SpriteFactory.EDWARNER,"fb_goalkeeper_richardi_pantalon_llarg.png", 512, 512, 4, 5);
-		SpriteFactory.getMe().registerTiledTexture(SpriteFactory.MARC,"fb_player-maped_lenders.png", 512, 512, 8, 8);
-		SpriteFactory.getMe().registerTiledTexture(SpriteFactory.MP_SKINHEAD,"fb_player-maped_skinhead.png", 512, 512, 8, 8);
-		
+		SpriteFactory.getMe().registerTiledTexture(SpriteFactory.STORM_TROOPER,"stormtrooper-alineado-220.png", 1100, 1100, 5, 5);
 		SpriteFactory.getMe().registerTiledTexture(SpriteFactory.MP_WHITE,"fb_player-maped_white_hair.png", 512, 512, 8, 8);
-		SpriteFactory.getMe().registerTiledTexture(SpriteFactory.MP_BLACK,"fb_player-maped_black_hair.png", 512, 512, 8, 8);
-		SpriteFactory.getMe().registerTiledTexture(SpriteFactory.MP_BLACK2,"fb_player-maped_black_hair2.png", 512, 512, 8, 8);
-		SpriteFactory.getMe().registerTiledTexture(SpriteFactory.MP_BROWN,"fb_player-maped_generic1.png", 512, 512, 8, 8);
-		SpriteFactory.getMe().registerTiledTexture(SpriteFactory.MP_RED,"fb_player-maped_redhead_hair.png", 512, 512, 8, 8);
 		
 		SpriteFactory.getMe().registerTiledTexture(SpriteFactory.BENJI,"fb_goalkeeper_benji_pantalon_llarg.png", 512, 512, 4, 5);
-		SpriteFactory.getMe().registerTiledTexture(SpriteFactory.OLIVER,"fb_player-newteam_oliver.png", 512, 512, 8, 8);
-		SpriteFactory.getMe().registerTiledTexture(SpriteFactory.BRUCE,"fb_player-newteam_bruce.png", 512, 512, 8, 8);
-		
-		SpriteFactory.getMe().registerTiledTexture(SpriteFactory.NT_BLACK,"fb_player-newteam_black_hair.png", 512, 512, 8, 8);
-		SpriteFactory.getMe().registerTiledTexture(SpriteFactory.NT_BLACK2,"fb_player-newteam_black_hair2.png", 512, 512, 8, 8);
-		SpriteFactory.getMe().registerTiledTexture(SpriteFactory.NT_BROWN,"fb_player-newteam_generic1.png", 512, 512, 8, 8);
-		SpriteFactory.getMe().registerTiledTexture(SpriteFactory.NT_RED,"fb_player-newteam_redhead_hair.png", 512, 512, 8, 8);
-		SpriteFactory.getMe().registerTiledTexture(SpriteFactory.DEFAULT_PLAYER_TEXTURE,"fb_player.png", 512, 512, 8, 8);
-		
-		
-		SpriteFactory.getMe().registerTexture("background","field-final2.png", 2048, 1024);
-		SpriteFactory.getMe().registerTexture(SpriteFactory.GOAL_RIGHT,"porteria_derecha.png", 64, 128);
-		SpriteFactory.getMe().registerTexture(SpriteFactory.GOAL_LEFT,"porteria_izquierda.png", 64, 128);
-		SpriteFactory.getMe().registerTiledTexture(SpriteFactory.BALL,"fb_ball.png", 128, 128, 4, 4);
+				
 		SpriteFactory.getMe().registerTexture(SpriteFactory.LASER,"shooting.png", 128, 128);
 		
+		SpriteFactory.getMe().registerTexture("background","field-final2.png", 2048, 1024);
 		
 		//TODO: Cargar el fondo del campo correctamente 
 		//this.grassBackground = new RepeatingSpriteBackground(this.camera.getWidth(), this.camera.getHeight(), this.engine.getTextureManager(), AssetBitmapTextureAtlasSource.create(this.context.getAssets(), "gfx/background_grass.png"), this.engine.getVertexBufferObjectManager());
@@ -215,11 +198,13 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 		this.gameProcess = new GameProcess(game, this.engine, this.starWarsScene);
 		this.touchProcess = new TouchProcess(game, this.starWarsScene, this.context);
 		this.playersCommandsProcess = new WalkersProcess(game,map);
+		this.lasersProcess = new LaserBeamsProcess(game,map);
 		this.renderPlayersProcess = new RenderWalkersProcess(game, this.background);
 		this.renderBallsProcess = new RenderLaserProcess(game, this.background);
 		
 		game.addProcess(this.gameProcess, 1);
 		game.addProcess(this.touchProcess, 10);
+		game.addProcess(this.lasersProcess, 20);
 		game.addProcess(this.playersCommandsProcess, 21);
 		game.addProcess(this.renderPlayersProcess, 98);
 		game.addProcess(this.renderBallsProcess, 99);

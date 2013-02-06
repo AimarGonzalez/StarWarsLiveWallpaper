@@ -10,6 +10,7 @@ import com.mel.entityframework.Process;
 import com.mel.util.Point;
 import com.mel.wallpaper.starWars.entity.Jumper;
 import com.mel.wallpaper.starWars.entity.Map;
+import com.mel.wallpaper.starWars.entity.Shooter;
 import com.mel.wallpaper.starWars.entity.Walker;
 import com.mel.wallpaper.starWars.entity.commands.Command;
 import com.mel.wallpaper.starWars.entity.commands.MoveCommand;
@@ -37,6 +38,7 @@ public class WalkersProcess extends Process
 
 		this.walkers = (List<Walker>) game.getEntities(Jumper.class);
 		this.walkers.addAll(game.getEntities(Walker.class));
+		this.walkers.addAll(game.getEntities(Shooter.class));		
 	}
 	
 	@Override

@@ -53,15 +53,15 @@ public class InvisibleWalls
 		InvisibleWalls.bottomWall = -this.height/2;
 	}
 	
-	public Point getRandomPoint() {
+	public static Point getRandomPoint() {
 		return getRandomPoint(0);
 	}
 	
-	public Point getRandomPoint(float margin) {
+	public static Point getRandomPoint(float margin) {
 		return getRandomPoint(margin, margin, margin, margin);
 	}
 	
-	public Point getRandomPoint(float leftMargin, float rightMargin, float topMargin, float bottomMargin) {
+	public static Point getRandomPoint(float leftMargin, float rightMargin, float topMargin, float bottomMargin) {
 		return new Point(MathUtils.random(leftWall+leftMargin, rightWall-rightMargin), MathUtils.random(bottomWall+topMargin, topWall-bottomMargin));
 	}
 	

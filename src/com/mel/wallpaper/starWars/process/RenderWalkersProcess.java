@@ -10,6 +10,7 @@ import com.mel.util.Point;
 import com.mel.wallpaper.starWars.entity.InvisibleWalls;
 import com.mel.wallpaper.starWars.entity.Jumper;
 import com.mel.wallpaper.starWars.entity.Map;
+import com.mel.wallpaper.starWars.entity.Shooter;
 import com.mel.wallpaper.starWars.entity.Walker;
 import com.mel.wallpaper.starWars.view.PlayerAnimation;
 import com.mel.wallpaper.starWars.view.SpriteFactory;
@@ -37,6 +38,7 @@ public class RenderWalkersProcess extends Process
 
 		this.walkers = (List<Walker>) game.getEntities(Jumper.class);
 		this.walkers.addAll(game.getEntities(Walker.class));		
+		this.walkers.addAll(game.getEntities(Shooter.class));		
 	}
 	
 	@Override
@@ -61,11 +63,11 @@ public class RenderWalkersProcess extends Process
 			player.sprite.setPosition(fixedCoord.getX(), fixedCoord.getY());
 			
 			//Ordenar jugadores segun profundidad en el campo
-			if(player.isAplastado() && player.lastAnimation==PlayerAnimation.APLASTADO && player.textureId!=SpriteFactory.MARC){
-				player.sprite.setZIndex(1);
-			}else{
+			//if(player.isAplastado() && player.lastAnimation==PlayerAnimation.APLASTADO && player.textureId!=SpriteFactory.MARC){
+			//	player.sprite.setZIndex(1);
+			//}else{
 				player.sprite.setZIndex(1000-(int)player.position.getY());
-			}
+			//}
 		}
 		
 		this.canvas.sortChildren();
