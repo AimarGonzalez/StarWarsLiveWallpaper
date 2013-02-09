@@ -21,3 +21,6 @@ local.properties
 
 # Vim temporal files
 *~
+
+# Mac files
+.DS_Store
