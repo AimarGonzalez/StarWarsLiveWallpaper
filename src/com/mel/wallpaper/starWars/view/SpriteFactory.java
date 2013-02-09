@@ -28,7 +28,10 @@ public class SpriteFactory
 	public final static String MP_WHITE = "MP_WHITE";
 
 	public final static String LASER = "laser";
-
+	
+	public final static String BUBBLE1 = "bubble1";
+	
+	
 	public Context context;
 	public Engine engine;
 	

@@ -93,6 +93,8 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 				
 		SpriteFactory.getMe().registerTexture(SpriteFactory.LASER,"shooting.png", 128, 128);
 		
+		SpriteFactory.getMe().registerTexture(SpriteFactory.BUBBLE1,"bubble-ola-k-ase.png", 166, 120);
+		
 		SpriteFactory.getMe().registerTexture("background","field-final2.png", 2048, 1024);
 		
 		//TODO: Cargar el fondo del campo correctamente 

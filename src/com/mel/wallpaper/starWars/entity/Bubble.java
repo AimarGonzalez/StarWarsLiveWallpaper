@@ -22,7 +22,7 @@ import com.mel.wallpaper.starWars.view.PlayerAnimation;
 import com.mel.wallpaper.starWars.view.Position;
 import com.mel.wallpaper.starWars.view.SpriteFactory;
 
-public class LaserBeam implements IEntity, IMovable
+public class Bubble implements IEntity, IMovable
 {	
 	public static final float HIT_DISTANCE = 20f;
 	public static final float JUMP_DISTANCE = 60f;
@@ -45,17 +45,17 @@ public class LaserBeam implements IEntity, IMovable
 	public boolean hasExploded = false;
 	
 	/* Constructor */
-	public LaserBeam(float x, float y){
+	public Bubble(float x, float y){
 		this(new Position(x,y));
 	}
-	public LaserBeam(Position p){
+	public Bubble(Position p){
 		this.position = (Position) p.clone();
-		this.speed = LaserBeam.DEFAULT_SPEED;
-		this.sprite = (Sprite) SpriteFactory.getMe().newSprite(SpriteFactory.LASER, BEAM_SIZE*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR, BEAM_SIZE*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR);
+		this.speed = Bubble.DEFAULT_SPEED;
+		this.sprite = (Sprite) SpriteFactory.getMe().newSprite(SpriteFactory.BUBBLE1,
+				BEAM_SIZE*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR,
+				BEAM_SIZE*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR);
 		this.sprite.setRotationCenter(BEAM_SIZE*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR/2, BEAM_SIZE*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR/2);
 	}
-	
-	
 	
 	/* Getters/Setters */
 	public Position getPosition() {
@@ -87,9 +87,6 @@ public class LaserBeam implements IEntity, IMovable
 		return this.position.distance(this.origin);
 	}
 	
-
-	
-	
 	public boolean isBusy(){
 		return false;
 	}
@@ -105,7 +102,6 @@ public class LaserBeam implements IEntity, IMovable
 		
 		//this.sprite.setRotation(MathUtil.PI_HALF);
 		this.sprite.setRotation(-1*MathUtil.RAD_TO_DEG*MathUtil.getAngulo(this.origin, this.destination));
-		
 	}
 	
 	public void animateStopAndStartCooldowns(){
@@ -135,7 +131,6 @@ public class LaserBeam implements IEntity, IMovable
 	
 	
 	public void animateExplosion(){
-		
 		//TODO: configurar animacion de explosión. Dejo comentado un codigo de ejemplo
 		/*
 		long tileDuration = 300;
@@ -160,7 +155,7 @@ public class LaserBeam implements IEntity, IMovable
 	
 	
 	public void recycle(){
-		this.speed = LaserBeam.DEFAULT_SPEED;
+		this.speed = Bubble.DEFAULT_SPEED;
 
 		this.sprite.clearEntityModifiers();
 		this.sprite.clearUpdateHandlers();
