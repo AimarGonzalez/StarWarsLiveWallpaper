@@ -28,12 +28,9 @@ import com.mel.wallpaper.starWars.view.SpriteFactory;
 
 public class Walker implements IEntity, IMovable
 {
-	
-	
 	public static final float DEFAULT_SPEED = 50;
 	
 	public static final float SPRITE_HEIGHT = 100;
-	
 	
 	public AnimatedSprite sprite;
 	public Position position;
@@ -187,20 +184,6 @@ public class Walker implements IEntity, IMovable
 		return ini;
 	}
 	
-//	private Point calcInitialPosition(Point pos){
-//		Point ini = pos.clone();
-//			
-//		if(ini.getX()>-20){
-//			//que no este en campo contrario, y que no este dentro de circulo de saque
-//			while(ini.getX()>-20 || ini.distance(new Point(0,0))<110){
-//				ini.setX(ini.getX()-10);
-//			}
-//		}else{
-//			ini.setX(ini.getX()*0.5f);
-//		}
-//		return ini;
-//	}
-	
 	public float getTextureSize(){
 		return SPRITE_HEIGHT*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR;
 	}
@@ -342,12 +325,12 @@ public class Walker implements IEntity, IMovable
 	
 	
 	protected void animateRun(){
-		PlayerAnimation a = PlayerAnimation.calculateRunAnimation(this, this.destination);
+		PlayerAnimation a = PlayerAnimation.calculateRunAnimationDirection(this, this.destination);
 		animate(a);
 	}
 	
 	protected void animateMovementEnd(){
-		PlayerAnimation a = PlayerAnimation.calculateStopAnimation(this.lastAnimation);
+		PlayerAnimation a = PlayerAnimation.calculateStopAnimationDirection(this.lastAnimation);
 		animate(a);
 	}
 	
@@ -356,12 +339,12 @@ public class Walker implements IEntity, IMovable
 	}
 	
 	protected void animatePass(){
-		PlayerAnimation a = PlayerAnimation.calculatePassAnimation(this, this.passTarget.position.toPoint());
+		PlayerAnimation a = PlayerAnimation.calculatePassAnimationDirection(this, this.passTarget.position.toPoint());
 		animate(a);
 	}
 	
 	protected void animateShoot(){
-		PlayerAnimation a = PlayerAnimation.calculateShootAnimation(this, this.shootTarget);
+		PlayerAnimation a = PlayerAnimation.calculateShootAnimationDirection(this, this.shootTarget);
 		animate(a);
 	}
 	

@@ -15,7 +15,7 @@ public enum PlayerAnimation {
 	;
 	
 
-	public static PlayerAnimation calculateStopAnimation(PlayerAnimation lastAnimation){
+	public static PlayerAnimation calculateStopAnimationDirection(PlayerAnimation lastAnimation){
 		switch(lastAnimation) {
 			case WALK_E: //derecha
 				return PlayerAnimation.STOP_E;
@@ -31,7 +31,7 @@ public enum PlayerAnimation {
 		}
 	}
 	
-	public static PlayerAnimation calculatePassAnimation(Walker p, Point destination){
+	public static PlayerAnimation calculatePassAnimationDirection(Walker p, Point destination){
 		double angulo = MathUtil.getAngulo(p.position.getX(), p.position.getY(), destination.getX(), destination.getY());
 		
 		if(angulo>=0 && angulo<MathUtil.PI_Q){
@@ -58,7 +58,7 @@ public enum PlayerAnimation {
 		throw new RuntimeException("Error calculando angulo!");
 	}
 	
-	public static PlayerAnimation calculateShootAnimation(Walker p, Point destination){
+	public static PlayerAnimation calculateShootAnimationDirection(Walker p, Point destination){
 		double angulo = MathUtil.getAngulo(p.position.getX(), p.position.getY(), destination.getX(), destination.getY());
 		
 		if(angulo>=0 && angulo<MathUtil.PI_Q){
@@ -85,7 +85,7 @@ public enum PlayerAnimation {
 		throw new RuntimeException("Error calculando angulo!");
 	}
 	
-	public static PlayerAnimation calculateRunAnimation(Walker p, Point destination){
+	public static PlayerAnimation calculateRunAnimationDirection(Walker p, Point destination){
 		double angulo = MathUtil.getAngulo(p.position.getX(), p.position.getY(), destination.getX(), destination.getY());
 		
 		if(angulo>=0 && angulo<MathUtil.PI_Q){
