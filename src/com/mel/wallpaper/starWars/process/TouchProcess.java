@@ -107,7 +107,6 @@ public class TouchProcess extends Process implements IOnSceneTouchListener
 					Debug.d("Touch player");
 					
 					BubbleCommand moveb = new BubbleCommand(walker,game);
-					moveb.destination = InvisibleWalls.getRandomPoint();
 					walker.addCommand(moveb);
 					
 					//p.animateAplastarAndStartCooldowns();
