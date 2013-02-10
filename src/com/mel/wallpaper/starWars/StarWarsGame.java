@@ -29,6 +29,7 @@ import com.mel.wallpaper.starWars.entity.Walker;
 import com.mel.wallpaper.starWars.entity.Walker.Rol;
 import com.mel.wallpaper.starWars.process.GameProcess;
 import com.mel.wallpaper.starWars.process.LaserBeamsProcess;
+import com.mel.wallpaper.starWars.process.RenderBubbleProcess;
 import com.mel.wallpaper.starWars.process.WalkersProcess;
 import com.mel.wallpaper.starWars.process.RenderLaserProcess;
 import com.mel.wallpaper.starWars.process.RenderWalkersProcess;
@@ -58,6 +59,7 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 	private LaserBeamsProcess lasersProcess;
 	private RenderWalkersProcess renderPlayersProcess;
 	private RenderLaserProcess renderBallsProcess;
+	private RenderBubbleProcess bubblesBallsProcess;
 	
 
 	private float screenOffsetX = 0;
@@ -203,6 +205,7 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 		this.lasersProcess = new LaserBeamsProcess(game,map);
 		this.renderPlayersProcess = new RenderWalkersProcess(game, this.background);
 		this.renderBallsProcess = new RenderLaserProcess(game, this.background);
+		this.bubblesBallsProcess = new RenderBubbleProcess(game, this.background);
 		
 		game.addProcess(this.gameProcess, 1);
 		game.addProcess(this.touchProcess, 10);
@@ -210,6 +213,7 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 		game.addProcess(this.playersCommandsProcess, 21);
 		game.addProcess(this.renderPlayersProcess, 98);
 		game.addProcess(this.renderBallsProcess, 99);
+		game.addProcess(this.bubblesBallsProcess, 99);
 	}
 	
 	private void updateBackgroundPosition(){
