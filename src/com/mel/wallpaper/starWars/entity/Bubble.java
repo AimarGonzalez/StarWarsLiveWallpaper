@@ -30,7 +30,7 @@ public class Bubble implements IEntity, IMovable
 	public static final float MAX_REACH_DISTANCE = 350f;
 	public static final float MIN_REACH_DISTANCE = 70f;
 	
-	public static final float DEFAULT_SPEED = 500f;
+	public static final float DEFAULT_SPEED = 10f;
 	
 	public static final float BEAM_SIZE = 50f;
 	
@@ -101,7 +101,7 @@ public class Bubble implements IEntity, IMovable
 		this.destination = destination;
 		
 		//this.sprite.setRotation(MathUtil.PI_HALF);
-		this.sprite.setRotation(-1*MathUtil.RAD_TO_DEG*MathUtil.getAngulo(this.origin, this.destination));
+//		this.sprite.setRotation(-1*MathUtil.RAD_TO_DEG*MathUtil.getAngulo(this.origin, this.destination));
 	}
 	
 	public void animateStopAndStartCooldowns(){

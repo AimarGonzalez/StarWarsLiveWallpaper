@@ -87,7 +87,6 @@ public class MoveCommand extends Command
 			},easeFunction);
 			
 			currentMovable.getPosition().registerEntityModifier(moveModifier);
-			
 			currentMovable.animateMoveAndStartCooldowns(this.destination.clone());
 		}
 		
