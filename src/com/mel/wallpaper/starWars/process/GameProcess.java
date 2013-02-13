@@ -27,7 +27,6 @@ public class GameProcess extends Process
 {
 	private Map partido;
 //	private LaserBeam ball;
-	private List<Walker> players;
 	
 	private Context toastBoard;
 	private Engine engine;
@@ -44,17 +43,10 @@ public class GameProcess extends Process
 		this.partido = (Map)game.getEntity(Map.class);
 		
 
-		this.players = (List<Walker>) game.getEntities(Jumper.class);
-		this.players.addAll(game.getEntities(Walker.class));
 	}
 	
 	@Override
 	public void onRemoveFromGame(Game game){
-		if(players != null){
-			players.clear();
-			players = null;
-		}
-		
 		this.partido = null;
 	}
 	
@@ -138,26 +130,5 @@ public class GameProcess extends Process
 		
 	}
 	
-	private void teleportPlayersToInitialPositions(){
-		for(Walker player : this.players){
-			player.position.setLocation(player.initialPosition.getX(), player.initialPosition.getY());
-			player.forceStopMovement();
-		}
-	}
-
-	
-	
-	private boolean areAllPlayersAtInitialPosition(){
-		for(Walker p : this.players){
-			if(!p.isAtInitialPosition()){
-				return false;
-			}
-		}
-		return true;
-	}
-	
-
-
-
 	
 }
