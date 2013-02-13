@@ -12,7 +12,6 @@ import org.andengine.entity.modifier.PathModifier.Path;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.util.debug.Debug;
-import org.andengine.util.math.MathUtils;
 import org.andengine.util.modifier.IModifier;
 
 import com.mel.entityframework.IEntity;
@@ -21,7 +20,9 @@ import com.mel.util.Point;
 import com.mel.wallpaper.starWars.entity.commands.Command;
 import com.mel.wallpaper.starWars.settings.GameSettings;
 import com.mel.wallpaper.starWars.timer.TimerHelper;
-import com.mel.wallpaper.starWars.view.PlayerAnimation;
+import com.mel.wallpaper.starWars.view.AnimationFactory;
+import com.mel.wallpaper.starWars.view.IWalkerAnimator;
+import com.mel.wallpaper.starWars.view.Animation;
 import com.mel.wallpaper.starWars.view.Position;
 import com.mel.wallpaper.starWars.view.SpriteFactory;
 
@@ -32,29 +33,19 @@ public class Walker implements IEntity, IMovable
 	
 	public static final float DEFAULT_SPEED = 50;
 	
-	public static final float SPRITE_HEIGHT = 100;
-	
-	
 	public AnimatedSprite sprite;
 	public Position position;
 
-	public int dorsal;
-	public Point defaultPosition;
-	public Point initialPosition;
 	public Point destination;
-	public Point shootTarget;
-	public Walker passTarget;
-	public float speed;
+	private float speed;
 	public Rol rol;
 	public String textureId;
 	
-	private boolean isOnShootingCooldown = false;
-	private boolean isOnRunningCooldown = false;
-	private boolean isOnAplastadoCooldown = false;
+	protected IWalkerAnimator animator;
 	
-	public PlayerAnimation lastAnimation = null;
 	
-	protected PlayerAnimation initialAnimation = null;
+	protected boolean isOnRunningCooldown = false;
+	protected boolean isOnAplastadoCooldown = false;
 	
 	private static final float APLASTADO_DURATION = 3f;
 	
@@ -77,48 +68,37 @@ public class Walker implements IEntity, IMovable
     }	
 	
 	/* Getters/Setters */
+	public Sprite getSprite() {
+		return sprite;
+	}
+	
 	public Position getPosition(){
 		return this.position;
 	}
 	
-	public boolean isAtDefaultPosition() {
-		return this.position.distance(this.defaultPosition)<1f;
-	}
-	
-	public boolean isAtInitialPosition() {
-		return this.position.distance(this.initialPosition)<1f;
-	}
-	
-	public boolean isGoingToInitialPosition() {
-		if(this.destination == null){
-			return false;
-		}
-		
-		return this.destination.distance(this.initialPosition)<1f;
-	}
 	
 	public float getSpeed(){
 		return this.speed;
 	}
 	
-	private void setShootingEnd(){
-		this.isOnShootingCooldown = false;
+	public void setSpeed(float s){
+		this.speed = s;
+		if(this.animator != null){
+			this.animator.setSpeed(s);
+		}
 	}
 	
-	private void setRunningEnd(){
+	
+	protected void setRunningEnd(){
 		this.isOnRunningCooldown = false;
 	}
 	
-	private void setAplastadoEnd(){
+	protected void setAplastadoEnd(){
 		this.isOnAplastadoCooldown = false;
 	}
 	
 	public boolean isBusy(){
-		return isOnShootingCooldown || isOnRunningCooldown || isOnAplastadoCooldown;
-	}
-	
-	public boolean canShoot(){
-		return !isOnShootingCooldown && !isOnAplastadoCooldown;
+		return isOnRunningCooldown || isOnAplastadoCooldown;
 	}
 	
 	public boolean isAplastado(){
@@ -134,43 +114,46 @@ public class Walker implements IEntity, IMovable
 	}
 	
 	public float getSpriteOffsetX(){
-		return this.sprite.getWidth()/2;
-	}
-	public float getSpriteOffsetY(){
-		return this.sprite.getHeight()-15*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR;
+		return this.animator.getSpriteOffsetX();
 	}
 	
+	public float getSpriteOffsetY(){
+		return this.animator.getSpriteOffsetY();
+	}
+	
+	/*
 	public Point getSpriteOffset(){
 		Point spriteCenter = new Point(getSpriteOffsetX(), getSpriteOffsetY());
 		return spriteCenter;
 	}
+	*/
+	
+	public boolean hasDestination()
+	{
+		return (destination!=null);
+	}
+	
 	
 	/* Constructor */
-	public Walker(int dorsal, float x, float y, float speed, String textureId, PlayerAnimation initialAnimation, Rol r) {
-		this(dorsal, new Point(x,y), speed, textureId, initialAnimation, r);
+	public Walker(float x, float y, float speed, String textureId, Animation initialAnimation, Rol r) {
+		this(new Point(x,y), speed, textureId, initialAnimation, r);
 	}
 
-	public Walker(int dorsal, float x, float y, String textureId, PlayerAnimation initialAnimation, Rol r){
-		this(dorsal, new Point(x,y), DEFAULT_SPEED, textureId, initialAnimation, r);
+	public Walker(float x, float y, String textureId, Animation initialAnimation, Rol r){
+		this(new Point(x,y), DEFAULT_SPEED, textureId, initialAnimation, r);
 	}
 	
-	public Walker(int dorsal, Point p, String textureId, PlayerAnimation initialAnimation, Rol r){
-		this(dorsal, p, DEFAULT_SPEED, textureId, initialAnimation, r);
+	public Walker(Point p, String textureId, Animation initialAnimation, Rol r){
+		this(p, DEFAULT_SPEED, textureId, initialAnimation, r);
 	}
-	public Walker(int dorsal, Point p, float speed, String textureId, PlayerAnimation initialAnimation, Rol r){
-		this.dorsal = dorsal;
+	public Walker(Point p, float speed, String textureId, Animation initialAnimation, Rol r){
 		this.textureId = textureId;
-		this.defaultPosition = p.clone();
-		this.initialPosition = calcInitialPosition(this.defaultPosition);
-		this.position = new Position(initialPosition);
+		this.position = new Position(p);
 		this.speed = speed;
 		this.rol = r;
-		this.initialAnimation = initialAnimation;
-		if(textureId != null){
-			this.sprite = (AnimatedSprite)SpriteFactory.getMe().newSprite(textureId, getTextureSize(), getTextureSize());
-			//sprite.setRotationCenter(getRotationCenter().getX(), getRotationCenter().getY());
-			animate(this.initialAnimation);
-		}
+		
+		this.animator = (IWalkerAnimator) AnimationFactory.newAnimation(textureId, this.speed);
+		this.sprite = animator.getSprite();
 	}
 	
 	
@@ -201,31 +184,17 @@ public class Walker implements IEntity, IMovable
 //		return ini;
 //	}
 	
-	public float getTextureSize(){
-		return SPRITE_HEIGHT*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR;
-	}
-	
 	public Point getRotationCenter(){
 		return new Point(25,30);
 	}
 	
 	
-	/* methods */
-	
-	public void recycle(){
-		this.sprite.detachSelf();
-		this.sprite.unregisterEntityModifiers(null);
-		this.sprite.unregisterUpdateHandlers(null);
-		this.speed = DEFAULT_SPEED;
-		this.position.setLocation(0, 0);
-	}
-	
-	
-	
+	/* METHODS */
 	public void animateMoveAndStartCooldowns(Point destination){
 		//Debug.d("player.goTo(): "+(int)destination.getX()+","+(int)destination.getY());
 		this.destination = destination;
-		animateRun();
+		
+		this.animator.animateWalk(position, destination);
 		
 		float cooldown = 0.01f * position.distance(destination);
 		
@@ -239,6 +208,7 @@ public class Walker implements IEntity, IMovable
         });
 	}
 	
+	/* NOT WALKER STUFF
 	public void animateShootAndStartCooldowns(Point destination){
 		this.shootTarget = destination;
 		animateShoot();
@@ -253,37 +223,26 @@ public class Walker implements IEntity, IMovable
             }
         });
 	}
-	
-	public void passBallTo(Walker destination){
-		this.passTarget = destination;
-		animatePass();
-	}
-	
-	public void controlBall(Point destination) {
-		animateMoveAndStartCooldowns(destination);
-	}
-	
+	*/
 	
 	
 	public void forceStopMovement(){
 		removeOldMovementOrders();
-		animateStop();
+		this.animator.animateInitialAnimation();
 	}
 	
 	public void animateStopAndStartCooldowns(){
-		//testing code
+
+		//sanity check code
 		if(this.position.getEntityModifierCount() > 1){
 			Debug.d("ball","ALERT: paramos animacion jugador y tenemos MODIFIERS acumulados: "+this.position.getEntityModifierCount());
-		}// testing code
+		}//sanity check code
 		
 		this.destination = null;
-		animateMovementEnd();
+		
+		this.animator.animateStop();
 	}
 	
-	public boolean hasDestination()
-	{
-		return (destination!=null);
-	}
 	
 	public void animateAplastarAndStartCooldowns(){
 		if(!GameSettings.getInstance().godsFingerEnabled){
@@ -299,11 +258,12 @@ public class Walker implements IEntity, IMovable
 		
 		forceStopMovement();
 		
-		animate(PlayerAnimation.APLASTADO);
+		animator.animateAplastado();
+		
 		TimerHelper.startTimer(this.position, APLASTADO_DURATION,  new ITimerCallback() 
 		{                      
             public void onTimePassed(final TimerHandler pTimerHandler) {
-            	animate(initialAnimation);
+            	animator.animateInitialAnimation();
             	
             	TimerHelper.startTimer(position, 1f,  new ITimerCallback() {                      
                     
@@ -337,111 +297,33 @@ public class Walker implements IEntity, IMovable
 	
 	
 	
+	/* HELPERS */
+	public void recycle(){
+		//this.textureId = null; //vamos a reusar esto no?
+		//this.animator = null; //vamos a reusar esto no?
+
+		this.position.detachSelf();
+		this.position.unregisterEntityModifiers(null);
+		this.position.unregisterUpdateHandlers(null);
+		this.position.setPosition(0, 0);
 		
-	
-	
-	
-	protected void animateRun(){
-		PlayerAnimation a = PlayerAnimation.calculateRunAnimation(this, this.destination);
-		animate(a);
-	}
-	
-	protected void animateMovementEnd(){
-		PlayerAnimation a = PlayerAnimation.calculateStopAnimation(this.lastAnimation);
-		animate(a);
-	}
-	
-	protected void animateStop(){
-		animate(this.initialAnimation);
-	}
-	
-	protected void animatePass(){
-		PlayerAnimation a = PlayerAnimation.calculatePassAnimation(this, this.passTarget.position.toPoint());
-		animate(a);
-	}
-	
-	protected void animateShoot(){
-		PlayerAnimation a = PlayerAnimation.calculateShootAnimation(this, this.shootTarget);
-		animate(a);
-	}
-	
-	protected void animate(PlayerAnimation a){
-		if(this.lastAnimation == a){
-			return;
-		}
+		this.sprite.detachSelf();
+		this.sprite.unregisterEntityModifiers(null);
+		this.sprite.unregisterUpdateHandlers(null);
+		this.sprite.setPosition(0,0);
 		
-		long tileDuration;
+		this.rol = null;
+		this.destination = null;
+		this.setSpeed(DEFAULT_SPEED);
 		
-		//TODO: este codigo habria que convertirlo en un ImageXXXanimationManager, para poder tener players con distintas imagenes (y a su vez distintas animaciones).
-		switch(a) {
-			case WALK_E: //derecha
-				tileDuration =  Math.round(10000/speed);
-				sprite.animate(new long[]{tileDuration, tileDuration, tileDuration, tileDuration},new int[]{3,2,1,0}, true); //fila1
-				break;
-			case WALK_W: //izquierda
-				tileDuration =  Math.round(10000/speed);
-				sprite.animate(new long[]{tileDuration, tileDuration, tileDuration, tileDuration}, 8, 11, true);  //fila2 
-				break;
-			case WALK_N: //arriba
-				tileDuration =  Math.round(10000/speed);
-				sprite.animate(new long[]{tileDuration, tileDuration, tileDuration, tileDuration}, 16, 19, true); //fila3
-				break;
-			case WALK_S: //abajo
-				tileDuration =  Math.round(10000/speed);
-				sprite.animate(new long[]{tileDuration, tileDuration, tileDuration, tileDuration}, 24, 27, true); //fila4 
-				break;
-			case STOP_S: //abajo
-				sprite.stopAnimation(32); //fila5
-				break;
-			case STOP_N: //arriba
-				sprite.stopAnimation(34); 
-				break;
-			case STOP_W: //izquierda
-				sprite.stopAnimation(40);  //fila6 
-				break;
-			case STOP_E: //derecha
-				sprite.stopAnimation(42); 
-				break;
-			case SHOOT_S: //abajo
-				sprite.animate(new long[]{500,100},  new int[]{48, 32}, false); //fila7 
-				break;
-			case SHOOT_W: //izquierda
-				sprite.animate(new long[]{500,100}, new int[]{49,40}, false);
-				break;
-			case SHOOT_E: //derecha
-				sprite.animate(new long[]{500,100},  new int[]{50, 42}, false);
-				break;
-			case SHOOT_N: //arriba
-				sprite.animate(new long[]{500,100},  new int[]{51, 34}, false);
-				break;
-			case PAS_S: //abajo
-				sprite.animate(new long[]{350,100},  new int[]{56, 32}, false); //fila8 
-				break;
-			case PAS_W: //izquierda
-				sprite.animate(new long[]{350,100}, new int[]{57,40}, false);
-				break;
-			case PAS_E: //derecha
-				sprite.animate(new long[]{350,100},  new int[]{58, 42}, false);
-				break;
-			case PAS_N: //arriba
-				sprite.animate(new long[]{350,100},  new int[]{59, 34}, false);
-				break;
-			case APLASTADO:
-//				if(this.textureId == SpriteFactory.MARC){
-//					sprite.animate(new long[]{200,200}, new int[]{4, 6}, true);
-//				}else{
-					sprite.stopAnimation(MathUtils.random(4, 6)); //aqui habra que poner un random, y quizas una rotacion?
-					//sprite.setRotation(MathUtils.random(0, 360)); //random
-				//}
-				break;
-			default: //parado_s
-				sprite.stopAnimation(32);  //fila5
-		}
-		this.lastAnimation = a;
+		this.isOnRunningCooldown = false;
+		this.isOnAplastadoCooldown = false;
+		
 	}
 	
 	public void removeOldMovementOrders(){
 		this.destination = null;
+		this.isOnRunningCooldown = false;
 		
 		this.position.unregisterEntityModifiers(new IEntityModifier.IEntityModifierMatcher()
 		{
@@ -453,7 +335,5 @@ public class Walker implements IEntity, IMovable
 		});
 	}
 
-	public Sprite getSprite() {
-		return sprite;
-	}
+	
 }

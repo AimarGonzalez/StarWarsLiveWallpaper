@@ -67,13 +67,13 @@ public class WalkersProcess extends Process
 			walker.addCommand(move);
 		}
 	
-		Walker jedi = walkers.get(0);
+		Shooter shooter = (Shooter)walkers.get(0);
 
-		if(!jedi.isBusy())
+		if(!shooter.isBusy())
 		{
-			ShootLaserCommand laserCmd = new ShootLaserCommand(jedi,game);
+			ShootLaserCommand laserCmd = new ShootLaserCommand(shooter,game);
 			laserCmd.destination = map.walls.getRandomPoint();
-			jedi.addCommand(laserCmd);
+			shooter.addCommand(laserCmd);
 		}
 		
 		executeCommandsByRandomPlayer();	

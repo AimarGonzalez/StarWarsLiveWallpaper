@@ -1,91 +1,85 @@
 package com.mel.wallpaper.starWars.view;
 
 import org.andengine.entity.sprite.AnimatedSprite;
-import org.andengine.util.math.MathUtils;
 
 import com.mel.util.MathUtil;
 import com.mel.util.Point;
-import com.mel.wallpaper.starWars.entity.Jumper;
-import com.mel.wallpaper.starWars.entity.Walker;
 
-public class ShooterAnimation {
+//Animacion y medidas basadas en STORM_TROOPER
+public class ShooterAnimator extends WalkerAnimator implements IShooterAnimator{
+	
+	public static float SPRITE_WIDTH= 175f*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR;
+	public static float SPRITE_HEIGHT = 175f*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR;
+	public static float VERTICAL_CENTER = 36f*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR;
+	public static String TEXTURE_ID = SpriteFactory.STORM_TROOPER;
 	
 	
-	
-	
-	public static PlayerAnimation calculateStopAnimation(PlayerAnimation lastAnimation){
-		switch(lastAnimation) {
-			case WALK_E: //derecha
-				return PlayerAnimation.STOP_E;
-			case WALK_W: //izquierda
-				return PlayerAnimation.STOP_W; 
-			case WALK_N: //arriba
-				return PlayerAnimation.STOP_N;
-			case WALK_S: //abajo
-				return PlayerAnimation.STOP_S; 
-			
-			default: //parado_s
-				return PlayerAnimation.STOP_S;
-		}
+	public ShooterAnimator(String textureID, float speed){
+		super(textureID, speed);
 	}
 	
 	
-	public static PlayerAnimation calculateShootAnimation(Walker p, Point destination){
-		double angulo = MathUtil.getAngulo(p.position.getX(), p.position.getY(), destination.getX(), destination.getY());
+	public float getSpriteOffsetX(){
+		return SPRITE_WIDTH/2;
+	}
+	public float getSpriteOffsetY(){
+		return SPRITE_HEIGHT-VERTICAL_CENTER;
+	}
+	
+	public Point getSpriteDimensions() {
+		return new Point(SPRITE_WIDTH, SPRITE_HEIGHT);
+	}
+	
+	public Point getRotationCenter(){
+		return new Point(35,35);
+	}
+	
+	//ANIMATIONS
+	public void animateShoot(Position origin, Point destination){
+		animateShoot(origin.toPoint(), destination);
+	}
+	
+	public void animateShoot(Point origin, Point destination){
+		Animation a = calculateShootAnimation(origin, destination);
+		animate(a);
+	}
+	
+	
+	//ANIMATION MATHS
+	protected Animation calculateShootAnimation(Point origin, Point destination){
+		double angulo = MathUtil.getAngulo(origin.getX(), origin.getY(), destination.getX(), destination.getY());
 		
 		if(angulo>=0 && angulo<MathUtil.PI_Q){
-			return PlayerAnimation.SHOOT_E;
+			return Animation.SHOOT_E;
 		}
 		
 		if(angulo>=MathUtil.PI_Q && angulo<3*MathUtil.PI_Q){
-			return PlayerAnimation.SHOOT_N;
+			return Animation.SHOOT_N;
 		}
 		
 		if(angulo>=3*MathUtil.PI_Q && angulo<5*MathUtil.PI_Q){
-			return PlayerAnimation.SHOOT_W;
+			return Animation.SHOOT_W;
 		}
 		
 		if(angulo>=5*MathUtil.PI_Q && angulo<7*MathUtil.PI_Q){
-			return PlayerAnimation.SHOOT_S;
+			return Animation.SHOOT_S;
 		}
 		
 		if(angulo>=7*MathUtil.PI_Q && angulo<MathUtil.PI_TWICE){
-			return PlayerAnimation.SHOOT_E;
+			return Animation.SHOOT_E;
 		}
 		
 		
 		throw new RuntimeException("Error calculando angulo!");
 	}
 	
-	public static PlayerAnimation calculateRunAnimation(Walker p, Point destination){
-		double angulo = MathUtil.getAngulo(p.position.getX(), p.position.getY(), destination.getX(), destination.getY());
-		
-		if(angulo>=0 && angulo<MathUtil.PI_Q){
-			return PlayerAnimation.WALK_E;
-		}
-		
-		if(angulo>=MathUtil.PI_Q && angulo<3*MathUtil.PI_Q){
-			return PlayerAnimation.WALK_N;
-		}
-		
-		if(angulo>=3*MathUtil.PI_Q && angulo<5*MathUtil.PI_Q){
-			return PlayerAnimation.WALK_W;
-		}
-		
-		if(angulo>=5*MathUtil.PI_Q && angulo<7*MathUtil.PI_Q){
-			return PlayerAnimation.WALK_S;
-		}
-		
-		if(angulo>=7*MathUtil.PI_Q && angulo<MathUtil.PI_TWICE){
-			return PlayerAnimation.WALK_E;
-		}
-		
-		return PlayerAnimation.STOP_S; //OJO!!
-		//throw new RuntimeException("Error calculando angulo!");
-	}
 	
-	public static int INITIAL_ANIMATION = 13;
-	public static void animate(PlayerAnimation a, AnimatedSprite sprite){
+	
+	protected void animate(Animation a){
+		if(this.lastAnimation == a){
+			return;
+		}
+		
 		long tileDuration = 200;
 		switch(a) {
 			case WALK_E: //derecha
@@ -133,10 +127,13 @@ public class ShooterAnimation {
 				//}
 				break;
 			default: //parado_s
-				sprite.stopAnimation(INITIAL_ANIMATION);  //fila5
+				sprite.stopAnimation(13);  //fila5
 		}
+		
+		this.lastAnimation = a;
 	}
-	
+
+
 	
 	
 }
