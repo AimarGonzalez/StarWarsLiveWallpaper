@@ -1,17 +1,11 @@
 package com.mel.wallpaper.starWars;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.handler.IUpdateHandler;
-import org.andengine.engine.handler.timer.ITimerCallback;
-import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.shape.RectangularShape;
-import org.andengine.entity.shape.Shape;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
@@ -23,20 +17,14 @@ import android.content.SharedPreferences;
 
 import com.mel.entityframework.Game;
 import com.mel.wallpaper.starWars.entity.InvisibleWalls;
-import com.mel.wallpaper.starWars.entity.Jumper;
 import com.mel.wallpaper.starWars.entity.Map;
-import com.mel.wallpaper.starWars.entity.Walker;
-import com.mel.wallpaper.starWars.entity.Walker.Rol;
 import com.mel.wallpaper.starWars.process.GameProcess;
 import com.mel.wallpaper.starWars.process.LaserBeamsProcess;
-import com.mel.wallpaper.starWars.process.WalkersProcess;
 import com.mel.wallpaper.starWars.process.RenderLaserProcess;
 import com.mel.wallpaper.starWars.process.RenderWalkersProcess;
 import com.mel.wallpaper.starWars.process.TouchProcess;
+import com.mel.wallpaper.starWars.process.WalkersProcess;
 import com.mel.wallpaper.starWars.settings.GameSettings;
-import com.mel.wallpaper.starWars.settings.GameSettingsActivity;
-import com.mel.wallpaper.starWars.timer.TimerHelper;
-import com.mel.wallpaper.starWars.view.PlayerAnimation;
 import com.mel.wallpaper.starWars.view.SpriteFactory;
 
 public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeListener

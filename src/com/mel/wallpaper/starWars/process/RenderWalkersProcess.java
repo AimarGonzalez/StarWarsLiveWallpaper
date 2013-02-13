@@ -12,8 +12,6 @@ import com.mel.wallpaper.starWars.entity.Jumper;
 import com.mel.wallpaper.starWars.entity.Map;
 import com.mel.wallpaper.starWars.entity.Shooter;
 import com.mel.wallpaper.starWars.entity.Walker;
-import com.mel.wallpaper.starWars.view.PlayerAnimation;
-import com.mel.wallpaper.starWars.view.SpriteFactory;
 
 public class RenderWalkersProcess extends Process
 {
