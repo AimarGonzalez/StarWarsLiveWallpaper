@@ -9,6 +9,7 @@ import org.andengine.entity.shape.RectangularShape;
 import org.andengine.entity.shape.Shape;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.util.color.Color;
+import org.andengine.util.debug.Debug;
 
 import android.content.Context;
 import android.widget.Toast;
@@ -17,13 +18,16 @@ import com.mel.entityframework.Game;
 import com.mel.entityframework.Process;
 import com.mel.util.Point;
 import com.mel.wallpaper.starWars.StarWarsLiveWallpaper;
+import com.mel.wallpaper.starWars.entity.Bubble;
 import com.mel.wallpaper.starWars.entity.InvisibleWalls;
 import com.mel.wallpaper.starWars.entity.Jumper;
 import com.mel.wallpaper.starWars.entity.LaserBeam;
 import com.mel.wallpaper.starWars.entity.Map;
 import com.mel.wallpaper.starWars.entity.Shooter;
 import com.mel.wallpaper.starWars.entity.Walker;
+import com.mel.wallpaper.starWars.entity.commands.BubbleCommand;
 import com.mel.wallpaper.starWars.entity.commands.MoveCommand;
+import com.mel.wallpaper.starWars.entity.commands.ShootLaserCommand;
 import com.mel.wallpaper.starWars.settings.GameSettings;
 import com.mel.wallpaper.starWars.view.SpriteFactory;
 
@@ -86,8 +90,7 @@ public class TouchProcess extends Process implements IOnSceneTouchListener
 	
 	
 	public boolean processLastTouch(TouchEvent touchEvent) {
-		StarWarsLiveWallpaper flWalpaper = StarWarsLiveWallpaper.getSharedInstance();
-		
+
 		//printTouchDebuger(touchEvent);		
 
 		if(GameSettings.getInstance().godsFingerEnabled){
@@ -101,13 +104,18 @@ public class TouchProcess extends Process implements IOnSceneTouchListener
 					move.destination = InvisibleWalls.getRandomPoint();
 					walker.addCommand(move);
 					
+					Debug.d("Touch player");
+					
+					BubbleCommand moveb = new BubbleCommand(walker,game);
+					walker.addCommand(moveb);
+					
 					//p.animateAplastarAndStartCooldowns();
 				}
 				return true;
 			}
 		}
 		
-		flWalpaper.onTapFromGame(touchEvent);
+		StarWarsLiveWallpaper.getSharedInstance().onTapFromGame(touchEvent);
 		return true;
 	}
 	

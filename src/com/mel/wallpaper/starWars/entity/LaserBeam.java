@@ -20,10 +20,6 @@ import com.mel.wallpaper.starWars.view.SpriteFactory;
 
 public class LaserBeam implements IEntity, IMovable
 {
-	
-	public static final float BLOCK_DISTANCE = 20f; //distancia para que el portero bloquee
-	public static final float DESPEJE_DISTANCE = 42f; //distancia para que el portero despeje
-																											
 	public static final float	HIT_DISTANCE			= 20f;
 	public static final float	JUMP_DISTANCE			= 60f;
 	public static final float	MAX_REACH_MATE_DISTANCE	= 220f;

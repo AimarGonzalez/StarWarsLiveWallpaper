@@ -20,6 +20,7 @@ import com.mel.wallpaper.starWars.entity.InvisibleWalls;
 import com.mel.wallpaper.starWars.entity.Map;
 import com.mel.wallpaper.starWars.process.GameProcess;
 import com.mel.wallpaper.starWars.process.LaserBeamsProcess;
+import com.mel.wallpaper.starWars.process.RenderBubbleProcess;
 import com.mel.wallpaper.starWars.process.RenderLaserProcess;
 import com.mel.wallpaper.starWars.process.RenderWalkersProcess;
 import com.mel.wallpaper.starWars.process.TouchProcess;
@@ -46,6 +47,7 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 	private LaserBeamsProcess lasersProcess;
 	private RenderWalkersProcess renderPlayersProcess;
 	private RenderLaserProcess renderBallsProcess;
+	private RenderBubbleProcess bubblesBallsProcess;
 	
 
 	private float screenOffsetX = 0;
@@ -80,6 +82,8 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 		SpriteFactory.getMe().registerTiledTexture(SpriteFactory.BENJI,"fb_goalkeeper_benji_pantalon_llarg.png", 512, 512, 4, 5);
 				
 		SpriteFactory.getMe().registerTexture(SpriteFactory.LASER,"shooting.png", 128, 128);
+		
+		SpriteFactory.getMe().registerTexture(SpriteFactory.BUBBLE1,"bubble-ola-k-ase.png", 166, 120);
 		
 		SpriteFactory.getMe().registerTexture("background","field-final2.png", 2048, 1024);
 		
@@ -189,6 +193,7 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 		this.lasersProcess = new LaserBeamsProcess(game,map);
 		this.renderPlayersProcess = new RenderWalkersProcess(game, this.background);
 		this.renderBallsProcess = new RenderLaserProcess(game, this.background);
+		this.bubblesBallsProcess = new RenderBubbleProcess(game, this.background);
 		
 		game.addProcess(this.gameProcess, 1);
 		game.addProcess(this.touchProcess, 10);
@@ -196,6 +201,7 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 		game.addProcess(this.playersCommandsProcess, 21);
 		game.addProcess(this.renderPlayersProcess, 98);
 		game.addProcess(this.renderBallsProcess, 99);
+		game.addProcess(this.bubblesBallsProcess, 99);
 	}
 	
 	private void updateBackgroundPosition(){

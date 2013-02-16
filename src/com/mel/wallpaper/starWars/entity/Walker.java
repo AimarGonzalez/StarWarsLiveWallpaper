@@ -170,20 +170,6 @@ public class Walker implements IEntity, IMovable
 		return ini;
 	}
 	
-//	private Point calcInitialPosition(Point pos){
-//		Point ini = pos.clone();
-//			
-//		if(ini.getX()>-20){
-//			//que no este en campo contrario, y que no este dentro de circulo de saque
-//			while(ini.getX()>-20 || ini.distance(new Point(0,0))<110){
-//				ini.setX(ini.getX()-10);
-//			}
-//		}else{
-//			ini.setX(ini.getX()*0.5f);
-//		}
-//		return ini;
-//	}
-	
 	public Point getRotationCenter(){
 		return new Point(25,30);
 	}
