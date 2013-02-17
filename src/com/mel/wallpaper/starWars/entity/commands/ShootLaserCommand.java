@@ -37,13 +37,11 @@ public class ShootLaserCommand extends MoveCommand
 		//increase destination
 		this.destination = MathUtil.getPuntDesti(this.laser.position.toPoint(), this.destination, 2000f);
 		
-		
-		if(shooter.canShoot()){
-			super.execute(p);
-		}
-		
+		super.execute(p);
+
 		shooter.forceStopMovement();
-		shooter.animateShootAndStartCooldowns(this.destination.clone());//consiga darle a la bola o no, se ve que el jugador chuta
+		shooter.animateShootAndStartCooldowns(this.destination.clone());
+		
 	}
 	
 }
