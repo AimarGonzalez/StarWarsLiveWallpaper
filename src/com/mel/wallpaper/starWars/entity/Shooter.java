@@ -6,6 +6,7 @@ import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.modifier.PathModifier;
 import org.andengine.entity.modifier.PathModifier.Path;
 import org.andengine.util.debug.Debug;
+import org.andengine.util.math.MathUtils;
 
 import com.mel.entityframework.IMovable;
 import com.mel.util.Point;
@@ -25,6 +26,7 @@ public class Shooter extends Walker implements IMovable
 
 	protected Point shootTarget;
 	protected boolean isOnShootingCooldown = false;
+	protected boolean canShootCooldown = false;
 	
 	
 	/* Getters/Setters */
@@ -38,8 +40,9 @@ public class Shooter extends Walker implements IMovable
 	}
 	
 	public boolean canShoot(){
-		return !isOnShootingCooldown && !isOnAplastadoCooldown;
+		return !canShootCooldown && !isBusy();
 	}
+	
 	
 
 	/* Constructor */
@@ -77,6 +80,14 @@ public class Shooter extends Walker implements IMovable
             public void onTimePassed(final TimerHandler pTimerHandler)
             {
             	setShootingEnd();
+            }
+        });
+		
+		this.canShootCooldown = true;
+		TimerHelper.startTimer(this.position, MathUtils.random(2f, 5f),  new ITimerCallback() {                      
+            public void onTimePassed(final TimerHandler pTimerHandler)
+            {
+            	canShootCooldown = false;
             }
         });
 	}
