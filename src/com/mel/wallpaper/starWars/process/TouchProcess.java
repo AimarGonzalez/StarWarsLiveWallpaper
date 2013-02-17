@@ -20,6 +20,7 @@ import com.mel.util.Point;
 import com.mel.wallpaper.starWars.StarWarsLiveWallpaper;
 import com.mel.wallpaper.starWars.entity.Bubble;
 import com.mel.wallpaper.starWars.entity.InvisibleWalls;
+import com.mel.wallpaper.starWars.entity.JediKnight;
 import com.mel.wallpaper.starWars.entity.Jumper;
 import com.mel.wallpaper.starWars.entity.LaserBeam;
 import com.mel.wallpaper.starWars.entity.Map;
@@ -67,6 +68,7 @@ public class TouchProcess extends Process implements IOnSceneTouchListener
 		this.jedis = (List<Walker>) game.getEntities(Jumper.class);
 		this.jedis.addAll(game.getEntities(Walker.class));
 		this.jedis.addAll(game.getEntities(Shooter.class));
+		this.jedis.addAll(game.getEntities(JediKnight.class));
 	}
 	
 	@Override

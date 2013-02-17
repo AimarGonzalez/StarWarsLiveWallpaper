@@ -1,17 +1,14 @@
 package com.mel.wallpaper.starWars.process;
 
-import java.util.Collections;
 import java.util.List;
 
-import org.andengine.util.debug.Debug;
 import org.andengine.util.math.MathUtils;
 
 import com.mel.entityframework.Game;
 import com.mel.entityframework.IEntity;
 import com.mel.entityframework.Process;
-import com.mel.util.MathUtil;
-import com.mel.util.Point;
 import com.mel.wallpaper.starWars.entity.InvisibleWalls;
+import com.mel.wallpaper.starWars.entity.JediKnight;
 import com.mel.wallpaper.starWars.entity.Jumper;
 import com.mel.wallpaper.starWars.entity.Map;
 import com.mel.wallpaper.starWars.entity.Shooter;
@@ -25,9 +22,9 @@ public class WalkersProcess extends Process
 {
 	private Map map;
 	private Game game;
-	private List<Walker> walkers;
 	
 	private List<Shooter> shooters;
+	private List<JediKnight> jedis;
 	
 	
 	public WalkersProcess(Game game, Map map) {
@@ -44,16 +41,19 @@ public class WalkersProcess extends Process
 		this.map = (Map)game.getEntity(Map.class);
 
 		this.shooters = (List<Shooter>) game.getEntities(Shooter.class);
-
-		this.walkers = (List<Walker>) game.getEntities(Jumper.class);
-		this.walkers.addAll(game.getEntities(Walker.class));	
+		this.jedis = (List<JediKnight>) game.getEntities(JediKnight.class);
 	}
 	
 	@Override
 	public void onRemoveFromGame(Game game){
-		if(walkers != null){
-			walkers.clear();
-			walkers = null;
+		if(shooters != null){
+			shooters.clear();
+			shooters = null;
+		}
+		
+		if(jedis != null){
+			jedis.clear();
+			jedis = null;
 		}
 		
 		this.map = null;
@@ -79,24 +79,21 @@ public class WalkersProcess extends Process
 			}
 		
 		}
-		
 		executeShooterCommands();
 		
 		
-		for(Walker walker : walkers) {
+		for(JediKnight jedi : jedis) {
 			
-			if(walker.isIdle()){
+			if(jedi.isIdle()){
 				if(Math.random()<0.5){
-					moveSomewhere(walker);
+					moveSomewhere(jedi);
 				}else{
-					WaitCommand wait = new WaitCommand(walker, MathUtils.random(2f, 4f));
-					waitSomeTime(walker);
+					waitSomeTime(jedi);
 				}
 			}
 		}
-	
+		executeJediCommands();	
 		
-		executeWalkerCommands();	
 	}
 
 	private void waitSomeTime(Walker walker) {
@@ -113,7 +110,7 @@ public class WalkersProcess extends Process
 
 	private void shootSomeJedi(Shooter shooter) {
 		ShootLaserCommand laserCmd = new ShootLaserCommand(shooter,game);
-		IEntity jedi =  game.getRandomEntity(Walker.class);
+		IEntity jedi =  game.getRandomEntity(JediKnight.class);
 		if(jedi!=null){
 			laserCmd.destination = jedi.getPosition().toPoint();
 		}else{
@@ -130,16 +127,14 @@ public class WalkersProcess extends Process
 			shooter.clearPendingCommands();
 		}
 	}
-	
-	private void executeWalkerCommands(){
-		for(Walker walker:this.walkers){
-			for(Command c : walker.pendingCommands){
+
+	private void executeJediCommands(){
+		for(JediKnight jedi:this.jedis){
+			for(Command c : jedi.pendingCommands){
 				c.execute(this.map);
 			}
-			walker.clearPendingCommands();
+			jedi.clearPendingCommands();
 		}
 	}
-	
-	
 	
 }

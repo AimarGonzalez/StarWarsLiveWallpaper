@@ -8,6 +8,7 @@ import com.mel.entityframework.Game;
 import com.mel.entityframework.Process;
 import com.mel.util.Point;
 import com.mel.wallpaper.starWars.entity.InvisibleWalls;
+import com.mel.wallpaper.starWars.entity.JediKnight;
 import com.mel.wallpaper.starWars.entity.Jumper;
 import com.mel.wallpaper.starWars.entity.Map;
 import com.mel.wallpaper.starWars.entity.Shooter;
@@ -37,6 +38,7 @@ public class RenderWalkersProcess extends Process
 		this.walkers = (List<Walker>) game.getEntities(Jumper.class);
 		this.walkers.addAll(game.getEntities(Walker.class));		
 		this.walkers.addAll(game.getEntities(Shooter.class));		
+		this.walkers.addAll(game.getEntities(JediKnight.class));		
 	}
 	
 	@Override
