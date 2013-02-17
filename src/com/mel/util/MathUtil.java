@@ -1,5 +1,7 @@
 package com.mel.util;
 
+import org.andengine.util.math.MathUtils;
+
 
 public class MathUtil
 {
@@ -95,5 +97,14 @@ public class MathUtil
     	float direccio = degToRad(org.andengine.util.math.MathUtils.random(0, 360));
     	distancia = (float)Math.random()*distancia;
     	return getPuntDesti(origen, direccio, distancia);
+    }
+    
+    /**
+     * Le pasas un porcentaje 0 al 100 a ver si toca hacer algo (o no). Es como una tirada de dados.
+     * @param odds
+     * @return
+     */
+    public static boolean executeOrNot(int odds){
+    	return MathUtils.random(0f, 100f) <= odds;
     }
 }
