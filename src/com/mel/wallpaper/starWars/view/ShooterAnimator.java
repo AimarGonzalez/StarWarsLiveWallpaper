@@ -107,16 +107,16 @@ public class ShooterAnimator extends WalkerAnimator implements IShooterAnimator{
 				sprite.stopAnimation(1); 
 				break;
 			case SHOOT_S: //abajo
-				//sprite.animate(new long[]{500,100},  new int[]{48, 32}, false); //fila7 
+				sprite.animate(new long[]{100,300},  new int[]{15, 16}, false); //fila invisibles
 				break;
 			case SHOOT_W: //izquierda
-				//sprite.animate(new long[]{500,100}, new int[]{49,40}, false);
+				sprite.animate(new long[]{100,300},  new int[]{15, 16}, false); //fila invisibles
 				break;
 			case SHOOT_E: //derecha
-				//sprite.animate(new long[]{500,100},  new int[]{50, 42}, false);
+				sprite.animate(new long[]{100,300},  new int[]{15, 16}, false); //fila invisibles
 				break;
 			case SHOOT_N: //arriba
-				//sprite.animate(new long[]{500,100},  new int[]{51, 34}, false);
+				sprite.animate(new long[]{100,300},  new int[]{15, 16}, false); //fila invisibles
 				break;
 		
 			case APLASTADO:
