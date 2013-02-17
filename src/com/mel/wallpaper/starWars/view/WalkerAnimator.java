@@ -84,18 +84,30 @@ public class WalkerAnimator  extends Animator implements IWalkerAnimator{
 	}
 	
 	protected Animation calculateStopAnimation(){
-		switch(lastAnimation) {
-			case WALK_E: //derecha
-				return Animation.STOP_E;
-			case WALK_W: //izquierda
-				return Animation.STOP_W; 
-			case WALK_N: //arriba
-				return Animation.STOP_N;
-			case WALK_S: //abajo
-				return Animation.STOP_S; 
-			
-			default: //parado_s
-				return Animation.STOP_S;
+		if(lastAnimation!=null){
+			switch(lastAnimation) {
+				case WALK_E: //derecha
+				case SHOOT_E: //derecha
+				case STOP_E: //derecha
+					return Animation.STOP_E;
+				case WALK_W: //izquierda
+				case SHOOT_W: //izquierda
+				case STOP_W: //izquierda
+					return Animation.STOP_W; 
+				case WALK_N: //arriba
+				case SHOOT_N: //arriba
+				case STOP_N: //arriba
+					return Animation.STOP_N;
+				case WALK_S: //abajo
+				case SHOOT_S: //abajo
+				case STOP_S: //abajo
+					return Animation.STOP_S; 
+				
+				default: //parado_s
+					return Animation.STOP_S;
+			}
+		}else{
+			return Animation.STOP_S; 
 		}
 	}
 	
