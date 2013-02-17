@@ -43,7 +43,7 @@ public class Jumper extends Shooter implements IMovable
 		this.isOnJumpingCooldown = false;
 	}
 	
-	public boolean isBusy(){
+	public boolean isPerformingAnimation(){
 		return isOnShootingCooldown || isOnRunningCooldown || isOnAplastadoCooldown || isOnJumpingCooldown;
 	}
 	

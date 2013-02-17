@@ -35,12 +35,12 @@ public class Shooter extends Walker implements IMovable
 	}
 	
 
-	public boolean isBusy(){
+	public boolean isPerformingAnimation(){
 		return isOnShootingCooldown || isOnRunningCooldown || isOnAplastadoCooldown;
 	}
 	
 	public boolean canShoot(){
-		return !canShootCooldown && !isBusy();
+		return !canShootCooldown && !isPerformingAnimation();
 	}
 	
 	
@@ -84,7 +84,7 @@ public class Shooter extends Walker implements IMovable
         });
 		
 		this.canShootCooldown = true;
-		TimerHelper.startTimer(this.position, MathUtils.random(2f, 5f),  new ITimerCallback() {                      
+		TimerHelper.startTimer(this.position, MathUtils.random(0.5f, 20f),  new ITimerCallback() {                      
             public void onTimePassed(final TimerHandler pTimerHandler)
             {
             	canShootCooldown = false;

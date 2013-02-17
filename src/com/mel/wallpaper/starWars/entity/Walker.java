@@ -102,17 +102,21 @@ public class Walker implements IEntity, IMovable
 		this.isOnAplastadoCooldown = false;
 	}
 	
-	public boolean isBusy(){
+	public boolean isPerformingAnimation(){
 		return isOnRunningCooldown || isOnAplastadoCooldown;
 	}
 	
 	public boolean canWalk(){
-		return !hasDestination() && !isWaiting() && !isBusy();
+		return !hasDestination() && !isWaiting() && !isPerformingAnimation();
 	}
 	
-	public boolean canWait(){
-		return !hasDestination() && !isWaiting() && !isBusy();
+	public boolean isIdle(){
+		return !hasDestination() && !isWaiting() && !isPerformingAnimation();
 	}
+	
+//	public boolean canWait(){
+//		return !hasDestination() && !isWaiting() && !isBusy();
+//	}
 	
 	public boolean isAplastado(){
 		return this.isOnAplastadoCooldown;
