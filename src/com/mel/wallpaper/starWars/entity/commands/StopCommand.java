@@ -26,7 +26,7 @@ public class StopCommand extends Command
 	
 	@Override
 	public void execute(Map p) {
-		this.movable.forceStopMovement();
+		this.movable.animateStopAndStartCooldowns();
 	}
 	
 	
