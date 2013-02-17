@@ -109,7 +109,8 @@ public class TouchProcess extends Process implements IOnSceneTouchListener
 					BubbleCommand moveb = new BubbleCommand(walker,game);
 					walker.addCommand(moveb);
 					
-					//p.animateAplastarAndStartCooldowns();
+					//walker.forceStopMovement();
+					//walker.animateAplastarAndStartCooldowns();
 				}
 				return true;
 			}
