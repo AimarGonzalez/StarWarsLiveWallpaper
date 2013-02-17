@@ -40,16 +40,21 @@ public class LaserBeam implements IEntity, IMovable
 	public boolean				isOnExlplosionCooldown	= false;
 	public boolean				hasExploded				= false;
 	
+	public JediKnight			lastParringJedi = null;
+	
+	public int jumps;
+	
 	/* Constructor */
-	public LaserBeam(float x, float y) {
-		this(new Position(x, y));
+	public LaserBeam(float x, float y, int jumps) {
+		this(new Position(x, y), jumps);
 	}
 	
-	public LaserBeam(Position p) {
+	public LaserBeam(Position p, int jumps) {
 		this.position = (Position) p.clone();
 		this.speed = LaserBeam.DEFAULT_SPEED;
 		this.sprite = (Sprite) SpriteFactory.getMe().newSprite(SpriteFactory.LASER, BEAM_SIZE, BEAM_SIZE);
 		this.sprite.setRotationCenter(BEAM_SIZE * 0.5f, BEAM_SIZE * 0.5f);
+		this.jumps = jumps;
 	}
 	
 	/* Getters/Setters */
@@ -158,15 +163,18 @@ public class LaserBeam implements IEntity, IMovable
 	
 	public void recycle() {
 		this.speed = LaserBeam.DEFAULT_SPEED;
+		this.lastParringJedi = null;
 		
+		this.sprite.setPosition(0, 0);
 		this.sprite.clearEntityModifiers();
 		this.sprite.clearUpdateHandlers();
+		this.sprite.detachSelf();
 		
-		this.position.setLocation(0, 0);
+		this.position.setPosition(0, 0);
 		this.position.clearEntityModifiers();
 		this.position.clearUpdateHandlers();
+		this.position.detachSelf();
 		
-		this.sprite.detachSelf();
 	}
 	
 	/* HELPERS */

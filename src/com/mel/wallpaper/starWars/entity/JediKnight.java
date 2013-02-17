@@ -38,6 +38,10 @@ public class JediKnight extends Walker implements IMovable
 		return !canDuelCooldown && !isPerformingAnimation();
 	}
 	
+	public boolean canParry(){
+		return !isOnFightingCooldown && !isOnAplastadoCooldown;
+	}
+	
 	
 
 	/* Constructor */
@@ -66,17 +70,18 @@ public class JediKnight extends Walker implements IMovable
 	
 	/* METHODS */
 	public void animateParryLaser(Point destination){
-		((IJediAnimator)this.animator).animateParry(this, destination);
 		
-		// Cuan sels hi dona una ordre player estan "busy" una estona. Aixi la animacio de correr no xafa la de xutar.
-		this.isOnParringCooldown = true;
-		TimerHelper.startTimer(this.position, 0.5f,  new ITimerCallback() {                      
-            public void onTimePassed(final TimerHandler pTimerHandler)
-            {
-            	isOnParringCooldown = true;
-            }
-        });
-		
+		if(!isOnParringCooldown){
+			((IJediAnimator)this.animator).animateParry(this, destination);
+			
+			this.isOnParringCooldown = true;
+			TimerHelper.startTimer(this.position, 0.5f,  new ITimerCallback() {                      
+				public void onTimePassed(final TimerHandler pTimerHandler)
+				{
+					isOnParringCooldown = false;
+				}
+			});
+		}
 	}
 	
 	
