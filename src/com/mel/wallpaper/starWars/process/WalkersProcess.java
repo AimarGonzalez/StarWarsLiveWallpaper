@@ -7,6 +7,7 @@ import org.andengine.util.debug.Debug;
 import org.andengine.util.math.MathUtils;
 
 import com.mel.entityframework.Game;
+import com.mel.entityframework.IEntity;
 import com.mel.entityframework.Process;
 import com.mel.util.MathUtil;
 import com.mel.util.Point;
@@ -66,19 +67,13 @@ public class WalkersProcess extends Process
 		
 		for(Shooter shooter : shooters){
 			if(shooter.canShoot()){
-				ShootLaserCommand laserCmd = new ShootLaserCommand(shooter,game);
-				laserCmd.destination = InvisibleWalls.getRandomPoint();
-				shooter.addCommand(laserCmd);
+				shootSomeJedi(shooter);
 			}else{
 				if(shooter.isIdle()){
 					if(Math.random()<0.5){
-						MoveCommand move = new MoveCommand(shooter);
-						move.setMovable(shooter);
-						move.destination = InvisibleWalls.getRandomPoint();
-						shooter.addCommand(move);
+						moveSomewhere(shooter);
 					}else{
-						WaitCommand wait = new WaitCommand(shooter, MathUtils.random(2f, 4f));
-						shooter.addCommand(wait);
+						waitSomeTime(shooter);
 					}
 				}
 			}
@@ -92,19 +87,39 @@ public class WalkersProcess extends Process
 			
 			if(walker.isIdle()){
 				if(Math.random()<0.5){
-					MoveCommand move = new MoveCommand(walker);
-					move.setMovable(walker);
-					move.destination = InvisibleWalls.getRandomPoint();
-					walker.addCommand(move);
+					moveSomewhere(walker);
 				}else{
 					WaitCommand wait = new WaitCommand(walker, MathUtils.random(2f, 4f));
-					walker.addCommand(wait);
+					waitSomeTime(walker);
 				}
 			}
 		}
 	
 		
 		executeWalkerCommands();	
+	}
+
+	private void waitSomeTime(Walker walker) {
+		WaitCommand wait = new WaitCommand(walker, MathUtils.random(2f, 4f));
+		walker.addCommand(wait);
+	}
+
+	private void moveSomewhere(Walker walker) {
+		MoveCommand move = new MoveCommand(walker);
+		move.setMovable(walker);
+		move.destination = InvisibleWalls.getRandomPoint();
+		walker.addCommand(move);
+	}
+
+	private void shootSomeJedi(Shooter shooter) {
+		ShootLaserCommand laserCmd = new ShootLaserCommand(shooter,game);
+		IEntity jedi =  game.getRandomEntity(Walker.class);
+		if(jedi!=null){
+			laserCmd.destination = jedi.getPosition().toPoint();
+		}else{
+			laserCmd.destination = InvisibleWalls.getRandomPoint();
+		}
+		shooter.addCommand(laserCmd);
 	}
 
 	private void executeShooterCommands(){
