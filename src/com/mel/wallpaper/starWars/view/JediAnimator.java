@@ -130,6 +130,15 @@ public class JediAnimator extends WalkerAnimator implements IJediAnimator{
 			case FIGHT_N: //arriba
 				sprite.animate(new long[]{500,100},  new int[]{51, 34}, false);
 				break;
+			case PARRY_W: //izquierda
+				sprite.animate(new long[]{500,100}, new int[]{49,40}, false);
+				break;
+			case PARRY_E: //derecha
+				sprite.animate(new long[]{500,100},  new int[]{50, 42}, false);
+				break;
+			case PARRY_N: //arriba
+				sprite.animate(new long[]{500,100},  new int[]{51, 34}, false);
+				break;
 				
 			case APLASTADO:
 //				if(this.textureId == SpriteFactory.MARC){
@@ -139,7 +148,7 @@ public class JediAnimator extends WalkerAnimator implements IJediAnimator{
 				//}
 				break;
 			default: //parado_s
-				sprite.stopAnimation(13);  //fila5
+				sprite.stopAnimation(32);  //fila5
 		}
 		
 		this.lastAnimation = a;
