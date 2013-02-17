@@ -103,6 +103,10 @@ public class WalkerAnimator  extends Animator implements IWalkerAnimator{
 
 	//ANIMATE
 	protected void animate(Animation a) {
+		if(a==null){
+			a = Animation.STOP_S;
+		}
+		
 		if(this.lastAnimation == a){
 			return;
 		}
@@ -150,18 +154,6 @@ public class WalkerAnimator  extends Animator implements IWalkerAnimator{
 				break;
 			case SHOOT_N: //arriba
 				sprite.animate(new long[]{500,100},  new int[]{51, 34}, false);
-				break;
-			case PAS_S: //abajo
-				sprite.animate(new long[]{350,100},  new int[]{56, 32}, false); //fila8 
-				break;
-			case PAS_W: //izquierda
-				sprite.animate(new long[]{350,100}, new int[]{57,40}, false);
-				break;
-			case PAS_E: //derecha
-				sprite.animate(new long[]{350,100},  new int[]{58, 42}, false);
-				break;
-			case PAS_N: //arriba
-				sprite.animate(new long[]{350,100},  new int[]{59, 34}, false);
 				break;
 			case APLASTADO:
 //				if(this.textureId == SpriteFactory.MARC){

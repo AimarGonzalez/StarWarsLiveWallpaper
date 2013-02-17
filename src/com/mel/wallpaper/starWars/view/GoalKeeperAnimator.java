@@ -122,12 +122,6 @@ public class GoalKeeperAnimator extends ShooterAnimator{
 			case SHOOT_W: //izquierda
 				sprite.animate(new long[]{500,100}, new int[]{11,8}, false);
 				break;
-			case PAS_E: //derecha
-				sprite.animate(new long[]{200,200,100}, new int[]{1,2,0}, false);
-				break;
-			case PAS_W: //izquierda
-				sprite.animate(new long[]{200,200,100}, new int[]{10,9,8}, false);
-				break;
 				
 			case JUMP_SE: //derecha
 				sprite.animate(new long[]{200,400,100}, new int[]{4,5,0}, false);

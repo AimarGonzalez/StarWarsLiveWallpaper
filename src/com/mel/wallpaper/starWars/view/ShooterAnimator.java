@@ -76,6 +76,10 @@ public class ShooterAnimator extends WalkerAnimator implements IShooterAnimator{
 	
 	
 	protected void animate(Animation a){
+		if(a==null){
+			a = Animation.STOP_S;
+		}
+		
 		if(this.lastAnimation == a){
 			return;
 		}
