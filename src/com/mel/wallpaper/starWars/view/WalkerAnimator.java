@@ -89,10 +89,14 @@ public class WalkerAnimator  extends Animator implements IWalkerAnimator{
 				case WALK_E: //derecha
 				case SHOOT_E: //derecha
 				case STOP_E: //derecha
+				case FIGHT_E: //derecha
+				case PARRY_E: //derecha
 					return Animation.STOP_E;
 				case WALK_W: //izquierda
 				case SHOOT_W: //izquierda
 				case STOP_W: //izquierda
+				case FIGHT_W: //izquierda
+				case PARRY_W: //izquierda
 					return Animation.STOP_W; 
 				case WALK_N: //arriba
 				case SHOOT_N: //arriba

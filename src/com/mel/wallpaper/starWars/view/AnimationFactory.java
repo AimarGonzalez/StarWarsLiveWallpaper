@@ -9,8 +9,8 @@ public class AnimationFactory
 			animation = new ShooterAnimator(SpriteFactory.STORM_TROOPER, speed);
 		}
 
-		if(textureId == SpriteFactory.MP_WHITE){
-			animation = new JediAnimator(SpriteFactory.MP_WHITE, speed);
+		if(textureId == SpriteFactory.LUKE){
+			animation = new JediAnimator(SpriteFactory.LUKE, speed);
 		}
 		
 //		if(textureId == SpriteFactory.BENJI){

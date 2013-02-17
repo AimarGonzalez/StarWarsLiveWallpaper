@@ -32,8 +32,8 @@ public class Map implements IEntity
 		this.walls = walls;
 
 		//walkers.add(new Walker(-300, 00, SpriteFactory.MP_WHITE,Animation.STOP_S, Rol.JEDI));
-		walkers.add(new JediKnight(-300, 00, SpriteFactory.MP_WHITE,Animation.STOP_S, Rol.JEDI));
-		walkers.add(new JediKnight(300, 00, SpriteFactory.MP_WHITE,Animation.STOP_S, Rol.JEDI));
+		walkers.add(new JediKnight(-300, 00, SpriteFactory.LUKE,Animation.STOP_S, Rol.JEDI));
+		walkers.add(new JediKnight(300, 00, SpriteFactory.LUKE,Animation.STOP_S, Rol.JEDI));
 		walkers.add(new Shooter(200, 200, SpriteFactory.STORM_TROOPER, Animation.STOP_S, Rol.STORM_TROOPER));
 		walkers.add(new Shooter(-200, 200, SpriteFactory.STORM_TROOPER, Animation.STOP_S, Rol.STORM_TROOPER));
 		walkers.add(new Shooter(-200, 200, SpriteFactory.STORM_TROOPER, Animation.STOP_S, Rol.STORM_TROOPER));
