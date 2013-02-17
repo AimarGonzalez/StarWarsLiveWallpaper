@@ -104,6 +104,13 @@ public class Bubble implements IEntity, IMovable
 //		this.sprite.setRotation(-1*MathUtil.RAD_TO_DEG*MathUtil.getAngulo(this.origin, this.destination));
 	}
 	
+	public void movementEnd(){
+		this.destination = null;
+		//sin forceStopMovement!! pq no queremos quitar todos los MovementModifiers que pueda tener el personaje.
+	}
+	
+	
+	
 	public void animateStopAndStartCooldowns(){
 		//testing code
 		if(this.position.getEntityModifierCount() > 1){

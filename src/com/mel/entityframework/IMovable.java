@@ -17,4 +17,6 @@ public interface IMovable
 	
 	public void removeOldMovementOrders();
 	
+	public void movementEnd();
+	
 }

@@ -100,6 +100,12 @@ public class LaserBeam implements IEntity, IMovable
 		
 	}
 	
+	public void movementEnd(){
+		this.destination = null;
+		//sin forceStopMovement!! pq no queremos quitar todos los MovementModifiers que pueda tener el personaje.
+	}
+	
+	
 	public void animateStopAndStartCooldowns() {
 		// testing code
 		if (this.position.getEntityModifierCount() > 1) {

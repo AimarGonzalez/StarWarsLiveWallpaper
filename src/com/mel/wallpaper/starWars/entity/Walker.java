@@ -46,6 +46,7 @@ public class Walker implements IEntity, IMovable
 	
 	protected boolean isOnRunningCooldown = false;
 	protected boolean isOnAplastadoCooldown = false;
+	protected boolean isOnWaitingCooldown = false;
 	
 	private static final float APLASTADO_DURATION = 3f;
 	
@@ -92,6 +93,10 @@ public class Walker implements IEntity, IMovable
 	protected void setRunningEnd(){
 		this.isOnRunningCooldown = false;
 	}
+
+	protected void setWaitEnd(){
+		this.isOnWaitingCooldown = false;
+	}
 	
 	protected void setAplastadoEnd(){
 		this.isOnAplastadoCooldown = false;
@@ -131,6 +136,10 @@ public class Walker implements IEntity, IMovable
 	public boolean hasDestination()
 	{
 		return (destination!=null);
+	}
+	
+	public boolean isWaiting(){
+		return isOnWaitingCooldown;
 	}
 	
 	
@@ -194,23 +203,26 @@ public class Walker implements IEntity, IMovable
         });
 	}
 	
-	/* NOT WALKER STUFF
-	public void animateShootAndStartCooldowns(Point destination){
-		this.shootTarget = destination;
-		animateShoot();
+	public void movementEnd(){
+		this.destination = null;
+		this.animator.animateStop();
+	}
+	
+	
+	
+	public void animateWaitAndStartCooldowns(float seconds){
+
+		this.animator.animateStop();
 		
-		// Cuan sels hi dona una ordre player estan "busy" una estona. Aixi la animacio de correr no xafa la de xutar.
-		this.isOnShootingCooldown = true;
-		TimerHelper.startTimer(this.position, 0.5f,  new ITimerCallback() {                      
+		this.isOnWaitingCooldown = true;
+		TimerHelper.startTimer(this.position, seconds,  new ITimerCallback() {                      
             
             public void onTimePassed(final TimerHandler pTimerHandler)
             {
-            	setShootingEnd();
+            	setWaitEnd();
             }
         });
 	}
-	*/
-	
 	
 	public void forceStopMovement(){
 		removeOldMovementOrders();
@@ -307,6 +319,7 @@ public class Walker implements IEntity, IMovable
 		
 	}
 	
+	//this method is overwritten by many of Walker sub-classes (Shooter, Jedi)
 	public void removeOldMovementOrders(){
 		this.destination = null;
 		this.isOnRunningCooldown = false;
