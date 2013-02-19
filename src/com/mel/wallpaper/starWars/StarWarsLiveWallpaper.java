@@ -16,8 +16,10 @@ import org.andengine.input.touch.TouchEvent;
 import org.andengine.util.debug.Debug;
 
 import com.mel.wallpaper.starWars.settings.GameSettings;
+import com.mel.wallpaper.starWars.sound.SoundLibrary;
+import com.mel.wallpaper.starWars.sound.SoundLibrary.Sample;
 
-public class StarWarsLiveWallpaper extends BaseGameWallpaperService implements IUpdateHandler
+public class StarWarsLiveWallpaper extends BaseGameWallpaperService
 {
 
 	public static final int CAMERA_WIDTH = 480;
@@ -39,6 +41,9 @@ public class StarWarsLiveWallpaper extends BaseGameWallpaperService implements I
 	int fadeOutSpeed = 1;
 	
 	Sound benjiBSO;
+	
+	SoundLibrary soundLibrary;
+	
 	
 	// ===========================================================
 	// Constructors
@@ -99,23 +104,8 @@ public class StarWarsLiveWallpaper extends BaseGameWallpaperService implements I
 		this.game = new StarWarsGame(this.getEngine(), this);
 		this.game.onCreateResources();
 		
-		createMediaResources();
-	}
-	
-	private void createMediaResources() {
-
-		try {
-			//MusicFactory.createMusicFromAsset(this.mEngine.getMusicManager(), this, "sfx/benji-small.ogg").getMediaPlayer().
-//			benjiBSO = SoundFactory.createSoundFromAsset(this.mEngine.getSoundManager(), this, "sfx/benji-small.ogg");
-			benjiBSO = SoundFactory.createSoundFromAsset(this.mEngine.getSoundManager(), this, "sfx/The_Yellow_Dart-Saberdown.wav");
-			benjiBSO.setVolume(0); //AG: lo uso para saber si estoy reproduciendo, sino no se comprobarlo :/
-
-			this.mEngine.registerUpdateHandler(this);
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		soundLibrary = new SoundLibrary(mEngine.getSoundManager(),this);
+		this.mEngine.registerUpdateHandler(soundLibrary);
 	}
 	
 	public Scene onCreateScene() {
@@ -196,52 +186,10 @@ public class StarWarsLiveWallpaper extends BaseGameWallpaperService implements I
 	
 	public void onTapFromGame(TouchEvent event) {
 		Debug.d("tap on " + event.getX() + "x" + event.getY());
-		
-		playMusic();
-	}
-	
-	void playMusic(){
-		if(GameSettings.getInstance().musicEnabled){
-			benjiBSO.setVolume(1.0f);
-			benjiBSO.play();
-		}
-	}
-	
-	void stopMusic(){
-		stopMusic(true, 1);
-	}
-	void stopMusic(int fadeOutSpeed){
-		stopMusic(true, fadeOutSpeed);
-	}
-	void stopMusic(boolean fadeOut){
-		stopMusic(fadeOut, 1);
-	}
-	void stopMusic(boolean fadingOut, int fadeOutSpeed){
-		this.fadeOutSpeed = fadeOutSpeed;
-		if(fadingOut){
-			this.doFadeOut = true;
-			//Debug.d("fadeOut-start");
-		}else{
-			benjiBSO.stop();
-		}
-	}
 
-	boolean doFadeOut = false;
-	
-	public void onUpdate(float pSecondsElapsed) {
-//		Debug.d("update handler");
-		if(doFadeOut){
-			benjiBSO.setVolume(Math.max(0f, benjiBSO.getVolume()-pSecondsElapsed/2*this.fadeOutSpeed));
-			if(benjiBSO.getVolume() == 0f){
-				Debug.d("fadeOut-end");
-				benjiBSO.stop();
-				doFadeOut = false;
-			}
-		}
-	}
-	
-	public void reset() {
-		// TODO Auto-generated method stub
+		SoundLibrary.playSample(Sample.LASER);
 		
-	}	
+//		SoundLibrary.playSample(Sample.CHEWAKA);
+//		SoundLibrary.stopSample(Sample.CHEWAKA, true, 2);
+	}
 }
