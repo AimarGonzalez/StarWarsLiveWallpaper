@@ -30,6 +30,8 @@ import com.mel.wallpaper.starWars.entity.commands.BubbleCommand;
 import com.mel.wallpaper.starWars.entity.commands.MoveCommand;
 import com.mel.wallpaper.starWars.entity.commands.ShootLaserCommand;
 import com.mel.wallpaper.starWars.settings.GameSettings;
+import com.mel.wallpaper.starWars.sound.SoundLibrary;
+import com.mel.wallpaper.starWars.sound.SoundLibrary.Sample;
 import com.mel.wallpaper.starWars.view.SpriteFactory;
 
 public class TouchProcess extends Process implements IOnSceneTouchListener
@@ -118,8 +120,9 @@ public class TouchProcess extends Process implements IOnSceneTouchListener
 			}
 		}
 		
-		StarWarsLiveWallpaper.getSharedInstance().onTapFromGame(touchEvent);
-		return true;
+		SoundLibrary.playSample(Sample.LASER);
+		
+		return false;
 	}
 	
 	private List<Walker> getPlayersUnderTouch(TouchEvent pSceneTouchEvent, int touchRatio){

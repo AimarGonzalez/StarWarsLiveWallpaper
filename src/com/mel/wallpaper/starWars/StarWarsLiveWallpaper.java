@@ -187,7 +187,7 @@ public class StarWarsLiveWallpaper extends BaseGameWallpaperService
 	public void onTapFromGame(TouchEvent event) {
 		Debug.d("tap on " + event.getX() + "x" + event.getY());
 
-		SoundLibrary.playSample(Sample.LASER);
+//		SoundLibrary.playSample(Sample.LASER); //AG: lo he movido a TouchProcess
 		
 //		SoundLibrary.playSample(Sample.CHEWAKA);
 //		SoundLibrary.stopSample(Sample.CHEWAKA, true, 2);
