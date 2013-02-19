@@ -37,7 +37,7 @@ public class ParryLaserCommand extends MoveCommand
 		super.execute(p);
 
 		jedi.forceStopMovement();
-		jedi.animateParryLaser(this.destination.clone());
+		jedi.animateParryLaser(this.laser.position.toPoint());
 	}
 	
 }
