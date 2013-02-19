@@ -238,7 +238,6 @@ public class Walker implements IEntity, IMovable
 	
 	public void forceStopMovement(){
 		removeOldMovementOrders();
-		this.animator.animateInitialAnimation();
 	}
 	
 	public void animateStopAndStartCooldowns(){

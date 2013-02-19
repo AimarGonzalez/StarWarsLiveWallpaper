@@ -123,7 +123,6 @@ public class LaserBeam implements IEntity, IMovable
 	
 	public void forceStopMovement() {
 		removeOldMovementOrders();
-		// animateStop(); //no aplica
 	}
 	
 	public void explode() {
