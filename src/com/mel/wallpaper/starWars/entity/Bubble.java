@@ -88,7 +88,7 @@ public class Bubble implements IEntity, IMovable
 		return this.sprite.getWidth()/2;
 	}
 	public float getSpriteOffsetY(){
-		return (WalkerAnimator.SPRITE_HEIGHT);
+		return (WalkerAnimator.SPRITE_HEIGHT+30);
 	}
 	
 	public float getTotalDistance(){

@@ -36,7 +36,7 @@ public class BubbleCommand extends MoveCommand
 		
 		Position bubblePosition = walker.position.clone();
 		
-		bubblePosition.setY(bubblePosition.getY()+30);
+		bubblePosition.setY(bubblePosition.getY());
 		
 		switch(walker.rol)
 		{
