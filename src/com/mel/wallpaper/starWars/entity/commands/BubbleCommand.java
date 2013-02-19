@@ -13,9 +13,13 @@ import com.mel.entityframework.Game;
 import com.mel.util.MathUtil;
 import com.mel.util.Point;
 import com.mel.wallpaper.starWars.entity.Bubble;
+import com.mel.wallpaper.starWars.entity.Bubble.BubbleType;
 import com.mel.wallpaper.starWars.entity.LaserBeam;
 import com.mel.wallpaper.starWars.entity.Map;
 import com.mel.wallpaper.starWars.entity.Walker;
+import com.mel.wallpaper.starWars.entity.Walker.Rol;
+import com.mel.wallpaper.starWars.sound.SoundLibrary;
+import com.mel.wallpaper.starWars.sound.SoundLibrary.Sample;
 import com.mel.wallpaper.starWars.view.Position;
 import com.mel.wallpaper.starWars.view.SpriteFactory;
 
@@ -30,8 +34,25 @@ public class BubbleCommand extends MoveCommand
 		this.walker = walker;
 		this.game = game;
 		
+		Position bubblePosition = walker.position.clone();
 		
-		bubble = new Bubble(walker.position.clone());
+		bubblePosition.setY(bubblePosition.getY()+30);
+		
+		switch(walker.rol)
+		{
+		case CHUWAKA:
+			bubble = new Bubble(BubbleType.BUBBLE_OLA_K_ASE, bubblePosition);
+			break;
+		case JEDI:
+			bubble = new Bubble(BubbleType.BUBBLE_TU_PADRE, bubblePosition);
+			break;
+		case STORM_TROOPER:
+			bubble = new Bubble(BubbleType.BUBBLE_OLA_K_ASE, bubblePosition);
+			break;
+		default:
+			bubble = new Bubble(BubbleType.BUBBLE_OLA_K_ASE, bubblePosition);
+		}
+		
 		movable = bubble;
 		game.addEntity(bubble);
 	}
@@ -43,6 +64,8 @@ public class BubbleCommand extends MoveCommand
 		destination = new Point(bubble.position.getX(), bubble.position.getY() + 50);
 		super.execute(p);
 
+		bubble.playSound();
+		
 		walker.forceStopMovement();
 		//walker.animateTalking();
 		

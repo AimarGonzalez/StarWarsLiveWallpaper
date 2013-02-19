@@ -22,8 +22,6 @@ public class SpriteFactory
 	
 	public final static float PLAYERS_SPRITE_SCALEFACTOR = 1f;
 	
-	public final static String BENJI = "benji";
-	
 	public final static String STORM_TROOPER = "STORM_TROOPER";
 	public final static String LUKE = "LUKE";
 	public final static String MP_WHITE = "MP_WHITE";

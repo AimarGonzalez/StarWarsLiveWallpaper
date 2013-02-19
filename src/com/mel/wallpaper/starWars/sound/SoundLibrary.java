@@ -33,6 +33,10 @@ public class SoundLibrary implements IUpdateHandler {
 		private Sample(String path)
 		{
 			this.path = path;
+		}
+		
+		public void createSoundFromAsset()
+		{
 			try {
 				sound = SoundFactory.createSoundFromAsset(soundManager, context, path);
 			} catch (IOException e) {
@@ -45,6 +49,9 @@ public class SoundLibrary implements IUpdateHandler {
 	{
 		this.soundManager = soundManager;
 		this.context = context;
+		
+		for(Sample sample : Sample.values() )
+			sample.createSoundFromAsset();
 	}
 
 	public static void setMasterVolume(float pMasterVolume)

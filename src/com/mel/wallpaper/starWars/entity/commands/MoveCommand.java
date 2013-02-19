@@ -48,21 +48,18 @@ public class MoveCommand extends Command
 
 	@Override
 	public void execute(Map p) {
-		moveObject(this.movable, this.speedFactor);
-	}
 
-	protected void moveObject(final IMovable currentMovable, float currentSpeedFactor) {
-		currentMovable.removeOldMovementOrders();
+		movable.removeOldMovementOrders();
 		
-		Point origien = (Point)currentMovable.getPosition().toPoint();
+		Point origen = (Point)movable.getPosition().toPoint();
 		Point destino = this.destination.clone();
 		
-		float distance =  origien.distance(destino);
+		float distance =  origen.distance(destino);
 		// Protegim el PathModifier de que generi NaN quan origen = desti
 		if (distance > 0) {
-			float duration = distance/(currentMovable.getSpeed()*currentSpeedFactor);
+			float duration = distance/(movable.getSpeed()*speedFactor);
 			
-			Path path = new Path(2).to(origien.getX(), origien.getY()).to(destino.getX(), destino.getY()); 
+			Path path = new Path(2).to(origen.getX(), origen.getY()).to(destino.getX(), destino.getY()); 
 			PathModifier moveModifier = new PathModifier(duration, path, new IPathModifierListener()
 			{
 				public void onPathWaypointStarted(PathModifier pPathModifier, IEntity pEntity, int pWaypointIndex) {
@@ -75,7 +72,7 @@ public class MoveCommand extends Command
 				}
 				
 				public void onPathFinished(PathModifier pPathModifier, IEntity pEntity) {
-					currentMovable.movementEnd(); 
+					movable.movementEnd(); 
 					//ejemplo de codigo seguro para autoquitarse un modifier al terminar;
 	//			    engine.runOnUpdateThread(new Runnable(){
 	//                    @Override
@@ -86,9 +83,9 @@ public class MoveCommand extends Command
 				}
 			},easeFunction);
 			
-			currentMovable.getPosition().registerEntityModifier(moveModifier);
+			movable.getPosition().registerEntityModifier(moveModifier);
 			
-			currentMovable.animateMoveAndStartCooldowns(this.destination.clone());
+			movable.animateMoveAndStartCooldowns(this.destination.clone());
 		}
 		
 	}

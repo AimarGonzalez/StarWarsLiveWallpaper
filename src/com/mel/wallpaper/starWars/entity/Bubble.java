@@ -10,16 +10,50 @@ import org.andengine.util.modifier.IModifier;
 import com.mel.entityframework.IEntity;
 import com.mel.entityframework.IMovable;
 import com.mel.util.Point;
+import com.mel.wallpaper.starWars.sound.SoundLibrary;
+import com.mel.wallpaper.starWars.sound.SoundLibrary.Sample;
 import com.mel.wallpaper.starWars.view.Position;
 import com.mel.wallpaper.starWars.view.SpriteFactory;
 import com.mel.wallpaper.starWars.view.WalkerAnimator;
 
 public class Bubble implements IEntity, IMovable
-{		
+{
+	public enum BubbleType {
+		BUBBLE_OLA_K_ASE("bubble1",Sample.LASER),
+		BUBBLE_TU_PADRE("bubble1",Sample.CHEWAKA);
+		
+		String spriteName;
+		Sample sound;
+		
+		private BubbleType(String spriteName, Sample sound)
+		{
+			this.spriteName = spriteName;
+			this.sound = sound;
+		}
+		
+		public Sprite getNewSprite()
+		{
+			Sprite sprite = SpriteFactory.getMe().newSprite(spriteName,
+					   							   BUBBLE_SIZE*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR,
+					   							   BUBBLE_SIZE*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR);
+			
+			sprite.setRotationCenter(BUBBLE_SIZE*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR/2,
+									 BUBBLE_SIZE*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR/2);
+			
+			return sprite;
+		}
+		
+		public String toString() {
+			return spriteName;
+		}
+	}
+	
+	BubbleType type;
+	
 	public static final float DEFAULT_SPEED = 10f;
 	public float speed;
 	
-	public static final float BEAM_SIZE = 50f;
+	public static final float BUBBLE_SIZE = 75f;
 	
 	public Position position;
 	public Sprite sprite;
@@ -30,30 +64,19 @@ public class Bubble implements IEntity, IMovable
 	public boolean isFinished = false;
 	
 	/* Constructor */
-	public Bubble(float x, float y){
-		this(new Position(x,y));
+	public Bubble(BubbleType type, float x, float y){
+		this(type, new Position(x,y));
 	}
-	public Bubble(Position p){
+	public Bubble(BubbleType type, Position p){
+		this.type = type;
 		this.position = (Position) p.clone();
 		this.speed = Bubble.DEFAULT_SPEED;
-		this.sprite = (Sprite) SpriteFactory.getMe().newSprite(SpriteFactory.BUBBLE1,
-															   BEAM_SIZE*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR,
-															   BEAM_SIZE*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR);
-		this.sprite.setRotationCenter(BEAM_SIZE*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR/2,
-									  BEAM_SIZE*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR/2);
+		this.sprite = type.getNewSprite();
 	}
 	
-	/* Getters/Setters */
-	public Position getPosition() {
-		return this.position;
-	}
-	
-	public float getSpeed() {
-		return this.speed;
-	}
-	
-	public Sprite getSprite() {
-		return sprite;
+	public void playSound()
+	{
+		SoundLibrary.playSample(type.sound);
 	}
 	
 	public Point getSpriteOffset(){
@@ -83,8 +106,40 @@ public class Bubble implements IEntity, IMovable
 	public boolean isMoving(){
 		return this.destination != null;
 	}
+
+	public void recycle(){
+		this.speed = Bubble.DEFAULT_SPEED;
+
+		this.sprite.clearEntityModifiers();
+		this.sprite.clearUpdateHandlers();
+		
+		this.position.setLocation(0, 0);
+		this.position.clearEntityModifiers();
+		this.position.clearUpdateHandlers();
+
+		this.sprite.detachSelf();
+	}
 	
-	/* Methods */
+	/*
+	 * IEntity methods
+	 */
+	
+	public Sprite getSprite() {
+		return sprite;
+	}
+	
+	/* 
+	 * IMovable methods
+	 */
+	
+	public Position getPosition() {
+		return this.position;
+	}
+	
+	public float getSpeed() {
+		return this.speed;
+	}
+	
 	public void animateMoveAndStartCooldowns(Point destination) {
 		this.origin = position.toPoint();
 		this.destination = destination;
@@ -117,18 +172,5 @@ public class Bubble implements IEntity, IMovable
 				return matches;
 			}
 		});
-	}
-	
-	public void recycle(){
-		this.speed = Bubble.DEFAULT_SPEED;
-
-		this.sprite.clearEntityModifiers();
-		this.sprite.clearUpdateHandlers();
-		
-		this.position.setLocation(0, 0);
-		this.position.clearEntityModifiers();
-		this.position.clearUpdateHandlers();
-
-		this.sprite.detachSelf();
 	}
 }

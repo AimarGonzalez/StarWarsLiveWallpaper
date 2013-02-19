@@ -16,6 +16,7 @@ import android.content.ContextWrapper;
 import android.content.SharedPreferences;
 
 import com.mel.entityframework.Game;
+import com.mel.wallpaper.starWars.entity.Bubble;
 import com.mel.wallpaper.starWars.entity.InvisibleWalls;
 import com.mel.wallpaper.starWars.entity.Map;
 import com.mel.wallpaper.starWars.process.GameProcess;
@@ -85,8 +86,9 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 		SpriteFactory.getMe().registerTiledTexture(SpriteFactory.LUKE,"Luke2250x900.png", 2250, 900, 15, 6);
 				
 		SpriteFactory.getMe().registerTexture(SpriteFactory.LASER,"shooting.png", 128, 128);
-		
-		SpriteFactory.getMe().registerTexture(SpriteFactory.BUBBLE1,"bubble-ola-k-ase.png", 166, 120);
+	
+		SpriteFactory.getMe().registerTexture(Bubble.BubbleType.BUBBLE_OLA_K_ASE.toString(),"bubble-ola-k-ase.png", 166, 120);
+		SpriteFactory.getMe().registerTexture(Bubble.BubbleType.BUBBLE_TU_PADRE.toString(),"bubble-ola-k-ase-padre.jpg", 166, 120);
 
 //		SpriteFactory.getMe().registerTexture("background","field-final2.png", 2048, 1024);
 		SpriteFactory.getMe().registerTexture("background","background-tatooine2-small.jpg", 1920, 1137);
