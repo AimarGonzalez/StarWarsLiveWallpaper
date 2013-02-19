@@ -86,7 +86,7 @@ public class SoundLibrary implements IUpdateHandler {
 		if(doFadeOut)
 		{
 			sample.fadeOutSpeed = fadeOutSpeed;
-			sample.fadingOut= true;
+			sample.fadingOut = true;
 		}
 		else
 		{

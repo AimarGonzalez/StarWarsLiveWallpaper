@@ -58,10 +58,13 @@ public class RenderBubbleProcess extends Process
 		
 		getEntitiesFromGame(game);
 		
-		//Debug.d("Number of bubbles: " + bubbles.size());		
+		Debug.d("Number of bubbles: " + bubbles.size());		
 		
 		for(Bubble bubble : this.bubbles){
 		
+			if(bubble.isFinished)
+				game.removeEntity(bubble);
+			
 			Point bubbleCenter= InvisibleWalls.cartesianToEngineCoordinates(bubble.position);
 			Point fixedCoord = new Point(bubbleCenter.getX()-bubble.getSpriteOffsetX(), bubbleCenter.getY()-bubble.getSpriteOffsetY());	
 			bubble.sprite.setPosition(fixedCoord.getX(), fixedCoord.getY());
@@ -78,8 +81,6 @@ public class RenderBubbleProcess extends Process
 				miniball.setColor(1, 0, 0);
 				miniball.setZIndex(10000);
 			}
-			
-			
 		}
 		
 		this.canvas.sortChildren();

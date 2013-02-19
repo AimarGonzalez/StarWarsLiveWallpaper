@@ -44,6 +44,8 @@ public class Bubble implements IEntity, IMovable
 	public boolean isOnExlplosionCooldown = false;
 	public boolean hasExploded = false;
 	
+	public boolean isFinished = false;
+	
 	/* Constructor */
 	public Bubble(float x, float y){
 		this(new Position(x,y));
@@ -186,10 +188,7 @@ public class Bubble implements IEntity, IMovable
 		});
 	}
 	
-
 	public Sprite getSprite() {
 		return sprite;
 	}
-	
-	
 }

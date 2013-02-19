@@ -50,7 +50,7 @@ public class BubbleCommand extends MoveCommand
 			public void onModifierStarted(IModifier<IEntity> arg0, IEntity sprite) {	
 			}
 			public void onModifierFinished(IModifier<IEntity> arg0, IEntity sprite) {
-//				game.removeEntity(sprite);
+				bubble.isFinished = true;
 			}
 		}));
 	}
