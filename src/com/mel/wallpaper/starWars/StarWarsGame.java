@@ -89,7 +89,7 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 		SpriteFactory.getMe().registerTexture(SpriteFactory.BUBBLE1,"bubble-ola-k-ase.png", 166, 120);
 
 //		SpriteFactory.getMe().registerTexture("background","field-final2.png", 2048, 1024);
-		SpriteFactory.getMe().registerTexture("background","background-tatooine.jpg", 1920, 1080);
+		SpriteFactory.getMe().registerTexture("background","background-tatooine2-small.jpg", 1920, 1137);
 
 		//TODO: Cargar el fondo del campo correctamente 
 		//this.grassBackground = new RepeatingSpriteBackground(this.camera.getWidth(), this.camera.getHeight(), this.engine.getTextureManager(), AssetBitmapTextureAtlasSource.create(this.context.getAssets(), "gfx/background_grass.png"), this.engine.getVertexBufferObjectManager());
