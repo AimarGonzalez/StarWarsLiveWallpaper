@@ -1,16 +1,12 @@
 package com.mel.wallpaper.starWars.entity;
 
-
-
 import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.modifier.IEntityModifier;
 import org.andengine.entity.modifier.MoveModifier;
 import org.andengine.entity.modifier.PathModifier;
-import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.util.debug.Debug;
-import org.andengine.util.math.MathUtils;
 import org.andengine.util.modifier.IModifier;
 
 import com.mel.entityframework.IEntity;
@@ -18,48 +14,48 @@ import com.mel.entityframework.IMovable;
 import com.mel.util.MathUtil;
 import com.mel.util.Point;
 import com.mel.wallpaper.starWars.timer.TimerHelper;
-import com.mel.wallpaper.starWars.view.PlayerAnimation;
 import com.mel.wallpaper.starWars.view.Position;
+import com.mel.wallpaper.starWars.view.ShooterAnimator;
 import com.mel.wallpaper.starWars.view.SpriteFactory;
 
 public class LaserBeam implements IEntity, IMovable
 {
+	public static final float	HIT_DISTANCE			= 20f;
+	public static final float	JUMP_DISTANCE			= 60f;
+	public static final float	MAX_REACH_MATE_DISTANCE	= 220f;
+	public static final float	MAX_REACH_DISTANCE		= 350f;
+	public static final float	MIN_REACH_DISTANCE		= 70f;
 	
-	public static final float BLOCK_DISTANCE = 20f; //distancia para que el portero bloquee
-	public static final float DESPEJE_DISTANCE = 42f; //distancia para que el portero despeje
+	public static final float	DEFAULT_SPEED			= 500f;
 	
-	public static final float HIT_DISTANCE = 20f;
-	public static final float JUMP_DISTANCE = 60f;
-	public static final float MAX_REACH_MATE_DISTANCE = 220f;
-	public static final float MAX_REACH_DISTANCE = 350f;
-	public static final float MIN_REACH_DISTANCE = 70f;
+	public static final float	BEAM_SIZE				= 50f * SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR;
 	
-	public static final float DEFAULT_SPEED = 500f;
+	public Position				position;
+	public float				speed;
+	public Sprite				sprite;
 	
-	public static final float BEAM_SIZE = 50f;
+	public Point				origin;
+	public Point				destination;
 	
-	public Position position;
-	public float speed;
-	public Sprite sprite;
+	public boolean				isOnExlplosionCooldown	= false;
+	public boolean				hasExploded				= false;
 	
-	public Point origin;
-	public Point destination;
+	public JediKnight			lastParringJedi = null;
 	
-	public boolean isOnExlplosionCooldown = false;
-	public boolean hasExploded = false;
+	public int jumps;
 	
 	/* Constructor */
-	public LaserBeam(float x, float y){
-		this(new Position(x,y));
+	public LaserBeam(float x, float y, int jumps) {
+		this(new Position(x, y), jumps);
 	}
-	public LaserBeam(Position p){
+	
+	public LaserBeam(Position p, int jumps) {
 		this.position = (Position) p.clone();
 		this.speed = LaserBeam.DEFAULT_SPEED;
-		this.sprite = (Sprite) SpriteFactory.getMe().newSprite(SpriteFactory.LASER, BEAM_SIZE*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR, BEAM_SIZE*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR);
-		this.sprite.setRotationCenter(BEAM_SIZE*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR/2, BEAM_SIZE*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR/2);
+		this.sprite = (Sprite) SpriteFactory.getMe().newSprite(SpriteFactory.LASER, BEAM_SIZE, BEAM_SIZE);
+		this.sprite.setRotationCenter(BEAM_SIZE * 0.5f, BEAM_SIZE * 0.5f);
+		this.jumps = jumps;
 	}
-	
-	
 	
 	/* Getters/Setters */
 	public Position getPosition() {
@@ -70,35 +66,32 @@ public class LaserBeam implements IEntity, IMovable
 		return this.speed;
 	}
 	
-	public Point getSpriteOffset(){
+	public Point getSpriteOffset() {
 		Point spriteCenter = new Point(getSpriteOffsetX(), getSpriteOffsetY());
 		return spriteCenter;
 	}
 	
-	public float getSpriteOffsetX(){
-		return this.sprite.getWidth()/2;
-	}
-	public float getSpriteOffsetY(){
-		return (Walker.SPRITE_HEIGHT*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR*0.6f);
+	public float getSpriteOffsetX() {
+		return BEAM_SIZE / 2;
 	}
 	
-	public float getTotalDistance(){
+	public float getSpriteOffsetY() {
+		return (ShooterAnimator.SPRITE_HEIGHT * 0.45f);
+	}
+	
+	public float getTotalDistance() {
 		return this.origin.distance(this.destination);
 	}
-
 	
-	public float getTraveledDistance(){
+	public float getTraveledDistance() {
 		return this.position.distance(this.origin);
 	}
 	
-
-	
-	
-	public boolean isBusy(){
+	public boolean isBusy() {
 		return false;
 	}
 	
-	public boolean isMoving(){
+	public boolean isMoving() {
 		return this.destination != null;
 	}
 	
@@ -107,77 +100,85 @@ public class LaserBeam implements IEntity, IMovable
 		this.origin = position.toPoint();
 		this.destination = destination;
 		
-		//this.sprite.setRotation(MathUtil.PI_HALF);
-		this.sprite.setRotation(-1*MathUtil.RAD_TO_DEG*MathUtil.getAngulo(this.origin, this.destination));
+		// this.sprite.setRotation(MathUtil.PI_HALF);
+		this.sprite.setRotation(-1 * MathUtil.RAD_TO_DEG * MathUtil.getAngulo(this.origin, this.destination));
 		
 	}
 	
-	public void animateStopAndStartCooldowns(){
-		//testing code
-		if(this.position.getEntityModifierCount() > 1){
-			Debug.d("ball","ALERT: paramos animacion jugador y tenemos MODIFIERS acumulados: "+this.position.getEntityModifierCount());
+	public void movementEnd(){
+		this.destination = null;
+		//sin forceStopMovement!! pq no queremos quitar todos los MovementModifiers que pueda tener el personaje.
+	}
+	
+	
+	public void animateStopAndStartCooldowns() {
+		// testing code
+		if (this.position.getEntityModifierCount() > 1) {
+			Debug.d("ball", "ALERT: paramos animacion jugador y tenemos MODIFIERS acumulados: " + this.position.getEntityModifierCount());
 		}// testing code
 		
 		this.destination = null;
-		//animateStop(); //no aplica
+		// animateStop(); //no aplica
 	}
 	
-	public void forceStopMovement(){
+	public void forceStopMovement() {
 		removeOldMovementOrders();
-		//animateStop(); //no aplica
+		// animateStop(); //no aplica
 	}
 	
-	public void explode(){
-		//testing code
-		if(this.position.getEntityModifierCount() > 1){
-			Debug.d("laser","ALERT: paramos animacion jugador y tenemos MODIFIERS acumulados: "+this.position.getEntityModifierCount());
+	public void explode() {
+		// testing code
+		if (this.position.getEntityModifierCount() > 1) {
+			Debug.d("laser", "ALERT: paramos animacion jugador y tenemos MODIFIERS acumulados: " + this.position.getEntityModifierCount());
 		}// testing code
 		
 		this.destination = null;
 		animateExplosion();
 	}
 	
-	
-	public void animateExplosion(){
+	public void animateExplosion() {
 		
-		//TODO: configurar animacion de explosión. Dejo comentado un codigo de ejemplo
+		// TODO: configurar animacion de explosión. Dejo comentado un codigo de
+		// ejemplo
 		/*
-		long tileDuration = 300;
-		sprite.animate(new long[]{tileDuration, tileDuration}, 1, 3, true);
-		*/
-		isOnExlplosionCooldown = true; 
+		 * long tileDuration = 300; sprite.animate(new long[]{tileDuration,
+		 * tileDuration}, 1, 3, true);
+		 */
+		isOnExlplosionCooldown = true;
 		
-		TimerHelper.startTimer(this.position, 300*2,  new ITimerCallback() 
-		{                      
-            public void onTimePassed(final TimerHandler pTimerHandler) {
-            	if(destination != null){
-            		explosionEnd();
-            	}
-            } 
-        });
+		TimerHelper.startTimer(this.position, 300 * 2, new ITimerCallback()
+		{
+			public void onTimePassed(final TimerHandler pTimerHandler) {
+				if (destination != null) {
+					explosionEnd();
+				}
+			}
+		});
 	}
 	
-	private void explosionEnd(){
+	private void explosionEnd() {
 		this.isOnExlplosionCooldown = false;
 		this.hasExploded = true;
 	}
 	
-	
-	public void recycle(){
+	public void recycle() {
 		this.speed = LaserBeam.DEFAULT_SPEED;
-
+		this.lastParringJedi = null;
+		
+		this.sprite.setPosition(0, 0);
 		this.sprite.clearEntityModifiers();
 		this.sprite.clearUpdateHandlers();
+		this.sprite.detachSelf();
 		
-		this.position.setLocation(0, 0);
+		this.position.setPosition(0, 0);
 		this.position.clearEntityModifiers();
 		this.position.clearUpdateHandlers();
-
-		this.sprite.detachSelf();
+		this.position.detachSelf();
+		
 	}
 	
 	/* HELPERS */
-	public void removeOldMovementOrders(){
+	public void removeOldMovementOrders() {
 		this.destination = null;
 		this.position.unregisterEntityModifiers(new IEntityModifier.IEntityModifierMatcher()
 		{
@@ -188,10 +189,8 @@ public class LaserBeam implements IEntity, IMovable
 		});
 	}
 	
-
 	public Sprite getSprite() {
 		return sprite;
 	}
-	
 	
 }

@@ -9,26 +9,20 @@ import com.mel.util.Point;
 import com.mel.wallpaper.starWars.entity.Map;
 import com.mel.wallpaper.starWars.entity.Walker;
 
-public class StopCommand extends Command
+public class WaitCommand extends Command
 {
-	public Point destination;
-	public IMovable movable;
-	public IEaseFunction easeFunction = EaseLinear.getInstance();
+	private Walker walker;
+	private float duration;
 	
-	public StopCommand(Walker walker) {
-		this(walker, walker);
-	}
-	
-	public StopCommand(Walker walker, IMovable movable) {
-		walker = walker;
-		this.movable = movable;
+	public WaitCommand(Walker walker, float duration) {
+		this.walker = walker;
+		this.duration = duration;
 	}
 	
 	@Override
 	public void execute(Map p) {
-		this.movable.animateStopAndStartCooldowns();
+		this.walker.forceStopMovement();
+		this.walker.animateWaitAndStartCooldowns(this.duration);
 	}
-	
-	
 	
 }

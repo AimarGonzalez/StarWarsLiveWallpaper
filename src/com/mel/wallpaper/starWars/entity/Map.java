@@ -7,7 +7,7 @@ import org.andengine.entity.sprite.Sprite;
 
 import com.mel.entityframework.IEntity;
 import com.mel.wallpaper.starWars.entity.Walker.Rol;
-import com.mel.wallpaper.starWars.view.PlayerAnimation;
+import com.mel.wallpaper.starWars.view.Animation;
 import com.mel.wallpaper.starWars.view.Position;
 import com.mel.wallpaper.starWars.view.SpriteFactory;
 
@@ -31,11 +31,13 @@ public class Map implements IEntity
 		
 		this.walls = walls;
 
-		walkers.add(new Jumper(walkers.size()+1, -300, 0, SpriteFactory.BENJI, PlayerAnimation.STOP_E));
-		walkers.add(new Walker(walkers.size()+1, 0, 200, SpriteFactory.MP_WHITE,PlayerAnimation.STOP_S, Rol.JEDI));
-		walkers.add(new Walker(walkers.size()+1, 200, -200, SpriteFactory.MP_WHITE,PlayerAnimation.STOP_S, Rol.JEDI));
-		walkers.add(new Shooter(200, 200, SpriteFactory.STORM_TROOPER, PlayerAnimation.STOP_S, Rol.STORM_TROOPER));
-		walkers.add(new Shooter(-200, 200, SpriteFactory.STORM_TROOPER, PlayerAnimation.STOP_S, Rol.STORM_TROOPER));
+		//walkers.add(new Walker(-300, 00, SpriteFactory.MP_WHITE,Animation.STOP_S, Rol.JEDI));
+		walkers.add(new JediKnight(-300, 00, SpriteFactory.LUKE,Animation.STOP_S, Rol.JEDI));
+		walkers.add(new JediKnight(300, 00, SpriteFactory.LUKE,Animation.STOP_S, Rol.JEDI));
+		walkers.add(new Shooter(200, 200, SpriteFactory.STORM_TROOPER, Animation.STOP_S, Rol.STORM_TROOPER));
+		walkers.add(new Shooter(-200, 200, SpriteFactory.STORM_TROOPER, Animation.STOP_S, Rol.STORM_TROOPER));
+		walkers.add(new Shooter(-200, 200, SpriteFactory.STORM_TROOPER, Animation.STOP_S, Rol.STORM_TROOPER));
+		walkers.add(new Shooter(-200, 200, SpriteFactory.STORM_TROOPER, Animation.STOP_S, Rol.STORM_TROOPER));
 		
 	}
 	

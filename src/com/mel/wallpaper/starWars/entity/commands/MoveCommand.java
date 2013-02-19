@@ -75,7 +75,7 @@ public class MoveCommand extends Command
 				}
 				
 				public void onPathFinished(PathModifier pPathModifier, IEntity pEntity) {
-					currentMovable.animateStopAndStartCooldowns(); 
+					currentMovable.movementEnd(); 
 					//ejemplo de codigo seguro para autoquitarse un modifier al terminar;
 	//			    engine.runOnUpdateThread(new Runnable(){
 	//                    @Override

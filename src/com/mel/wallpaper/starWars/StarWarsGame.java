@@ -1,17 +1,11 @@
 package com.mel.wallpaper.starWars;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.handler.IUpdateHandler;
-import org.andengine.engine.handler.timer.ITimerCallback;
-import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.shape.RectangularShape;
-import org.andengine.entity.shape.Shape;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
@@ -23,20 +17,15 @@ import android.content.SharedPreferences;
 
 import com.mel.entityframework.Game;
 import com.mel.wallpaper.starWars.entity.InvisibleWalls;
-import com.mel.wallpaper.starWars.entity.Jumper;
 import com.mel.wallpaper.starWars.entity.Map;
-import com.mel.wallpaper.starWars.entity.Walker;
-import com.mel.wallpaper.starWars.entity.Walker.Rol;
 import com.mel.wallpaper.starWars.process.GameProcess;
 import com.mel.wallpaper.starWars.process.LaserBeamsProcess;
-import com.mel.wallpaper.starWars.process.WalkersProcess;
+import com.mel.wallpaper.starWars.process.RenderBubbleProcess;
 import com.mel.wallpaper.starWars.process.RenderLaserProcess;
 import com.mel.wallpaper.starWars.process.RenderWalkersProcess;
 import com.mel.wallpaper.starWars.process.TouchProcess;
+import com.mel.wallpaper.starWars.process.WalkersProcess;
 import com.mel.wallpaper.starWars.settings.GameSettings;
-import com.mel.wallpaper.starWars.settings.GameSettingsActivity;
-import com.mel.wallpaper.starWars.timer.TimerHelper;
-import com.mel.wallpaper.starWars.view.PlayerAnimation;
 import com.mel.wallpaper.starWars.view.SpriteFactory;
 
 public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeListener
@@ -58,6 +47,7 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 	private LaserBeamsProcess lasersProcess;
 	private RenderWalkersProcess renderPlayersProcess;
 	private RenderLaserProcess renderBallsProcess;
+	private RenderBubbleProcess bubblesBallsProcess;
 	
 
 	private float screenOffsetX = 0;
@@ -87,11 +77,16 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 		SpriteFactory.getMe().engine = this.engine;
 		
 		SpriteFactory.getMe().registerTiledTexture(SpriteFactory.STORM_TROOPER,"stormtrooper-alineado-220.png", 1100, 1100, 5, 5);
-		SpriteFactory.getMe().registerTiledTexture(SpriteFactory.MP_WHITE,"fb_player-maped_white_hair.png", 512, 512, 8, 8);
+		//SpriteFactory.getMe().registerTiledTexture(SpriteFactory.MP_WHITE,"fb_player-maped_white_hair.png", 512, 512, 8, 8);
 		
-		SpriteFactory.getMe().registerTiledTexture(SpriteFactory.BENJI,"fb_goalkeeper_benji_pantalon_llarg.png", 512, 512, 4, 5);
+		//SpriteFactory.getMe().registerTiledTexture(SpriteFactory.BENJI,"fb_goalkeeper_benji_pantalon_llarg.png", 512, 512, 4, 5);
+
+		//SpriteFactory.getMe().registerTiledTexture(SpriteFactory.LUKE,"Luke4500x1800.png", 4500, 1800, 6, 15);
+		SpriteFactory.getMe().registerTiledTexture(SpriteFactory.LUKE,"Luke2250x900.png", 2250, 900, 15, 6);
 				
 		SpriteFactory.getMe().registerTexture(SpriteFactory.LASER,"shooting.png", 128, 128);
+		
+		SpriteFactory.getMe().registerTexture(SpriteFactory.BUBBLE1,"bubble-ola-k-ase.png", 166, 120);
 		
 		SpriteFactory.getMe().registerTexture("background","field-final2.png", 2048, 1024);
 		
@@ -201,6 +196,7 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 		this.lasersProcess = new LaserBeamsProcess(game,map);
 		this.renderPlayersProcess = new RenderWalkersProcess(game, this.background);
 		this.renderBallsProcess = new RenderLaserProcess(game, this.background);
+		this.bubblesBallsProcess = new RenderBubbleProcess(game, this.background);
 		
 		game.addProcess(this.gameProcess, 1);
 		game.addProcess(this.touchProcess, 10);
@@ -208,6 +204,7 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 		game.addProcess(this.playersCommandsProcess, 21);
 		game.addProcess(this.renderPlayersProcess, 98);
 		game.addProcess(this.renderBallsProcess, 99);
+		game.addProcess(this.bubblesBallsProcess, 99);
 	}
 	
 	private void updateBackgroundPosition(){

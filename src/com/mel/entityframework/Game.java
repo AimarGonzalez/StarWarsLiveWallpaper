@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.util.math.MathUtils;
+
+import com.mel.util.MathUtil;
 
 
 public class Game
@@ -54,6 +57,30 @@ public class Game
 		List<IEntity> entities = this.entities.get(entityType);
 		if(entities!=null && entities.size()>0){
 			return entities.get(0);
+		}else{
+			return null;
+		}
+	}
+	
+	
+	public IEntity getRandomEntity(Object entityType){
+		List<IEntity> entities = this.entities.get(entityType);
+		if(entities!=null && entities.size()>0){
+			int length = entities.size();
+			int randomIndex = MathUtils.random(0, length-1);
+			return entities.get(randomIndex);
+		}else{
+			return null;
+		}
+	}
+	
+	public IEntity getRandomEntity(Object entityType, IEntity excludedEntity){
+		List<IEntity> entities = new ArrayList<IEntity>(this.entities.get(entityType));
+		entities.remove(excludedEntity);
+		if(entities!=null && entities.size()>0){
+			int length = entities.size();
+			int randomIndex = MathUtils.random(0, length-1);
+			return entities.get(randomIndex);
 		}else{
 			return null;
 		}
