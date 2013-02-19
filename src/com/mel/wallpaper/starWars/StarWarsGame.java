@@ -87,17 +87,15 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 		SpriteFactory.getMe().registerTexture(SpriteFactory.LASER,"shooting.png", 128, 128);
 		
 		SpriteFactory.getMe().registerTexture(SpriteFactory.BUBBLE1,"bubble-ola-k-ase.png", 166, 120);
-		
-		SpriteFactory.getMe().registerTexture("background","field-final2.png", 2048, 1024);
-		
+
+//		SpriteFactory.getMe().registerTexture("background","field-final2.png", 2048, 1024);
+		SpriteFactory.getMe().registerTexture("background","background-tatooine.jpg", 1920, 1080);
+
 		//TODO: Cargar el fondo del campo correctamente 
 		//this.grassBackground = new RepeatingSpriteBackground(this.camera.getWidth(), this.camera.getHeight(), this.engine.getTextureManager(), AssetBitmapTextureAtlasSource.create(this.context.getAssets(), "gfx/background_grass.png"), this.engine.getVertexBufferObjectManager());
 				
 		this.background = getBackground();
 		updateBackgroundPosition();
-		
-		
-
 	}
 	
 	public Scene onCreateScene(){
@@ -175,7 +173,7 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 	public void initialize(){
 		//initialize model
 		float sf = this.backgroundScaleFactor;
-		InvisibleWalls walls = new InvisibleWalls(sf*52f, sf*52f, sf*92f, sf*52f, this.background); //TODO: cambiar esto por un campo horizontal mas largo
+		InvisibleWalls walls = new InvisibleWalls(sf*52f, sf*52f, sf*550f, sf*52f, this.background); //TODO: cambiar esto por un campo horizontal mas largo
 		
 		
 		//TESTING DIMENSIONES CAMPO
