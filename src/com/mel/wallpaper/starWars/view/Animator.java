@@ -49,7 +49,16 @@ public abstract class Animator implements IAnimator{
 		animate(Animation.APLASTADO);
 	}
 	
+	
+	protected void animateOnce(Animation a){
+		animate(a, false);
+	}
+	
 	protected void animate(Animation a){
+		animate(a, true);
+	}
+	
+	protected void animate(Animation a, boolean isInfiniteLoop){
 		//must override
 	}
 	

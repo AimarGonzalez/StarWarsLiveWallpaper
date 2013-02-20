@@ -3,6 +3,7 @@ package com.mel.wallpaper.starWars.process;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.andengine.util.debug.Debug;
 import org.andengine.util.math.MathUtils;
 
 import com.mel.entityframework.Game;
@@ -98,7 +99,7 @@ public class WalkersProcess extends Process
 			if(closeLasers.size()>0 && jedi.canParry()){
 				parryLasers(jedi, closeLasers);
 			}else if(jedi.isIdle()){
-				if(Math.random()<0.5){
+				if(Math.random()<0.8){
 					moveSomewhere(jedi);
 				}else{
 					waitSomeTime(jedi);

@@ -41,7 +41,7 @@ public class ShooterAnimator extends WalkerAnimator implements IShooterAnimator{
 	
 	public void animateShoot(Point origin, Point destination){
 		Animation a = calculateShootAnimation(origin, destination);
-		animate(a);
+		animateOnce(a);
 	}
 	
 	
@@ -75,27 +75,31 @@ public class ShooterAnimator extends WalkerAnimator implements IShooterAnimator{
 	
 	
 	
-	protected void animate(Animation a){
+	protected void animate(Animation a, boolean isInfiniteLoop){
 		if(a==null){
 			a = Animation.STOP_S;
 		}
 		
-		if(this.lastAnimation == a){
+		if(isInfiniteLoop && this.lastAnimation == a){
 			return;
 		}
 		
 		long tileDuration = 200;
 		switch(a) {
 			case WALK_E: //derecha
+				tileDuration =  Math.round(10000/speed);
 				sprite.animate(new long[]{tileDuration, tileDuration, tileDuration, tileDuration},new int[]{0,1,2,3}, true); //fila1
 				break;
 			case WALK_W: //izquierda
+				tileDuration =  Math.round(10000/speed);
 				sprite.animate(new long[]{tileDuration, tileDuration, tileDuration, tileDuration}, 5, 8, true);  //fila2 
 				break;
 			case WALK_N: //arriba
+				tileDuration =  Math.round(10000/speed);
 				sprite.animate(new long[]{tileDuration, tileDuration, tileDuration, tileDuration}, 10, 13, true); //fila3
 				break;
 			case WALK_S: //abajo
+				tileDuration =  Math.round(10000/speed);
 				sprite.animate(new long[]{tileDuration, tileDuration, tileDuration, tileDuration}, 10, 13, true); //fila4 
 				break;
 			case STOP_S: //abajo

@@ -118,12 +118,12 @@ public class WalkerAnimator  extends Animator implements IWalkerAnimator{
 
 
 	//ANIMATE
-	protected void animate(Animation a) {
+	protected void animate(Animation a, boolean isInfiniteLoop){
 		if(a==null){
 			a = Animation.STOP_S;
 		}
 		
-		if(this.lastAnimation == a){
+		if(isInfiniteLoop && this.lastAnimation == a){
 			return;
 		}
 		

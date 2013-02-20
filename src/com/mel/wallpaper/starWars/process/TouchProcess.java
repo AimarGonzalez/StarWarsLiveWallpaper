@@ -103,18 +103,11 @@ public class TouchProcess extends Process implements IOnSceneTouchListener
 			if(touchedPlayers.size() > 0){
 				for(Walker walker:touchedPlayers){
 					
-					MoveCommand move = new MoveCommand(walker);
-					move.setMovable(walker);
-					move.destination = InvisibleWalls.getRandomPoint();
-					walker.addCommand(move);
-					
 					Debug.d("Touch player");
 					
 					BubbleCommand moveb = new BubbleCommand(walker,game);
 					walker.addCommand(moveb);
-					
-					//walker.forceStopMovement();
-					//walker.animateAplastarAndStartCooldowns();
+
 				}
 				return true;
 			}

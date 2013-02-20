@@ -1,5 +1,6 @@
 package com.mel.wallpaper.starWars.view;
 
+import org.andengine.util.debug.Debug;
 import org.andengine.util.math.MathUtils;
 
 import com.mel.util.MathUtil;
@@ -11,7 +12,7 @@ public class JediAnimator extends WalkerAnimator implements IJediAnimator{
 	
 	public static float SPRITE_WIDTH= 175f*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR;
 	public static float SPRITE_HEIGHT = 175f*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR;
-	public static float VERTICAL_CENTER = 0.2f*SPRITE_HEIGHT*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR;
+	public static float VERTICAL_CENTER = 0.25f*SPRITE_HEIGHT*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR;
 	public static String TEXTURE_ID = SpriteFactory.STORM_TROOPER;
 	
 	
@@ -38,12 +39,12 @@ public class JediAnimator extends WalkerAnimator implements IJediAnimator{
 	//ANIMATIONS
 	public void animateDuel(JediKnight jedi, Point destination){
 		Animation a = calculateFightAnimation(jedi.getPosition().toPoint(), destination);
-		animate(a);
+		animateOnce(a);
 	}
 
 	public void animateParry(JediKnight jedi, Point destination){
 		Animation a = calculateParryAnimation(jedi.getPosition().toPoint(), destination);
-		animate(a);
+		animateOnce(a);
 	}
 	
 	public void animateIdleWithSword(){
@@ -91,18 +92,17 @@ public class JediAnimator extends WalkerAnimator implements IJediAnimator{
 	}
 	
 	
-	
-	protected void animate(Animation a){
+	protected void animate(Animation a, boolean isInfiniteLoop){
 		if(a==null){
 			a = Animation.STOP_S;
 		}
 		
-		if(this.lastAnimation == a){
+		if(isInfiniteLoop && this.lastAnimation == a){
 			return;
 		}
 		
 		long tileDuration = 200;
-		long swordCutDuration = 110;
+		long swordCutDuration = 100;
 		switch(a) {
 			case WALK_E: //derecha
 				tileDuration =  Math.round(10000/speed);
@@ -121,10 +121,10 @@ public class JediAnimator extends WalkerAnimator implements IJediAnimator{
 				sprite.animate(new long[]{tileDuration, tileDuration, tileDuration, tileDuration}, 30, 33, true); //fila4 
 				break;
 			case STOP_S: //abajo
-				sprite.animate(new long[]{300, 300}, 19, 20, true);
+				sprite.animate(new long[]{300, 300}, 19, 20, true); //TODO: AG faltan las imagenes de STOP_S i STOP_N
 				break;
 			case STOP_N: //arriba
-				sprite.animate(new long[]{300, 300}, 4, 5, true);
+				sprite.animate(new long[]{300, 300}, 4, 5, true); //TODO: AG faltan las imagenes de STOP_S i STOP_N
 				break;
 			case STOP_W: //izquierda
 				sprite.animate(new long[]{300, 300}, 19, 20, true);
@@ -132,38 +132,32 @@ public class JediAnimator extends WalkerAnimator implements IJediAnimator{
 			case STOP_E: //derecha
 				sprite.animate(new long[]{300, 300}, 4, 5, true);
 				break;
+				
 			case FIGHT_W: //izquierda
-				sprite.animate(new long[]{swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration}, new int[]{22,23,21,25,26, 19}, false); //mariposa?
+				sprite.animate(new long[]{swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,30}, new int[]{22,23,21,25,26, 19}, false); //mariposa
 				break;
 			case FIGHT_E: //derecha
-				sprite.animate(new long[]{swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration}, new int[]{7,8,6,10,11, 4}, false); //mariposa?
+				sprite.animate(new long[]{swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,30}, new int[]{7,8,6,10,11, 4}, false); //mariposa
 				break;
-//			case FIGHT_N: //arriba
-//				sprite.animate(new long[]{500,100},  new int[]{51, 34}, false);
-//				break;
 			case PARRY_W: //izquierda
-				sprite.animate(new long[]{swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration}, new int[]{22,23,21,25,26, 19}, false); //mariposa?
+				//sprite.animate(new long[]{swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,30}, new int[]{22,23,21,25,26, 19}, false); //mariposa
+				//sprite.animate(new long[]{swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,30}, new int[]{21,22,23,21,25,26,21, 19}, false); //mariposa larga
+				sprite.animate(new long[]{swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,30}, new int[]{22,23,21,25,26,22, 19}, false); //mariposa media?
 				break;
 			case PARRY_E: //derecha
-				sprite.animate(new long[]{swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration}, new int[]{7,8,6,10,11, 4}, false); //mariposa?
+				//sprite.animate(new long[]{swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,30}, new int[]{7,8,6,10,11, 4}, false); //mariposa
+				//sprite.animate(new long[]{swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,30}, new int[]{6,7,8,6,10,11,6, 4}, false); //mariposa larga
+				sprite.animate(new long[]{swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,30}, new int[]{7,8,6,10,11,7, 4}, false); //mariposa media?
 				break;
-//			case PARRY_N: //arriba
-//				sprite.animate(new long[]{500,100},  new int[]{51, 34}, false);
-//				break;
 				
-			case APLASTADO:
-//				if(this.textureId == SpriteFactory.MARC){
-//					sprite.animate(new long[]{200,200}, new int[]{4, 6}, true);
-//				}else{
-					//sprite.stopAnimation(MathUtils.random(4, 6)); //aqui habra que poner un random, y quizas una rotacion?
-				//}
-				break;
 			default: //parado_s
+				Debug.d("default", "animate default!");
 				sprite.animate(new long[]{400, 400}, 19, 20, true);
 		}
 		
 		this.lastAnimation = a;
 	}
+	
 
 
 	

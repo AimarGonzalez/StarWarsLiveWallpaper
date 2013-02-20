@@ -102,7 +102,7 @@ public class SoundLibrary implements IUpdateHandler {
 	}
 	
 	public void onUpdate(float pSecondsElapsed) {
-		Debug.d("SoundLibrary","onUpdate handler " + pSecondsElapsed);
+		//Debug.d("SoundLibrary","onUpdate handler " + pSecondsElapsed);
 		
 		for(Sample sample : Sample.values() )
 		{

@@ -58,7 +58,7 @@ public class RenderBubbleProcess extends Process
 		
 		getEntitiesFromGame(game);
 		
-		Debug.d("Number of bubbles: " + bubbles.size());		
+		//Debug.d("Number of bubbles: " + bubbles.size());		
 		
 		for(Bubble bubble : this.bubbles){
 		

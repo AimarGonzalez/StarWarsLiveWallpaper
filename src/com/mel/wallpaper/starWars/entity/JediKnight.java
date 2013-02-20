@@ -3,6 +3,7 @@ package com.mel.wallpaper.starWars.entity;
 
 import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
+import org.andengine.util.debug.Debug;
 import org.andengine.util.math.MathUtils;
 
 import com.mel.entityframework.IMovable;
@@ -79,7 +80,7 @@ public class JediKnight extends Walker implements IMovable
 			//TODO AG: Podriamos mejorar coordinacion de animacion/cooldown, si al llamar
 			//animateParry, pasaramos por parametro un IAnimationListener, para recivir
 			//el evento de "onAnimationFinished"
-			TimerHelper.startTimer(this.position, 0.5f,  new ITimerCallback() {                      
+			TimerHelper.startTimer(this.position, 0.6f,  new ITimerCallback() {                      
 				public void onTimePassed(final TimerHandler pTimerHandler)
 				{
 					isOnParringCooldown = false;
