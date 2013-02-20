@@ -73,9 +73,13 @@ public class JediKnight extends Walker implements IMovable
 		
 		if(!isOnParringCooldown){
 			((IJediAnimator)this.animator).animateParry(this, destination);
-			
+
 			this.isOnParringCooldown = true;
-			TimerHelper.startTimer(this.position, 0.7f,  new ITimerCallback() {                      
+			
+			//TODO AG: Podriamos mejorar coordinacion de animacion/cooldown, si al llamar
+			//animateParry, pasaramos por parametro un IAnimationListener, para recivir
+			//el evento de "onAnimationFinished"
+			TimerHelper.startTimer(this.position, 0.5f,  new ITimerCallback() {                      
 				public void onTimePassed(final TimerHandler pTimerHandler)
 				{
 					isOnParringCooldown = false;
