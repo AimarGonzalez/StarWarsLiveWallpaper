@@ -82,8 +82,9 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 		
 		//SpriteFactory.getMe().registerTiledTexture(SpriteFactory.BENJI,"fb_goalkeeper_benji_pantalon_llarg.png", 512, 512, 4, 5);
 
-		//SpriteFactory.getMe().registerTiledTexture(SpriteFactory.LUKE,"Luke4500x1800.png", 4500, 1800, 6, 15);
-		SpriteFactory.getMe().registerTiledTexture(SpriteFactory.LUKE,"Luke2250x900.png", 2250, 900, 15, 6);
+		//SpriteFactory.getMe().registerTiledTexture(SpriteFactory.LUKE,"Luke4500x1800.png", 4500, 1800, 15, 6);
+//		SpriteFactory.getMe().registerTiledTexture(SpriteFactory.LUKE,"Luke2250x900.png", 2250, 900, 15, 6);
+		SpriteFactory.getMe().registerTiledTexture(SpriteFactory.LUKE,"Luke1125x450.png", 1125, 450, 15, 6);
 				
 		SpriteFactory.getMe().registerTexture(SpriteFactory.LASER,"shooting.png", 128, 128);
 	
