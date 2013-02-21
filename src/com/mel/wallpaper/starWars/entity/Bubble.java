@@ -10,8 +10,8 @@ import org.andengine.util.modifier.IModifier;
 import com.mel.entityframework.IEntity;
 import com.mel.entityframework.IMovable;
 import com.mel.util.Point;
-import com.mel.wallpaper.starWars.sound.SoundLibrary;
-import com.mel.wallpaper.starWars.sound.SoundLibrary.Sample;
+import com.mel.wallpaper.starWars.sound.SoundAssets;
+import com.mel.wallpaper.starWars.sound.SoundAssets.Sample;
 import com.mel.wallpaper.starWars.view.Position;
 import com.mel.wallpaper.starWars.view.SpriteFactory;
 import com.mel.wallpaper.starWars.view.WalkerAnimator;
@@ -76,7 +76,7 @@ public class Bubble implements IEntity, IMovable
 	
 	public void playSound()
 	{
-		SoundLibrary.playSample(type.sound);
+		SoundAssets.playSample(type.sound);
 	}
 	
 	public Point getSpriteOffset(){

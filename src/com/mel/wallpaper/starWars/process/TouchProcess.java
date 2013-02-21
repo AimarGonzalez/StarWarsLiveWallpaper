@@ -30,8 +30,8 @@ import com.mel.wallpaper.starWars.entity.commands.BubbleCommand;
 import com.mel.wallpaper.starWars.entity.commands.MoveCommand;
 import com.mel.wallpaper.starWars.entity.commands.ShootLaserCommand;
 import com.mel.wallpaper.starWars.settings.GameSettings;
-import com.mel.wallpaper.starWars.sound.SoundLibrary;
-import com.mel.wallpaper.starWars.sound.SoundLibrary.Sample;
+import com.mel.wallpaper.starWars.sound.SoundAssets;
+import com.mel.wallpaper.starWars.sound.SoundAssets.Sample;
 import com.mel.wallpaper.starWars.view.SpriteFactory;
 
 public class TouchProcess extends Process implements IOnSceneTouchListener

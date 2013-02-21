@@ -12,7 +12,7 @@ import com.mel.wallpaper.starWars.settings.GameSettings;
 
 import android.content.Context;
 
-public class SoundLibrary implements IUpdateHandler {
+public class SoundAssets implements IUpdateHandler {
 
 	static SoundManager soundManager;
 	static Context context;
@@ -62,7 +62,7 @@ public class SoundLibrary implements IUpdateHandler {
 		}
 	}
 	
-	public SoundLibrary(SoundManager soundManager, Context context)
+	public SoundAssets(SoundManager soundManager, Context context)
 	{
 		this.soundManager = soundManager;
 		this.context = context;
@@ -83,7 +83,7 @@ public class SoundLibrary implements IUpdateHandler {
 	
 	public static void playSample(Sample sample)
 	{
-		Debug.d("SoundLibrary","playing " + sample);
+		Debug.d("SoundAssets","playing " + sample);
 		
 		if(GameSettings.getInstance().musicEnabled)
 		{
@@ -119,21 +119,21 @@ public class SoundLibrary implements IUpdateHandler {
 	}
 	
 	public void onUpdate(float pSecondsElapsed) {
-		//Debug.d("SoundLibrary","onUpdate handler " + pSecondsElapsed);
+		//Debug.d("SoundAssets","onUpdate handler " + pSecondsElapsed);
 		
 		for(Sample sample : Sample.values() )
 		{
 			if(sample.fadingOut)
 			{
-				Debug.d("SoundLibrary","fadeOut " + sample + ", old volume: " + sample.sound.getVolume());
+				Debug.d("SoundAssets","fadeOut " + sample + ", old volume: " + sample.sound.getVolume());
 				
 				sample.sound.setVolume(Math.max(0f,sample.sound.getVolume()-pSecondsElapsed/2*sample.fadeOutSpeed));
 				
-				Debug.d("SoundLibrary","fadeOut " + sample + ", new volume: " + sample.sound.getVolume());
+				Debug.d("SoundAssets","fadeOut " + sample + ", new volume: " + sample.sound.getVolume());
 				
 				if(sample.sound.getVolume() == 0f)
 				{
-					Debug.d("SoundLibrary","fadeOut " + sample + " end");
+					Debug.d("SoundAssets","fadeOut " + sample + " end");
 					sample.sound.stop();
 					sample.fadingOut = false;
 				}
@@ -142,6 +142,6 @@ public class SoundLibrary implements IUpdateHandler {
 	}
 
 	public void reset() {
-		Debug.d("SoundLibrary","reset update handler");
+		Debug.d("SoundAssets","reset update handler");
 	}
 }

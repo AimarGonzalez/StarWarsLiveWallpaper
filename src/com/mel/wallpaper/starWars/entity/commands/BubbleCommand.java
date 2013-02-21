@@ -18,8 +18,8 @@ import com.mel.wallpaper.starWars.entity.LaserBeam;
 import com.mel.wallpaper.starWars.entity.Map;
 import com.mel.wallpaper.starWars.entity.Walker;
 import com.mel.wallpaper.starWars.entity.Walker.Rol;
-import com.mel.wallpaper.starWars.sound.SoundLibrary;
-import com.mel.wallpaper.starWars.sound.SoundLibrary.Sample;
+import com.mel.wallpaper.starWars.sound.SoundAssets;
+import com.mel.wallpaper.starWars.sound.SoundAssets.Sample;
 import com.mel.wallpaper.starWars.view.Position;
 import com.mel.wallpaper.starWars.view.SpriteFactory;
 
