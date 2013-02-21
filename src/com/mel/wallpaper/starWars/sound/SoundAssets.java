@@ -8,6 +8,7 @@ import org.andengine.audio.sound.SoundManager;
 import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.util.debug.Debug;
 
+import com.mel.util.MathUtil;
 import com.mel.wallpaper.starWars.settings.GameSettings;
 
 import android.content.Context;
@@ -81,6 +82,20 @@ public class SoundAssets implements IUpdateHandler {
 		return soundManager.getMasterVolume();
 	}
 	
+	/**
+	 *
+	 * @return the random sample chosen, for if you want to stopSample() it.
+	 */
+	public static Sample playRandomSample()
+	{
+		Sample[] samples = Sample.values();
+		Sample sample = samples[(int)(Math.random()*(double)samples.length)];
+
+		playSample(sample);
+
+		return sample;
+	}
+
 	public static void playSample(Sample sample)
 	{
 		Debug.d("SoundAssets","playing " + sample);
