@@ -39,13 +39,13 @@ public class BubbleCommand extends MoveCommand
 		switch(walker.rol)
 		{
 		case CHUWAKA:
-			bubble = new Bubble(BubbleType.BUBBLE_OLA_K_ASE, bubblePosition);
+			bubble = new Bubble(BubbleType.BUBBLE_NOTE_GREEN, bubblePosition);
 			break;
 		case JEDI:
-			bubble = new Bubble(BubbleType.BUBBLE_TU_PADRE, bubblePosition);
+			bubble = new Bubble(BubbleType.BUBBLE_NOTE_GREEN, bubblePosition);
 			break;
 		case STORM_TROOPER:
-			bubble = new Bubble(BubbleType.BUBBLE_OLA_K_ASE, bubblePosition);
+			bubble = new Bubble(BubbleType.BUBBLE_NOTE_WHITE, bubblePosition);
 			break;
 		default:
 			bubble = new Bubble(BubbleType.BUBBLE_OLA_K_ASE, bubblePosition);

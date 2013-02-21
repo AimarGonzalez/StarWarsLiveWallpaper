@@ -87,7 +87,8 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 		SpriteFactory.getMe().registerTexture(SpriteFactory.LASER,"shooting.png", 128, 128);
 	
 		SpriteFactory.getMe().registerTexture(Bubble.BubbleType.BUBBLE_OLA_K_ASE.toString(),"bubble-ola-k-ase.png", 166, 120);
-		SpriteFactory.getMe().registerTexture(Bubble.BubbleType.BUBBLE_TU_PADRE.toString(),"bubble-ola-k-ase-padre.jpg", 166, 120);
+		SpriteFactory.getMe().registerTexture(Bubble.BubbleType.BUBBLE_NOTE_GREEN.toString(),"bubble-nota-green.png", 166, 120);
+		SpriteFactory.getMe().registerTexture(Bubble.BubbleType.BUBBLE_NOTE_WHITE.toString(),"bubble-nota-green.png", 166, 120);
 
 //		SpriteFactory.getMe().registerTexture("background","field-final2.png", 2048, 1024);
 		SpriteFactory.getMe().registerTexture("background","background-tatooine2-small.jpg", 1920, 1137);

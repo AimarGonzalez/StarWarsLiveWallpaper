@@ -19,8 +19,9 @@ import com.mel.wallpaper.starWars.view.WalkerAnimator;
 public class Bubble implements IEntity, IMovable
 {
 	public enum BubbleType {
-		BUBBLE_OLA_K_ASE("bubble1",Sample.LASER),
-		BUBBLE_TU_PADRE("bubble1",Sample.CHEWAKA);
+		BUBBLE_OLA_K_ASE("bubble1",Sample.CHEWAKA),
+		BUBBLE_NOTE_GREEN("bubble3",null), // null for random sample
+		BUBBLE_NOTE_WHITE("bubble4",null); // null for random sample
 		
 		String spriteName;
 		Sample sound;
@@ -76,7 +77,10 @@ public class Bubble implements IEntity, IMovable
 	
 	public void playSound()
 	{
-		SoundAssets.playSample(type.sound);
+		if(type.sound!=null)
+			SoundAssets.playSample(type.sound);
+		else
+			SoundAssets.playRandomSample();
 	}
 	
 	public Point getSpriteOffset(){
