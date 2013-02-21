@@ -84,7 +84,7 @@ public class Shooter extends Walker implements IMovable
         });
 		
 		this.canShootCooldown = true;
-		TimerHelper.startTimer(this.position, MathUtils.random(0.5f, 20f),  new ITimerCallback() {                      
+		TimerHelper.startTimer(this.position, MathUtils.random(0.5f, 30f),  new ITimerCallback() {                      
             public void onTimePassed(final TimerHandler pTimerHandler)
             {
             	canShootCooldown = false;

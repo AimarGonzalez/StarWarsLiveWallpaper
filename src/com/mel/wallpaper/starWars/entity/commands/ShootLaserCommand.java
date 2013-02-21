@@ -28,7 +28,7 @@ public class ShootLaserCommand extends MoveCommand
 		
 		this.shooter = walker;
 
-		this.laser = new LaserBeam(walker.position, MathUtils.random(1, 2));
+		this.laser = new LaserBeam(walker.position, MathUtils.random(0, 2));
 		this.movable = laser;
 		game.addEntity(laser);
 	}
