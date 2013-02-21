@@ -12,8 +12,8 @@
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="godsFinger_enabled"
-        android:summaryOff="You&apos;ve lost your power"
-        android:summaryOn="You have a god&apos;s power"
-        android:title="Enable God&apos;s finger" />
+        android:summaryOff="The force is abandoning you"
+        android:summaryOn="The force is with you"
+        android:title="Enable the Force" />
 
 </PreferenceScreen>
