@@ -113,7 +113,7 @@ public class TouchProcess extends Process implements IOnSceneTouchListener
 			}
 		}
 		
-		SoundLibrary.playSample(Sample.LASER);
+//		SoundLibrary.playSample(Sample.LASER);
 		
 		return false;
 	}
