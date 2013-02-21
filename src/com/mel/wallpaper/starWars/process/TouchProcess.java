@@ -30,8 +30,8 @@ import com.mel.wallpaper.starWars.entity.commands.BubbleCommand;
 import com.mel.wallpaper.starWars.entity.commands.MoveCommand;
 import com.mel.wallpaper.starWars.entity.commands.ShootLaserCommand;
 import com.mel.wallpaper.starWars.settings.GameSettings;
-import com.mel.wallpaper.starWars.sound.SoundLibrary;
-import com.mel.wallpaper.starWars.sound.SoundLibrary.Sample;
+import com.mel.wallpaper.starWars.sound.SoundAssets;
+import com.mel.wallpaper.starWars.sound.SoundAssets.Sample;
 import com.mel.wallpaper.starWars.view.SpriteFactory;
 
 public class TouchProcess extends Process implements IOnSceneTouchListener
@@ -99,21 +99,29 @@ public class TouchProcess extends Process implements IOnSceneTouchListener
 
 		if(GameSettings.getInstance().godsFingerEnabled){
 			List<Walker> touchedPlayers = getPlayersUnderTouch(touchEvent, TOUCH_RATIO);
-		
+
 			if(touchedPlayers.size() > 0){
-				for(Walker walker:touchedPlayers){
-					
-					Debug.d("Touch player");
+				
+				Walker walker=null;
+				
+				for(Walker touchedWalker:touchedPlayers){
+					if(walker==null || walker.getPosition().getY() < touchedWalker.getPosition().getY())
+						walker = touchedWalker;
+				}
+				
+				if(walker!=null)
+				{
+					Debug.d("Touch player " + walker);
 					
 					BubbleCommand moveb = new BubbleCommand(walker,game);
 					walker.addCommand(moveb);
-
 				}
+				
 				return true;
 			}
 		}
 		
-		SoundLibrary.playSample(Sample.LASER);
+//		SoundLibrary.playSample(Sample.LASER);
 		
 		return false;
 	}
