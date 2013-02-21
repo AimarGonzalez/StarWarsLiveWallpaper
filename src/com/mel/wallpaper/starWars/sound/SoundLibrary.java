@@ -22,7 +22,24 @@ public class SoundLibrary implements IUpdateHandler {
 	public enum Sample {
 		
 		LASER("sfx/The_Yellow_Dart-Saberdown.wav"),
-		CHEWAKA("sfx/chewbacca.wav");
+		CHEWAKA("sfx/chewbacca.wav"),
+
+		// From Sele!!
+		AUCH("sfx/auch.mp3"),
+		CHIU("sfx/chiu.mp3"),
+		EWOK_FRITO("sfx/ewok_frito.mp3"),
+		EWOKS_2("sfx/ewoks_2.mp3"),
+		EWOKS_3("sfx/ewoks_3.mp3"),
+		EWOKS_WISTLE1("sfx/ewoks_wistle1.mp3"),
+		HOLA_K_ASE("sfx/hola_k_ase.mp3"),
+		JUAAAN("sfx/juaaan.mp3"),
+		JUAAAN_2("sfx/juaaan_2.mp3"),
+		PAYANOOO("sfx/payanooo.mp3"),
+		PEINANDO("sfx/peinando.mp3"),
+		PINYAU("sfx/pinyau.mp3"),
+		SPACEPELOTAS("sfx/spacepelotas.mp3"),
+		TINTINTIRIRIN("sfx/tintintiririn.mp3"),
+		VADER("sfx/vader.mp3");
 		
 		private Sound sound;
 		private String path;
