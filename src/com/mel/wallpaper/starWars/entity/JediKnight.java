@@ -16,7 +16,7 @@ import com.mel.wallpaper.starWars.view.IJediAnimator;
 public class JediKnight extends Walker implements IMovable
 {
 	
-	public static final float DEFAULT_SPEED = 30;
+	public static final float DEFAULT_SPEED = 35;
 	public static final float MAX_JUMP_DISTANCE = 30;
 
 	protected Point duelTarget;

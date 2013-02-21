@@ -24,6 +24,7 @@ public class SpriteFactory
 	
 	public final static String STORM_TROOPER = "STORM_TROOPER";
 	public final static String LUKE = "LUKE";
+	public final static String DARTH_VADER = "DARTH_VADER";
 	public final static String MP_WHITE = "MP_WHITE";
 
 	public final static String LASER = "laser";

@@ -105,54 +105,50 @@ public class JediAnimator extends WalkerAnimator implements IJediAnimator{
 		long swordCutDuration = 100;
 		switch(a) {
 			case WALK_E: //derecha
-				tileDuration =  Math.round(10000/speed);
+				tileDuration =  Math.round(8000/speed);
 				sprite.animate(new long[]{tileDuration, tileDuration, tileDuration, tileDuration},new int[]{3,2,1,0}, true); //fila1
 				break;
 			case WALK_W: //izquierda
-				tileDuration =  Math.round(10000/speed);
-				sprite.animate(new long[]{tileDuration, tileDuration, tileDuration, tileDuration}, 15, 18, true);  //fila2 
+				tileDuration =  Math.round(8000/speed);
+				sprite.animate(new long[]{tileDuration, tileDuration, tileDuration, tileDuration}, 10, 13, true);  //fila2 
 				break;
 			case WALK_N: //arriba
-				tileDuration =  Math.round(10000/speed);
-				sprite.animate(new long[]{tileDuration, tileDuration, tileDuration, tileDuration}, 45, 48, true); //fila3
+				tileDuration =  Math.round(8000/speed);
+				sprite.animate(new long[]{tileDuration, tileDuration, tileDuration, tileDuration}, 30, 33, true); //fila3
 				break;
 			case WALK_S: //abajo
-				tileDuration =  Math.round(10000/speed);
-				sprite.animate(new long[]{tileDuration, tileDuration, tileDuration, tileDuration}, 30, 33, true); //fila4 
+				tileDuration =  Math.round(8000/speed);
+				sprite.animate(new long[]{tileDuration, tileDuration, tileDuration, tileDuration}, 20, 23, true); //fila4 
 				break;
 			case STOP_S: //abajo
-				sprite.animate(new long[]{300, 300}, 19, 20, true); //TODO: AG faltan las imagenes de STOP_S i STOP_N
+				sprite.animate(new long[]{300, 300}, 14, 15, true); //TODO: AG faltan las imagenes de STOP_S i STOP_N
 				break;
 			case STOP_N: //arriba
 				sprite.animate(new long[]{300, 300}, 4, 5, true); //TODO: AG faltan las imagenes de STOP_S i STOP_N
 				break;
 			case STOP_W: //izquierda
-				sprite.animate(new long[]{300, 300}, 19, 20, true);
+				sprite.animate(new long[]{300, 300}, 14, 15, true);
 				break;
 			case STOP_E: //derecha
 				sprite.animate(new long[]{300, 300}, 4, 5, true);
 				break;
 				
 			case FIGHT_W: //izquierda
-				sprite.animate(new long[]{swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,30}, new int[]{22,23,21,25,26, 19}, false); //mariposa
+				sprite.animate(new long[]{swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,30}, new int[]{51,52,50,54,55,51, 14}, false); //mariposa media?
 				break;
 			case FIGHT_E: //derecha
-				sprite.animate(new long[]{swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,30}, new int[]{7,8,6,10,11, 4}, false); //mariposa
+				sprite.animate(new long[]{swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,30}, new int[]{41,42,40,44,45,41, 4}, false); //mariposa media?
 				break;
 			case PARRY_W: //izquierda
-				//sprite.animate(new long[]{swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,30}, new int[]{22,23,21,25,26, 19}, false); //mariposa
-				//sprite.animate(new long[]{swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,30}, new int[]{21,22,23,21,25,26,21, 19}, false); //mariposa larga
-				sprite.animate(new long[]{swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,30}, new int[]{22,23,21,25,26,22, 19}, false); //mariposa media?
+				sprite.animate(new long[]{swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,30}, new int[]{51,52,50,54,55,51, 14}, false); //mariposa media?
 				break;
 			case PARRY_E: //derecha
-				//sprite.animate(new long[]{swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,30}, new int[]{7,8,6,10,11, 4}, false); //mariposa
-				//sprite.animate(new long[]{swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,30}, new int[]{6,7,8,6,10,11,6, 4}, false); //mariposa larga
-				sprite.animate(new long[]{swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,30}, new int[]{7,8,6,10,11,7, 4}, false); //mariposa media?
+				sprite.animate(new long[]{swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,swordCutDuration,30}, new int[]{41,42,40,44,45,41, 4}, false); //mariposa media?
 				break;
 				
 			default: //parado_s
 				Debug.d("default", "animate default!");
-				sprite.animate(new long[]{400, 400}, 19, 20, true);
+				sprite.animate(new long[]{400, 400}, 14, 25, true);
 		}
 		
 		this.lastAnimation = a;

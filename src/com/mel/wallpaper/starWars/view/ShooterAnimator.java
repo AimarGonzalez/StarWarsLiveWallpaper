@@ -10,7 +10,7 @@ public class ShooterAnimator extends WalkerAnimator implements IShooterAnimator{
 	
 	public static float SPRITE_WIDTH= 175f*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR;
 	public static float SPRITE_HEIGHT = 175f*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR;
-	public static float VERTICAL_CENTER = 36f*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR;
+	public static float VERTICAL_CENTER = 0.13f*SPRITE_HEIGHT*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR;
 	public static String TEXTURE_ID = SpriteFactory.STORM_TROOPER;
 	
 	
@@ -87,44 +87,44 @@ public class ShooterAnimator extends WalkerAnimator implements IShooterAnimator{
 		long tileDuration = 200;
 		switch(a) {
 			case WALK_E: //derecha
-				tileDuration =  Math.round(10000/speed);
+				tileDuration =  Math.round(9000/speed);
 				sprite.animate(new long[]{tileDuration, tileDuration, tileDuration, tileDuration},new int[]{0,1,2,3}, true); //fila1
 				break;
 			case WALK_W: //izquierda
-				tileDuration =  Math.round(10000/speed);
-				sprite.animate(new long[]{tileDuration, tileDuration, tileDuration, tileDuration}, 5, 8, true);  //fila2 
+				tileDuration =  Math.round(9000/speed);
+				sprite.animate(new long[]{tileDuration, tileDuration, tileDuration, tileDuration}, 10, 13, true);  //fila2 
 				break;
 			case WALK_N: //arriba
-				tileDuration =  Math.round(10000/speed);
-				sprite.animate(new long[]{tileDuration, tileDuration, tileDuration, tileDuration}, 10, 13, true); //fila3
+				tileDuration =  Math.round(9000/speed);
+				sprite.animate(new long[]{tileDuration, tileDuration, tileDuration, tileDuration}, 30, 33, true); //fila3
 				break;
 			case WALK_S: //abajo
-				tileDuration =  Math.round(10000/speed);
-				sprite.animate(new long[]{tileDuration, tileDuration, tileDuration, tileDuration}, 10, 13, true); //fila4 
+				tileDuration =  Math.round(9000/speed);
+				sprite.animate(new long[]{tileDuration, tileDuration, tileDuration, tileDuration}, 20, 23, true); //fila4 
 				break;
 			case STOP_S: //abajo
-				sprite.stopAnimation(13); //fila5
+				sprite.stopAnimation(24); //fila5
 				break;
 			case STOP_N: //arriba
-				sprite.stopAnimation(13); 
+				sprite.stopAnimation(34); 
 				break;
 			case STOP_W: //izquierda
-				sprite.stopAnimation(5);  //fila6 
+				sprite.stopAnimation(14);  //fila6 
 				break;
 			case STOP_E: //derecha
-				sprite.stopAnimation(1); 
+				sprite.stopAnimation(4); 
 				break;
 			case SHOOT_S: //abajo
-				sprite.animate(new long[]{100,300},  new int[]{15, 16}, false); //fila invisibles
+				sprite.animate(new long[]{100,300},  new int[]{16, 15}, false); //fila invisibles
 				break;
 			case SHOOT_W: //izquierda
-				sprite.animate(new long[]{100,300},  new int[]{15, 16}, false); //fila invisibles
+				sprite.animate(new long[]{100,300},  new int[]{16, 15}, false); //fila invisibles
 				break;
 			case SHOOT_E: //derecha
-				sprite.animate(new long[]{100,300},  new int[]{15, 16}, false); //fila invisibles
+				sprite.animate(new long[]{100,300},  new int[]{6, 5}, false); //fila invisibles
 				break;
 			case SHOOT_N: //arriba
-				sprite.animate(new long[]{100,300},  new int[]{15, 16}, false); //fila invisibles
+				sprite.animate(new long[]{100,300},  new int[]{6, 5}, false); //fila invisibles
 				break;
 		
 			case APLASTADO:
@@ -135,7 +135,7 @@ public class ShooterAnimator extends WalkerAnimator implements IShooterAnimator{
 				//}
 				break;
 			default: //parado_s
-				sprite.stopAnimation(13);  //fila5
+				sprite.stopAnimation(24);  //fila5
 		}
 		
 		this.lastAnimation = a;

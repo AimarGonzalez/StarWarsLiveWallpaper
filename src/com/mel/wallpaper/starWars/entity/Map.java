@@ -39,8 +39,10 @@ public class Map implements IEntity
 //		walkers.add(new Shooter(-200, 200, SpriteFactory.STORM_TROOPER, Animation.STOP_S, Rol.STORM_TROOPER));
 //		walkers.add(new Shooter(-200, 200, SpriteFactory.STORM_TROOPER, Animation.STOP_S, Rol.STORM_TROOPER));
 
-		walkers.add(new JediKnight(walls.getRandomPoint(), SpriteFactory.LUKE,Animation.STOP_S, Rol.JEDI));
-		walkers.add(new JediKnight(walls.getRandomPoint(), SpriteFactory.LUKE,Animation.STOP_S, Rol.JEDI));
+		walkers.add(new JediKnight(walls.getRandomPoint(), 35, SpriteFactory.LUKE,Animation.STOP_S, Rol.JEDI));
+		walkers.add(new JediKnight(walls.getRandomPoint(), 35, SpriteFactory.LUKE,Animation.STOP_S, Rol.JEDI));
+		walkers.add(new JediKnight(walls.getRandomPoint(), 30, SpriteFactory.DARTH_VADER,Animation.STOP_S, Rol.JEDI));
+		walkers.add(new JediKnight(walls.getRandomPoint(), 30, SpriteFactory.DARTH_VADER,Animation.STOP_S, Rol.JEDI));
 		walkers.add(new Shooter(walls.getRandomPoint(), SpriteFactory.STORM_TROOPER, Animation.STOP_S, Rol.STORM_TROOPER));
 		walkers.add(new Shooter(walls.getRandomPoint(), SpriteFactory.STORM_TROOPER, Animation.STOP_S, Rol.STORM_TROOPER));
 		walkers.add(new Shooter(walls.getRandomPoint(), SpriteFactory.STORM_TROOPER, Animation.STOP_S, Rol.STORM_TROOPER));

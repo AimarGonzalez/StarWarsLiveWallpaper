@@ -77,14 +77,12 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 		SpriteFactory.getMe().context = this.context;
 		SpriteFactory.getMe().engine = this.engine;
 		
-		SpriteFactory.getMe().registerTiledTexture(SpriteFactory.STORM_TROOPER,"stormtrooper-alineado-220.png", 1100, 1100, 5, 5);
-		//SpriteFactory.getMe().registerTiledTexture(SpriteFactory.MP_WHITE,"fb_player-maped_white_hair.png", 512, 512, 8, 8);
-		
-		//SpriteFactory.getMe().registerTiledTexture(SpriteFactory.BENJI,"fb_goalkeeper_benji_pantalon_llarg.png", 512, 512, 4, 5);
+		//SpriteFactory.getMe().registerTiledTexture(SpriteFactory.STORM_TROOPER,"stormtrooper-alineado-220.png", 1100, 1100, 5, 5);
+		SpriteFactory.getMe().registerTiledTexture(SpriteFactory.STORM_TROOPER,"stormtrooper_2000x1200alineat.png", 2000, 1200, 10, 6);
 
-		//SpriteFactory.getMe().registerTiledTexture(SpriteFactory.LUKE,"Luke4500x1800.png", 4500, 1800, 15, 6);
-		SpriteFactory.getMe().registerTiledTexture(SpriteFactory.LUKE,"Luke2250x900.png", 2250, 900, 15, 6);
 		//SpriteFactory.getMe().registerTiledTexture(SpriteFactory.LUKE,"Luke1125x450.png", 1125, 450, 15, 6);
+		SpriteFactory.getMe().registerTiledTexture(SpriteFactory.LUKE,"luke_2000x1200alineat.png", 2000, 1200, 10, 6);
+		SpriteFactory.getMe().registerTiledTexture(SpriteFactory.DARTH_VADER,"darthvader_2000x1200alineat.png", 2000, 1200, 10, 6);
 				
 		SpriteFactory.getMe().registerTexture(SpriteFactory.LASER,"shooting.png", 128, 128);
 	

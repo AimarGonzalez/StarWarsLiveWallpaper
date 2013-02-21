@@ -21,7 +21,7 @@ import com.mel.wallpaper.starWars.view.SpriteFactory;
 public class Shooter extends Walker implements IMovable
 {
 	
-	public static final float DEFAULT_SPEED = 30;
+	public static final float DEFAULT_SPEED = 40;
 	public static final float MAX_JUMP_DISTANCE = 30;
 
 	protected Point shootTarget;

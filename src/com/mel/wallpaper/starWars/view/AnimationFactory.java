@@ -13,6 +13,11 @@ public class AnimationFactory
 			animation = new JediAnimator(SpriteFactory.LUKE, speed);
 		}
 		
+		
+		if(textureId == SpriteFactory.DARTH_VADER){
+			animation = new DarthVaderAnimator(SpriteFactory.DARTH_VADER, speed);
+		}
+		
 //		if(textureId == SpriteFactory.BENJI){
 //			animation = new GoalKeeperAnimator(SpriteFactory.BENJI, speed);
 //		}
