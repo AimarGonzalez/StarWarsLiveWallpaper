@@ -8,11 +8,12 @@ import org.andengine.audio.sound.SoundManager;
 import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.util.debug.Debug;
 
+import com.mel.util.MathUtil;
 import com.mel.wallpaper.starWars.settings.GameSettings;
 
 import android.content.Context;
 
-public class SoundLibrary implements IUpdateHandler {
+public class SoundAssets implements IUpdateHandler {
 
 	static SoundManager soundManager;
 	static Context context;
@@ -22,7 +23,24 @@ public class SoundLibrary implements IUpdateHandler {
 	public enum Sample {
 		
 		LASER("sfx/The_Yellow_Dart-Saberdown.wav"),
-		CHEWAKA("sfx/chewbacca.wav");
+		CHEWAKA("sfx/chewbacca.wav"),
+
+		// From Sele!!
+		AUCH("sfx/auch.mp3"),
+		CHIU("sfx/chiu.mp3"),
+		EWOK_FRITO("sfx/ewok_frito.mp3"),
+		EWOKS_2("sfx/ewoks_2.mp3"),
+		EWOKS_3("sfx/ewoks_3.mp3"),
+		EWOKS_WISTLE1("sfx/ewoks_wistle1.mp3"),
+		HOLA_K_ASE("sfx/hola_k_ase.mp3"),
+		JUAAAN("sfx/juaaan.mp3"),
+		JUAAAN_2("sfx/juaaan_2.mp3"),
+		PAYANOOO("sfx/payanooo.mp3"),
+		PEINANDO("sfx/peinando.mp3"),
+		PINYAU("sfx/pinyau.mp3"),
+		SPACEPELOTAS("sfx/spacepelotas.mp3"),
+		TINTINTIRIRIN("sfx/tintintiririn.mp3"),
+		VADER("sfx/vader.mp3");
 		
 		private Sound sound;
 		private String path;
@@ -45,7 +63,7 @@ public class SoundLibrary implements IUpdateHandler {
 		}
 	}
 	
-	public SoundLibrary(SoundManager soundManager, Context context)
+	public SoundAssets(SoundManager soundManager, Context context)
 	{
 		this.soundManager = soundManager;
 		this.context = context;
@@ -64,9 +82,23 @@ public class SoundLibrary implements IUpdateHandler {
 		return soundManager.getMasterVolume();
 	}
 	
+	/**
+	 *
+	 * @return the random sample chosen, for if you want to stopSample() it.
+	 */
+	public static Sample playRandomSample()
+	{
+		Sample[] samples = Sample.values();
+		Sample sample = samples[(int)(Math.random()*(double)samples.length)];
+
+		playSample(sample);
+
+		return sample;
+	}
+
 	public static void playSample(Sample sample)
 	{
-		Debug.d("SoundLibrary","playing " + sample);
+		Debug.d("SoundAssets","playing " + sample);
 		
 		if(GameSettings.getInstance().musicEnabled)
 		{
@@ -102,21 +134,21 @@ public class SoundLibrary implements IUpdateHandler {
 	}
 	
 	public void onUpdate(float pSecondsElapsed) {
-		//Debug.d("SoundLibrary","onUpdate handler " + pSecondsElapsed);
+		//Debug.d("SoundAssets","onUpdate handler " + pSecondsElapsed);
 		
 		for(Sample sample : Sample.values() )
 		{
 			if(sample.fadingOut)
 			{
-				Debug.d("SoundLibrary","fadeOut " + sample + ", old volume: " + sample.sound.getVolume());
+				Debug.d("SoundAssets","fadeOut " + sample + ", old volume: " + sample.sound.getVolume());
 				
 				sample.sound.setVolume(Math.max(0f,sample.sound.getVolume()-pSecondsElapsed/2*sample.fadeOutSpeed));
 				
-				Debug.d("SoundLibrary","fadeOut " + sample + ", new volume: " + sample.sound.getVolume());
+				Debug.d("SoundAssets","fadeOut " + sample + ", new volume: " + sample.sound.getVolume());
 				
 				if(sample.sound.getVolume() == 0f)
 				{
-					Debug.d("SoundLibrary","fadeOut " + sample + " end");
+					Debug.d("SoundAssets","fadeOut " + sample + " end");
 					sample.sound.stop();
 					sample.fadingOut = false;
 				}
@@ -125,6 +157,6 @@ public class SoundLibrary implements IUpdateHandler {
 	}
 
 	public void reset() {
-		Debug.d("SoundLibrary","reset update handler");
+		Debug.d("SoundAssets","reset update handler");
 	}
 }

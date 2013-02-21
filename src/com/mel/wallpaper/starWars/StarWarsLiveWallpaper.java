@@ -16,8 +16,8 @@ import org.andengine.input.touch.TouchEvent;
 import org.andengine.util.debug.Debug;
 
 import com.mel.wallpaper.starWars.settings.GameSettings;
-import com.mel.wallpaper.starWars.sound.SoundLibrary;
-import com.mel.wallpaper.starWars.sound.SoundLibrary.Sample;
+import com.mel.wallpaper.starWars.sound.SoundAssets;
+import com.mel.wallpaper.starWars.sound.SoundAssets.Sample;
 
 public class StarWarsLiveWallpaper extends BaseGameWallpaperService
 {
@@ -42,7 +42,7 @@ public class StarWarsLiveWallpaper extends BaseGameWallpaperService
 	
 	Sound benjiBSO;
 	
-	SoundLibrary soundLibrary;
+	SoundAssets soundLibrary;
 	
 	
 	// ===========================================================
@@ -104,7 +104,7 @@ public class StarWarsLiveWallpaper extends BaseGameWallpaperService
 		this.game = new StarWarsGame(this.getEngine(), this);
 		this.game.onCreateResources();
 		
-		soundLibrary = new SoundLibrary(mEngine.getSoundManager(),this);
+		soundLibrary = new SoundAssets(mEngine.getSoundManager(),this);
 		this.mEngine.registerUpdateHandler(soundLibrary);
 	}
 	
