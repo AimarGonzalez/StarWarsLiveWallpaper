@@ -99,16 +99,24 @@ public class TouchProcess extends Process implements IOnSceneTouchListener
 
 		if(GameSettings.getInstance().godsFingerEnabled){
 			List<Walker> touchedPlayers = getPlayersUnderTouch(touchEvent, TOUCH_RATIO);
-		
+
 			if(touchedPlayers.size() > 0){
-				for(Walker walker:touchedPlayers){
-					
-					Debug.d("Touch player");
+				
+				Walker walker=null;
+				
+				for(Walker touchedWalker:touchedPlayers){
+					if(walker==null || walker.getPosition().getY() < touchedWalker.getPosition().getY())
+						walker = touchedWalker;
+				}
+				
+				if(walker!=null)
+				{
+					Debug.d("Touch player " + walker);
 					
 					BubbleCommand moveb = new BubbleCommand(walker,game);
 					walker.addCommand(moveb);
-
 				}
+				
 				return true;
 			}
 		}
