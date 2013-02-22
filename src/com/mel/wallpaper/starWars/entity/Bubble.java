@@ -21,7 +21,13 @@ public class Bubble implements IEntity, IMovable
 	public enum BubbleType {
 		BUBBLE_OLA_K_ASE("bubble1",Sample.CHEWAKA),
 		BUBBLE_NOTE_GREEN("bubble3",null), // null for random sample
-		BUBBLE_NOTE_WHITE("bubble4",null); // null for random sample
+		BUBBLE_NOTE_WHITE("bubble4",null), // null for random sample
+		BUBBBE_A_PADRE_2("bubble5",null),
+		BUBBLE_A_OSCURO("bubble6",null),
+		BUBBLE_A_ORDENES("bubble7",null),
+		BUBBLE_A_OBI("bubble8",null),
+		BUBBLE_A_EWOK("bubble9",null),
+		BUBBLE_A_DUCADOS("bubble10",null);
 		
 		String spriteName;
 		Sample sound;
