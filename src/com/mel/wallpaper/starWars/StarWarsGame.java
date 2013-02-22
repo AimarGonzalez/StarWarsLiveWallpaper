@@ -27,6 +27,7 @@ import com.mel.wallpaper.starWars.process.RenderWalkersProcess;
 import com.mel.wallpaper.starWars.process.TouchProcess;
 import com.mel.wallpaper.starWars.process.WalkersProcess;
 import com.mel.wallpaper.starWars.settings.GameSettings;
+import com.mel.wallpaper.starWars.sound.SoundAssets;
 import com.mel.wallpaper.starWars.view.SpriteFactory;
 
 public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeListener
@@ -58,7 +59,7 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 	
 	private float backgroundScaleFactor;
 
-	//public UpdateTicker;
+	SoundAssets soundAssets;
 	
 	public StarWarsGame(Engine engine, ContextWrapper context){
 		this.engine = engine;
@@ -96,6 +97,10 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 				
 		this.background = getBackground();
 		updateBackgroundPosition();
+		
+		soundAssets = new SoundAssets(engine.getSoundManager(),context);
+		this.engine.registerUpdateHandler(soundAssets);
+		
 	}
 	
 	public Scene onCreateScene(){
