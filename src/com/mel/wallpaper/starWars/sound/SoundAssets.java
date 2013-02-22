@@ -43,14 +43,14 @@ public class SoundAssets implements IUpdateHandler {
 		VADER("sfx/vader.mp3"),
 		
 		// From Aimar
-		DUCADOS("sfx/a_ducados.mp3"),
-		EWOK_SCUR("sfx/a_ewok_scur.mp3"),
-		NAPALM("sfx/a_napalm.mp3"),
-		OBI("sfx/a_obi.mp3"),
-		ORDENES("sfx/a_ordenes.mp3"),
-		OSCURO("sfx/a_oscuro.mp3"),
-		PADRE_2("sfx/a_padre_2.mp3"),
-		YO_SOY_TU_PADRE("sfx/a_yo_soy_tu_padre.mp3");
+		A_DUCADOS("sfx/a_ducados.mp3"),
+		A_EWOK_SCUR("sfx/a_ewok_scur.mp3"),
+		A_NAPALM("sfx/a_napalm.mp3"),
+		A_OBI("sfx/a_obi.mp3"),
+		A_ORDENES("sfx/a_ordenes.mp3"),
+		A_OSCURO("sfx/a_oscuro.mp3"),
+		A_PADRE_2("sfx/a_padre_2.mp3"),
+		A_YO_SOY_TU_PADRE("sfx/a_yo_soy_tu_padre.mp3");
 
 		private Sound sound;
 		private String path;

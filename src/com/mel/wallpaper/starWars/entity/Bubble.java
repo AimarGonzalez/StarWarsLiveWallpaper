@@ -19,15 +19,15 @@ import com.mel.wallpaper.starWars.view.WalkerAnimator;
 public class Bubble implements IEntity, IMovable
 {
 	public enum BubbleType {
-		BUBBLE_OLA_K_ASE("bubbles/bubble-ola-k-ase.png", 166, 120, Sample.CHEWAKA),
+		BUBBLE_OLA_K_ASE("bubbles/bubble-ola-k-ase.png", 166, 120, Sample.HOLA_K_ASE),
 		BUBBLE_NOTE_GREEN("bubbles/bubble-nota-green.png", 166, 120, null), // null for random sample
 		BUBBLE_NOTE_WHITE("bubbles/bubble-nota-white.png", 166, 120, null), // null for random sample
-		BUBBBE_A_PADRE_2("bubbles/a_padre 2.png", 187, 156, null),
-		BUBBLE_A_OSCURO("bubbles/a_oscuro.png", 187, 156, null),
-		BUBBLE_A_ORDENES("bubbles/a_ordenes.png", 175, 143, null),
-		BUBBLE_A_OBI("bubbles/a_obi.png", 199, 130, null),
-		BUBBLE_A_EWOK("bubbles/a_ewok scur.png", 211, 170, null),
-		BUBBLE_A_DUCADOS("bubbles/a_ducados.png", 187, 155, null);
+		BUBBBE_A_PADRE_2("bubbles/a_padre 2.png", 187, 156, Sample.A_PADRE_2),
+		BUBBLE_A_OSCURO("bubbles/a_oscuro.png", 187, 156, Sample.A_OSCURO),
+		BUBBLE_A_ORDENES("bubbles/a_ordenes.png", 175, 143, Sample.A_ORDENES),
+		BUBBLE_A_OBI("bubbles/a_obi.png", 199, 130, Sample.A_OBI),
+		BUBBLE_A_EWOK("bubbles/a_ewok scur.png", 211, 170, Sample.A_EWOK_SCUR),
+		BUBBLE_A_DUCADOS("bubbles/a_ducados.png", 187, 155, Sample.A_DUCADOS);
 		
 		private final String spriteName;
 		private final Sample sound;
