@@ -50,7 +50,11 @@ public class LaserBeam implements IEntity, IMovable
 	}
 	
 	public LaserBeam(Position p, int jumps) {
-		this.position = (Position) p.clone();
+		this(p.toPoint(), jumps);
+	}
+	
+	public LaserBeam(Point p, int jumps) {
+		this.position = new Position(p);
 		this.speed = LaserBeam.DEFAULT_SPEED;
 		this.sprite = (Sprite) SpriteFactory.getMe().newSprite(SpriteFactory.LASER, BEAM_SIZE, BEAM_SIZE);
 		this.sprite.setRotationCenter(BEAM_SIZE * 0.5f, BEAM_SIZE * 0.5f);
