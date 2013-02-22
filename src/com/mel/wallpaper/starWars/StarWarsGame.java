@@ -175,7 +175,7 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 	public void initialize(){
 		//initialize model
 		float sf = this.backgroundScaleFactor;
-		InvisibleWalls walls = new InvisibleWalls(sf*52f, sf*52f, sf*550f, sf*52f, this.background); //TODO: cambiar esto por un campo horizontal mas largo
+		InvisibleWalls walls = new InvisibleWalls(sf*52f, sf*52f, sf*600f, sf*52f, this.background); //TODO: cambiar esto por un campo horizontal mas largo
 		
 		
 		//TESTING DIMENSIONES CAMPO
