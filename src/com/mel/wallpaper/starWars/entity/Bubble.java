@@ -50,6 +50,13 @@ public class Bubble implements IEntity, IMovable
 			return sprite;
 		}
 		
+		public static BubbleType getRandomBubble()
+		{
+			BubbleType types[] = values();
+			
+			return types[(int)(Math.random()*(double)types.length)];
+		}
+		
 		public String toString() {
 			return spriteName;
 		}
