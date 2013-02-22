@@ -42,8 +42,6 @@ public class StarWarsLiveWallpaper extends BaseGameWallpaperService
 	
 	Sound benjiBSO;
 	
-	SoundAssets soundLibrary;
-	
 	
 	// ===========================================================
 	// Constructors
@@ -103,9 +101,6 @@ public class StarWarsLiveWallpaper extends BaseGameWallpaperService
 		Debug.d("toast", "onCreateResources");
 		this.game = new StarWarsGame(this.getEngine(), this);
 		this.game.onCreateResources();
-		
-		soundLibrary = new SoundAssets(mEngine.getSoundManager(),this);
-		this.mEngine.registerUpdateHandler(soundLibrary);
 	}
 	
 	public Scene onCreateScene() {
@@ -182,14 +177,5 @@ public class StarWarsLiveWallpaper extends BaseGameWallpaperService
 	
 	public void restartEngine(){
 		super.onResumeGame();
-	}
-	
-	public void onTapFromGame(TouchEvent event) {
-		Debug.d("tap on " + event.getX() + "x" + event.getY());
-
-//		SoundLibrary.playSample(Sample.LASER); //AG: lo he movido a TouchProcess
-		
-//		SoundLibrary.playSample(Sample.CHEWAKA);
-//		SoundLibrary.stopSample(Sample.CHEWAKA, true, 2);
 	}
 }

@@ -35,21 +35,23 @@ public class BubbleCommand extends MoveCommand
 		this.game = game;
 		
 		Position bubblePosition = walker.position.clone();
+
+		bubble = new Bubble(BubbleType.getRandomBubble(), bubblePosition);
 		
-		switch(walker.rol)
-		{
-		case CHUWAKA:
-			bubble = new Bubble(BubbleType.BUBBLE_NOTE_GREEN, bubblePosition);
-			break;
-		case JEDI:
-			bubble = new Bubble(BubbleType.BUBBLE_NOTE_GREEN, bubblePosition);
-			break;
-		case STORM_TROOPER:
-			bubble = new Bubble(BubbleType.BUBBLE_NOTE_WHITE, bubblePosition);
-			break;
-		default:
-			bubble = new Bubble(BubbleType.BUBBLE_OLA_K_ASE, bubblePosition);
-		}
+//		switch(walker.rol)
+//		{
+//		case CHUWAKA:
+//			bubble = new Bubble(BubbleType.BUBBLE_NOTE_GREEN, bubblePosition);
+//			break;
+//		case JEDI:
+//			bubble = new Bubble(BubbleType.BUBBLE_NOTE_GREEN, bubblePosition);
+//			break;
+//		case STORM_TROOPER:
+//			bubble = new Bubble(BubbleType.BUBBLE_NOTE_WHITE, bubblePosition);
+//			break;
+//		default:
+//			bubble = new Bubble(BubbleType.BUBBLE_OLA_K_ASE, bubblePosition);
+//		}
 		
 		movable = bubble;
 		game.addEntity(bubble);
