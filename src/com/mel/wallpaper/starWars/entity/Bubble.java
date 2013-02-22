@@ -19,22 +19,26 @@ import com.mel.wallpaper.starWars.view.WalkerAnimator;
 public class Bubble implements IEntity, IMovable
 {
 	public enum BubbleType {
-		BUBBLE_OLA_K_ASE("bubble1",Sample.CHEWAKA),
-		BUBBLE_NOTE_GREEN("bubble3",null), // null for random sample
-		BUBBLE_NOTE_WHITE("bubble4",null), // null for random sample
-		BUBBBE_A_PADRE_2("bubble5",null),
-		BUBBLE_A_OSCURO("bubble6",null),
-		BUBBLE_A_ORDENES("bubble7",null),
-		BUBBLE_A_OBI("bubble8",null),
-		BUBBLE_A_EWOK("bubble9",null),
-		BUBBLE_A_DUCADOS("bubble10",null);
+		BUBBLE_OLA_K_ASE("bubbles/bubble-ola-k-ase.png", 166, 120, Sample.CHEWAKA),
+		BUBBLE_NOTE_GREEN("bubbles/bubble-nota-green.png", 166, 120, null), // null for random sample
+		BUBBLE_NOTE_WHITE("bubbles/bubble-nota-white.png", 166, 120, null), // null for random sample
+		BUBBBE_A_PADRE_2("bubbles/a_padre 2.png", 187, 156, null),
+		BUBBLE_A_OSCURO("bubbles/a_oscuro.png", 187, 156, null),
+		BUBBLE_A_ORDENES("bubbles/a_ordenes.png", 175, 143, null),
+		BUBBLE_A_OBI("bubbles/a_obi.png", 199, 130, null),
+		BUBBLE_A_EWOK("bubbles/a_ewok scur.png", 211, 170, null),
+		BUBBLE_A_DUCADOS("bubbles/a_ducados.png", 187, 155, null);
 		
-		String spriteName;
-		Sample sound;
+		private final String spriteName;
+		private final Sample sound;
+		private final int width;
+		private final int height;
 		
-		private BubbleType(String spriteName, Sample sound)
+		private BubbleType(String spriteName, int width, int height, Sample sound)
 		{
 			this.spriteName = spriteName;
+			this.width = width;
+			this.height = height;
 			this.sound = sound;
 		}
 		
@@ -48,6 +52,11 @@ public class Bubble implements IEntity, IMovable
 									 BUBBLE_SIZE*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR/2);
 			
 			return sprite;
+		}
+		
+		public void registerTexture()
+		{
+			SpriteFactory.getMe().registerTexture(spriteName,spriteName, width, height);
 		}
 		
 		public static BubbleType getRandomBubble()
@@ -86,6 +95,12 @@ public class Bubble implements IEntity, IMovable
 		this.position = (Position) p.clone();
 		this.speed = Bubble.DEFAULT_SPEED;
 		this.sprite = type.getNewSprite();
+	}
+	
+	public static void registerTextures()
+	{
+		for(BubbleType type : BubbleType.values())
+			type.registerTexture();
 	}
 	
 	public void playSound()

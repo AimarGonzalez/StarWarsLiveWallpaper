@@ -86,16 +86,8 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 				
 		SpriteFactory.getMe().registerTexture(SpriteFactory.LASER,"shooting.png", 128, 128);
 	
-		SpriteFactory.getMe().registerTexture(Bubble.BubbleType.BUBBLE_OLA_K_ASE.toString(),"bubbles/bubble-ola-k-ase.png", 166, 120);
-		SpriteFactory.getMe().registerTexture(Bubble.BubbleType.BUBBLE_NOTE_GREEN.toString(),"bubbles/bubble-nota-green.png", 166, 120);
-		SpriteFactory.getMe().registerTexture(Bubble.BubbleType.BUBBLE_NOTE_WHITE.toString(),"bubbles/bubble-nota-white.png", 166, 120);
-		SpriteFactory.getMe().registerTexture(Bubble.BubbleType.BUBBBE_A_PADRE_2.toString(),"bubbles/a_padre 2.png", 187, 156);
-		SpriteFactory.getMe().registerTexture(Bubble.BubbleType.BUBBLE_A_OSCURO.toString(),"bubbles/a_oscuro.png", 187, 156);
-		SpriteFactory.getMe().registerTexture(Bubble.BubbleType.BUBBLE_A_ORDENES.toString(),"bubbles/a_ordenes.png", 175, 143);
-		SpriteFactory.getMe().registerTexture(Bubble.BubbleType.BUBBLE_A_OBI.toString(),"bubbles/a_obi.png", 199, 130);
-		SpriteFactory.getMe().registerTexture(Bubble.BubbleType.BUBBLE_A_EWOK.toString(),"bubbles/a_ewok scur.png", 211, 170);
-		SpriteFactory.getMe().registerTexture(Bubble.BubbleType.BUBBLE_A_DUCADOS.toString(),"bubbles/a_ducados.png", 187, 155);
-
+		Bubble.registerTextures();
+		
 //		SpriteFactory.getMe().registerTexture("background","field-final2.png", 2048, 1024);
 		SpriteFactory.getMe().registerTexture("background","tatooine_erosionarx3_dilatarx3.jpg", 1920, 1137);
 
