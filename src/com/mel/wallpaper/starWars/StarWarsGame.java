@@ -27,6 +27,7 @@ import com.mel.wallpaper.starWars.process.RenderWalkersProcess;
 import com.mel.wallpaper.starWars.process.TouchProcess;
 import com.mel.wallpaper.starWars.process.WalkersProcess;
 import com.mel.wallpaper.starWars.settings.GameSettings;
+import com.mel.wallpaper.starWars.sound.SoundAssets;
 import com.mel.wallpaper.starWars.view.SpriteFactory;
 
 public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeListener
@@ -58,7 +59,7 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 	
 	private float backgroundScaleFactor;
 
-	//public UpdateTicker;
+	SoundAssets soundAssets;
 	
 	public StarWarsGame(Engine engine, ContextWrapper context){
 		this.engine = engine;
@@ -86,10 +87,8 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 				
 		SpriteFactory.getMe().registerTexture(SpriteFactory.LASER,"shooting.png", 128, 128);
 	
-		SpriteFactory.getMe().registerTexture(Bubble.BubbleType.BUBBLE_OLA_K_ASE.toString(),"bubble-ola-k-ase.png", 166, 120);
-		SpriteFactory.getMe().registerTexture(Bubble.BubbleType.BUBBLE_NOTE_GREEN.toString(),"bubble-nota-green.png", 166, 120);
-		SpriteFactory.getMe().registerTexture(Bubble.BubbleType.BUBBLE_NOTE_WHITE.toString(),"bubble-nota-green.png", 166, 120);
-
+		Bubble.registerTextures();
+		
 //		SpriteFactory.getMe().registerTexture("background","field-final2.png", 2048, 1024);
 		SpriteFactory.getMe().registerTexture("background","tatooine_erosionarx3_dilatarx3.jpg", 1920, 1137);
 
@@ -98,6 +97,10 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 				
 		this.background = getBackground();
 		updateBackgroundPosition();
+		
+		soundAssets = new SoundAssets(engine.getSoundManager(),context);
+		this.engine.registerUpdateHandler(soundAssets);
+		
 	}
 	
 	public Scene onCreateScene(){
