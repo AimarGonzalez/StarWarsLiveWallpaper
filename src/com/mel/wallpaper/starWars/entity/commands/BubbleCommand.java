@@ -37,8 +37,7 @@ public class BubbleCommand extends MoveCommand
 		switch(walker.rol)
 		{
 		case JEDI:
-			
-			switch((int)(Math.random()*7))
+			switch((int)(Math.random()*9))
 			{
 			case 1:
 				bubble = new Bubble(BubbleType.BUBBLE_HOLA_K_ASE, walker.position);
@@ -58,11 +57,16 @@ public class BubbleCommand extends MoveCommand
 			case 6:
 				bubble = new Bubble(BubbleType.BUBBLE_SPACEPELOTAS, walker.position);
 				break;
-			default:
+			case 7:
 				bubble = new Bubble(BubbleType.BUBBLE_JUAN, walker.position);
+				break;
+			case 8:
+				bubble = new Bubble(BubbleType.BUBBLE_JOSE_EL_MIEDO_Y_LA_IRA, walker.position);
+				break;
+			default:
+				bubble = new Bubble(BubbleType.BUBBLE_JOSE_RECUERDA, walker.position);
 			}
 			break;
-			
 			
 		case STORM_TROOPER:
 			switch((int)(Math.random()*9))
@@ -94,14 +98,16 @@ public class BubbleCommand extends MoveCommand
 			case 8:
 				bubble = new Bubble(BubbleType.BUBBLE_EWOKS2, walker.position);
 				break;
+			case 9:
+				bubble = new Bubble(BubbleType.BUBBLE_JOSE_CHEWAKA, walker.position);
+				break;
 			default:
 				bubble = new Bubble(BubbleType.BUBBLE_CHIU, walker.position);
 			}
 			break;
 			
-			
 		case DARTH_VADER:
-			switch((int)(Math.random()*4))
+			switch((int)(Math.random()*9))
 			{
 			case 0:
 				bubble = new Bubble(BubbleType.BUBBLE_A_OBI, walker.position);
@@ -115,12 +121,23 @@ public class BubbleCommand extends MoveCommand
 			case 3:
 				bubble = new Bubble(BubbleType.BUBBLE_VADER, walker.position);
 				break;
-			default:
+			case 4:
 				bubble = new Bubble(BubbleType.BUBBLE_VADER, walker.position);
-			
+				break;
+			case 5:
+				bubble = new Bubble(BubbleType.BUBBLE_ALBA_DARTHVADER, walker.position);
+				break;
+			case 6:
+				bubble = new Bubble(BubbleType.BUBBLE_ALBA_DARTHVADERPOSESO, walker.position);
+				break;
+			case 7:
+				bubble = new Bubble(BubbleType.BUBBLE_JOSE_SOY_TU_PADRE, walker.position);
+				break;
+			case 8:
+				default:
+				bubble = new Bubble(BubbleType.BUBBLE_JOSE_TODAVIA_NO_ERES, walker.position);
 			}
 			break;
-			
 			
 		case CHUWAKA:
 			bubble = new Bubble(BubbleType.getRandomBubble(), walker.position);
