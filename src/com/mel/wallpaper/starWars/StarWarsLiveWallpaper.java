@@ -14,6 +14,7 @@ import org.andengine.entity.scene.Scene;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.util.debug.Debug;
+import org.andengine.util.debug.Debug.DebugLevel;
 
 import com.mel.wallpaper.starWars.settings.GameSettings;
 import com.mel.wallpaper.starWars.sound.SoundAssets;
@@ -72,7 +73,7 @@ public class StarWarsLiveWallpaper extends BaseGameWallpaperService
 		
 //		android.os.Debug.waitForDebugger();
 		
-		//Debug.setDebugLevel(DebugLevel.NONE);
+		Debug.setDebugLevel(DebugLevel.NONE);
 		//Toast.makeText(this, "You move my sprite right round, right round...", Toast.LENGTH_LONG).show();
 		Debug.d("toast", "onCreateEngineOptions");
 
