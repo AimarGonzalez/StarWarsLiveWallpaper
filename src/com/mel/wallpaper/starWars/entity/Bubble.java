@@ -42,14 +42,14 @@ public class Bubble implements IEntity, IMovable
 		BUBBLE_TINTINTIRIRIN("bubbles/tintintiririn.png", 222, 143, Sample.TINTINTIRIRIN),	
 		BUBBLE_VADER("bubbles/vader.png", 187, 156, Sample.VADER);
 		
-		private final String spriteName;
+		private final String spritePath;
 		private final Sample sound;
 		private final int width;
 		private final int height;
 		
 		private BubbleType(String spriteName, int width, int height, Sample sound)
 		{
-			this.spriteName = spriteName;
+			this.spritePath = spriteName;
 			this.width = width;
 			this.height = height;
 			this.sound = sound;
@@ -57,7 +57,7 @@ public class Bubble implements IEntity, IMovable
 		
 		public Sprite getNewSprite()
 		{
-			Sprite sprite = SpriteFactory.getMe().newSprite(spriteName,
+			Sprite sprite = SpriteFactory.getMe().newSprite(spritePath,
 					   							   BUBBLE_SIZE*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR,
 					   							   BUBBLE_SIZE*SpriteFactory.PLAYERS_SPRITE_SCALEFACTOR);
 			
@@ -69,7 +69,7 @@ public class Bubble implements IEntity, IMovable
 		
 		public void registerTexture()
 		{
-			SpriteFactory.getMe().registerTexture(spriteName,spriteName, width, height);
+			SpriteFactory.getMe().registerTexture(spritePath,spritePath, width, height);
 		}
 		
 		public static BubbleType getRandomBubble()
@@ -80,7 +80,7 @@ public class Bubble implements IEntity, IMovable
 		}
 		
 		public String toString() {
-			return spriteName;
+			return spritePath;
 		}
 	}
 	
