@@ -47,12 +47,12 @@ public class Bubble implements IEntity, IMovable
 		private final int width;
 		private final int height;
 		
-		private BubbleType(String spriteName, int width, int height, Sample sound)
+		private BubbleType(String spriteName, int width, int height, Sample... sound)
 		{
 			this.spritePath = spriteName;
 			this.width = width;
 			this.height = height;
-			this.sound = sound;
+			this.sound = sound[0];
 		}
 		
 		public Sprite getNewSprite()
