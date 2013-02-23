@@ -70,7 +70,7 @@ public class StarWarsLiveWallpaper extends BaseGameWallpaperService
 
 	public EngineOptions onCreateEngineOptions() {
 		
-		android.os.Debug.waitForDebugger();
+//		android.os.Debug.waitForDebugger();
 		
 		//Debug.setDebugLevel(DebugLevel.NONE);
 		//Toast.makeText(this, "You move my sprite right round, right round...", Toast.LENGTH_LONG).show();
