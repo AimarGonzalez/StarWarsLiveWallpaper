@@ -34,27 +34,75 @@ public class BubbleCommand extends MoveCommand
 		this.walker = walker;
 		this.game = game;
 		
-		Position bubblePosition = walker.position.clone();
-
-		bubble = new Bubble(BubbleType.getRandomBubble(), bubblePosition);
-		
-//		switch(walker.rol)
-//		{
-//		case CHUWAKA:
-//			bubble = new Bubble(BubbleType.BUBBLE_NOTE_GREEN, bubblePosition);
-//			break;
-//		case JEDI:
-//			bubble = new Bubble(BubbleType.BUBBLE_NOTE_GREEN, bubblePosition);
-//			break;
-//		case STORM_TROOPER:
-//			bubble = new Bubble(BubbleType.BUBBLE_NOTE_WHITE, bubblePosition);
-//			break;
-//		default:
-//			bubble = new Bubble(BubbleType.BUBBLE_OLA_K_ASE, bubblePosition);
-//		}
+		switch(walker.rol)
+		{
+		case JEDI:
+			switch((int)Math.random()*10)
+			{
+			case 0:
+				bubble = new Bubble(BubbleType.BUBBLE_OLA_K_ASE, walker.position);
+				break;
+			case 1:
+				bubble = new Bubble(BubbleType.BUBBLE_HOLA_K_ASE, walker.position);
+				break;
+			case 2:
+				bubble = new Bubble(BubbleType.BUBBLE_SPACEPELOTAS, walker.position);
+				break;
+			case 3:
+				bubble = new Bubble(BubbleType.BUBBLE_TINTINTIRIRIN, walker.position);
+				break;
+			default:
+				bubble = new Bubble(BubbleType.BUBBLE_NOTE_BLUE, walker.position);
+			}
+			break;
+		case STORM_TROOPER:
+			switch((int)Math.random()*10)
+			{
+			case 0:
+				bubble = new Bubble(BubbleType.BUBBLE_A_DUCADOS, walker.position);
+				break;
+			case 1:
+				bubble = new Bubble(BubbleType.BUBBLE_A_EWOK, walker.position);
+				break;
+			case 2:
+				bubble = new Bubble(BubbleType.BUBBLE_A_NAPALM, walker.position);
+				break;
+			case 3:
+				bubble = new Bubble(BubbleType.BUBBLE_EWOKS3, walker.position);
+				break;
+			case 4:
+				bubble = new Bubble(BubbleType.BUBBLE_PEINANDO, walker.position);
+				break;
+			default:
+				bubble = new Bubble(BubbleType.BUBBLE_NOTE_WHITE, walker.position);
+			}
+			break;
+		case DARTH_VADER:
+			switch((int)Math.random()*4)
+			{
+			case 0:
+				bubble = new Bubble(BubbleType.BUBBLE_A_OBI, walker.position);
+				break;
+			case 1:
+				bubble = new Bubble(BubbleType.BUBBLE_A_OSCURO, walker.position);
+				break;
+			case 2:
+				bubble = new Bubble(BubbleType.BUBBBE_A_PADRE_2, walker.position);
+				break;
+			case 3:
+				bubble = new Bubble(BubbleType.BUBBLE_VADER, walker.position);
+				break;
+			}
+			break;
+		case CHUWAKA:
+			bubble = new Bubble(BubbleType.getRandomBubble(), walker.position);
+			break;
+		default:
+			bubble = new Bubble(BubbleType.getRandomBubble(), walker.position);
+		}
 		
 		movable = bubble;
-		game.addEntity(bubble);
+		this.game.addEntity(bubble);
 	}
 	
 	@Override
