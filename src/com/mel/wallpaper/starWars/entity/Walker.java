@@ -55,7 +55,8 @@ public class Walker implements IEntity, IMovable
 	public enum Rol {
         JEDI("JEDI"),
         CHUWAKA("CHUWAKA"),
-        STORM_TROOPER("STORM_TROOPER");
+        STORM_TROOPER("STORM_TROOPER"),
+        DARTH_VADER("DARTH_VADER");
         
         private final String rolId;
 

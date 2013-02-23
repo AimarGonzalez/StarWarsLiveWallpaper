@@ -7,6 +7,7 @@ import org.andengine.util.modifier.ease.EaseQuartOut;
 
 import com.mel.entityframework.Game;
 import com.mel.util.MathUtil;
+import com.mel.util.Point;
 import com.mel.wallpaper.starWars.entity.LaserBeam;
 import com.mel.wallpaper.starWars.entity.Map;
 import com.mel.wallpaper.starWars.entity.Shooter;
@@ -28,7 +29,8 @@ public class ShootLaserCommand extends MoveCommand
 		
 		this.shooter = walker;
 
-		this.laser = new LaserBeam(walker.position, MathUtils.random(0, 2));
+		Point laserPosition = new Point(walker.position.getX(), walker.position.getY()-1); //esto es solo para que el laser aparezca por detras del arma, no por delante
+		this.laser = new LaserBeam(laserPosition, MathUtils.random(0, 2));
 		this.movable = laser;
 		game.addEntity(laser);
 	}

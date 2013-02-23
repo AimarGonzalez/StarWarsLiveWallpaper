@@ -88,7 +88,7 @@ public class ShooterAnimator extends WalkerAnimator implements IShooterAnimator{
 		switch(a) {
 			case WALK_E: //derecha
 				tileDuration =  Math.round(9000/speed);
-				sprite.animate(new long[]{tileDuration, tileDuration, tileDuration, tileDuration},new int[]{0,1,2,3}, true); //fila1
+				sprite.animate(new long[]{tileDuration, tileDuration, tileDuration, tileDuration},new int[]{3,2,1,0}, true); //fila1
 				break;
 			case WALK_W: //izquierda
 				tileDuration =  Math.round(9000/speed);

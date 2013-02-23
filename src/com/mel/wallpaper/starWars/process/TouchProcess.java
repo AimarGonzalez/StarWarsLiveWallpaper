@@ -44,7 +44,7 @@ public class TouchProcess extends Process implements IOnSceneTouchListener
 	private RectangularShape touchMarker;
 	private TouchEvent lastTouch;
 	
-	private int TOUCH_RATIO = 100;
+	private int TOUCH_RATIO = 50;
 	
 	public TouchProcess(Game game, Scene scene, Context context){
 		this.game = game;
