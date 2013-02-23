@@ -37,7 +37,7 @@ public class BubbleCommand extends MoveCommand
 		switch(walker.rol)
 		{
 		case JEDI:
-			switch((int)Math.random()*10)
+			switch((int)(Math.random()*10))
 			{
 			case 0:
 				bubble = new Bubble(BubbleType.BUBBLE_OLA_K_ASE, walker.position);
@@ -56,7 +56,7 @@ public class BubbleCommand extends MoveCommand
 			}
 			break;
 		case STORM_TROOPER:
-			switch((int)Math.random()*10)
+			switch((int)(Math.random()*10))
 			{
 			case 0:
 				bubble = new Bubble(BubbleType.BUBBLE_A_DUCADOS, walker.position);
@@ -78,7 +78,7 @@ public class BubbleCommand extends MoveCommand
 			}
 			break;
 		case DARTH_VADER:
-			switch((int)Math.random()*4)
+			switch((int)(Math.random()*4))
 			{
 			case 0:
 				bubble = new Bubble(BubbleType.BUBBLE_A_OBI, walker.position);
