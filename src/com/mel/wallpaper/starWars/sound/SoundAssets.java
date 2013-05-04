@@ -22,8 +22,8 @@ public class SoundAssets implements IUpdateHandler {
 	
 	public enum Sample {
 		
-		LASER("sfx/The_Yellow_Dart-Saberdown.wav"),
-		CHEWAKA("sfx/chewbacca.wav"),
+		//LASER("sfx/The_Yellow_Dart-Saberdown.wav"),
+		//CHEWAKA("sfx/chewbacca.wav"),
 
 		// From Sele
 		AUCH("sfx/auch.mp3"),
@@ -53,15 +53,15 @@ public class SoundAssets implements IUpdateHandler {
 		A_YO_SOY_TU_PADRE("sfx/a_yo_soy_tu_padre.mp3"),
 
 		// From Alba
-		A_DARTHVADER("sfx/A_DarthVader.mp3"),
-		A_DARTHVADER_POSESO("sfx/A_DarthVaderPoseso.mp3"),
+		//A_DARTHVADER("sfx/A_DarthVader.mp3"),
+		//A_DARTHVADER_POSESO("sfx/A_DarthVaderPoseso.mp3"),
 		
 		// From Jose
-		J_CHEWAKA("sfx/J_Chewbacca.mp3"),
-		J_EL_MIEDO_Y_LA_IRA("sfx/J_El miedo y la ira.mp3"),
-		J_RECUERDA("sfx/J_Recuerda.mp3"),
-		J_TODAVIA_NO_ERES("sfx/J_Todavia no eres un Jedi.mp3"),
-		J_SOY_TU_PADRE("sfx/J_Yo soy tu padre.mp3");
+		//J_CHEWAKA("sfx/J_Chewbacca.mp3"),
+		J_EL_MIEDO_Y_LA_IRA("sfx/J_El miedo y la ira_amp.mp3"),
+		J_RECUERDA("sfx/J_Recuerda_amp.mp3"),
+		J_TODAVIA_NO_ERES("sfx/J_Todavia no eres un Jedi_amp.mp3");
+		//J_SOY_TU_PADRE("sfx/J_Yo soy tu padre.mp3");
 		
 		private Sound sound;
 		private String path;
