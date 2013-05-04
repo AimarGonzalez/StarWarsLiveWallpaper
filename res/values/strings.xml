@@ -22,9 +22,9 @@
     <!-- General -->
     <skip />
     <!-- Application name -->
-    <string name="applicationName">Dragner Wallpaper</string>
-    <string name="wallpaperName">Dragner Live Wallpaper</string>
-    <string name="wallpaperDesc">Animated wallpaper inspired by Dragner</string>
+    <string name="applicationName">StarWars Wallpaper</string>
+    <string name="wallpaperName">StarWars Live Wallpaper</string>
+    <string name="wallpaperDesc">Animated wallpaper inspired by StarWars</string>
     <string name="author">Playmobil Team</string>
     <string name="preferences_string">Settings</string>
 
