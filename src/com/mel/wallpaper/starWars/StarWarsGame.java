@@ -130,6 +130,11 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 		updateBackgroundPosition();
 	}
 	
+	
+	public void onScreenOrientationChanged(int screenOrientation){
+		updateBackgroundPosition();
+	}
+	
 	public void onGameCreated(){
 		
 		// start engine
@@ -157,7 +162,7 @@ public class StarWarsGame implements SharedPreferences.OnSharedPreferenceChangeL
 	
 	private Sprite getBackground(){
 		ITextureRegion texture = SpriteFactory.getMe().getTexture("background");
-		float visibleScreenHeight = StarWarsLiveWallpaper.CAMERA_HEIGHT - StarWarsLiveWallpaper.NOTIFICATION_BAR_HEIGHT;
+		float visibleScreenHeight = StarWarsLiveWallpaper.SCREEN_HEIGHT - StarWarsLiveWallpaper.NOTIFICATION_BAR_HEIGHT;
 		float visibleScreenWidth = visibleScreenHeight*texture.getWidth()/texture.getHeight();
 		
 		this.backgroundScaleFactor = visibleScreenHeight/texture.getHeight();
