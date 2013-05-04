@@ -42,9 +42,9 @@ public class Bubble implements IEntity, IMovable
 		BUBBLE_A_OSCURO("bubbles/a_oscuro.png", 187, 156, Sample.A_OSCURO),
 		BUBBLE_A_OBI("bubbles/a_obi.png", 199, 130, Sample.A_OBI),
 		BUBBLE_VADER("bubbles/vader.png", 187, 156, Sample.VADER),
-		BUBBLE_ALBA_DARTHVADER("bubbles/A_DarthVader.png", 245, 195,Sample.A_DARTHVADER),
-		BUBBLE_ALBA_DARTHVADERPOSESO("bubbles/A_DarthVaderPoseso.png", 246, 197,Sample.A_DARTHVADER_POSESO),
-		BUBBLE_JOSE_SOY_TU_PADRE("bubbles/J_Yo soy tu padre.png", 187, 156, Sample.J_SOY_TU_PADRE),
+		//BUBBLE_ALBA_DARTHVADER("bubbles/A_DarthVader.png", 245, 195,Sample.A_DARTHVADER),
+		//BUBBLE_ALBA_DARTHVADERPOSESO("bubbles/A_DarthVaderPoseso.png", 246, 197,Sample.A_DARTHVADER_POSESO),
+		//BUBBLE_JOSE_SOY_TU_PADRE("bubbles/J_Yo soy tu padre.png", 187, 156, Sample.J_SOY_TU_PADRE),
 		BUBBLE_JOSE_TODAVIA_NO_ERES("bubbles/J_Todavia no eres un Jedi.png", 222, 182, Sample.J_TODAVIA_NO_ERES),
 		
 		BUBBLE_A_ORDENES("bubbles/a_ordenes.png", 175, 143, Sample.A_ORDENES),
@@ -54,7 +54,7 @@ public class Bubble implements IEntity, IMovable
 		BUBBLE_A_NAPALM("bubbles/a_napalm.png", 232, 167, Sample.A_NAPALM),
 		BUBBLE_PEINANDO("bubbles/peinando.png", 199, 156, Sample.PEINANDO),
 		BUBBLE_PINYAU("bubbles/pinyau.png", 166, 120, Sample.PINYAU),
-		BUBBLE_JOSE_CHEWAKA("bubbles/J_Chewbacca.png", 166, 120, Sample.J_CHEWAKA),
+		//BUBBLE_JOSE_CHEWAKA("bubbles/J_Chewbacca.png", 166, 120, Sample.J_CHEWAKA),
 
 		BUBBLE_CHIU("bubbles/chiu.png", 166, 120, Sample.CHIU);
 		
