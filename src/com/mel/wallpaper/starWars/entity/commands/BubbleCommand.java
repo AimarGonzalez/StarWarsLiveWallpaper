@@ -49,27 +49,28 @@ public class BubbleCommand extends MoveCommand
 				bubble = new Bubble(BubbleType.BUBBLE_TINTINTIRIRIN, walker.position);
 				break;
 			case 4:
-				bubble = new Bubble(BubbleType.BUBBLE_JUAN, walker.position);
+				bubble = new Bubble(BubbleType.BUBBLE_SPACEPELOTAS, walker.position);
 				break;
 			case 5:
-				bubble = new Bubble(BubbleType.BUBBLE_PAYANO, walker.position);
+				bubble = new Bubble(BubbleType.BUBBLE_JOSE_EL_MIEDO_Y_LA_IRA, walker.position);
 				break;
 			case 6:
-				bubble = new Bubble(BubbleType.BUBBLE_SPACEPELOTAS, walker.position);
+				bubble = new Bubble(BubbleType.BUBBLE_JOSE_RECUERDA, walker.position);
 				break;
 			case 7:
 				bubble = new Bubble(BubbleType.BUBBLE_JUAN, walker.position);
 				break;
 			case 8:
-				bubble = new Bubble(BubbleType.BUBBLE_JOSE_EL_MIEDO_Y_LA_IRA, walker.position);
+				bubble = new Bubble(BubbleType.BUBBLE_JUAN, walker.position);
 				break;
+
 			default:
-				bubble = new Bubble(BubbleType.BUBBLE_JOSE_RECUERDA, walker.position);
+				bubble = new Bubble(BubbleType.BUBBLE_JUAN, walker.position);
 			}
 			break;
 			
 		case STORM_TROOPER:
-			switch((int)(Math.random()*9))
+			switch((int)(Math.random()*11))
 			{
 			case 0:
 				bubble = new Bubble(BubbleType.BUBBLE_A_ORDENES, walker.position);
@@ -90,24 +91,24 @@ public class BubbleCommand extends MoveCommand
 				bubble = new Bubble(BubbleType.BUBBLE_PEINANDO, walker.position);
 				break;
 			case 6:
-				bubble = new Bubble(BubbleType.BUBBLE_PINYAU, walker.position);
+				bubble = new Bubble(BubbleType.BUBBLE_EWOKS2, walker.position);
 				break;
 			case 7:
 				bubble = new Bubble(BubbleType.BUBBLE_CHIU, walker.position);
 				break;
 			case 8:
-				bubble = new Bubble(BubbleType.BUBBLE_EWOKS2, walker.position);
+				bubble = new Bubble(BubbleType.BUBBLE_PINYAU, walker.position);
 				break;
 			case 9:
-				bubble = new Bubble(BubbleType.BUBBLE_JOSE_CHEWAKA, walker.position);
+				bubble = new Bubble(BubbleType.BUBBLE_CHIU, walker.position);
 				break;
 			default:
-				bubble = new Bubble(BubbleType.BUBBLE_CHIU, walker.position);
+				bubble = new Bubble(BubbleType.BUBBLE_PINYAU, walker.position);
 			}
 			break;
 			
 		case DARTH_VADER:
-			switch((int)(Math.random()*9))
+			switch((int)(Math.random()*5))
 			{
 			case 0:
 				bubble = new Bubble(BubbleType.BUBBLE_A_OBI, walker.position);
@@ -119,23 +120,23 @@ public class BubbleCommand extends MoveCommand
 				bubble = new Bubble(BubbleType.BUBBBE_A_PADRE_2, walker.position);
 				break;
 			case 3:
-				bubble = new Bubble(BubbleType.BUBBLE_VADER, walker.position);
-				break;
-			case 4:
-				bubble = new Bubble(BubbleType.BUBBLE_VADER, walker.position);
-				break;
-			case 5:
-				bubble = new Bubble(BubbleType.BUBBLE_ALBA_DARTHVADER, walker.position);
-				break;
-			case 6:
-				bubble = new Bubble(BubbleType.BUBBLE_ALBA_DARTHVADERPOSESO, walker.position);
-				break;
-			case 7:
-				bubble = new Bubble(BubbleType.BUBBLE_JOSE_SOY_TU_PADRE, walker.position);
-				break;
-			case 8:
-				default:
 				bubble = new Bubble(BubbleType.BUBBLE_JOSE_TODAVIA_NO_ERES, walker.position);
+				break;
+//			case 4:
+//				bubble = new Bubble(BubbleType.BUBBLE_VADER, walker.position);
+//				break;
+//			case 5:
+//				bubble = new Bubble(BubbleType.BUBBLE_ALBA_DARTHVADER, walker.position);
+//				break;
+//			case 6:
+//				bubble = new Bubble(BubbleType.BUBBLE_ALBA_DARTHVADERPOSESO, walker.position);
+//				break;
+//			case 7:
+//				bubble = new Bubble(BubbleType.BUBBLE_JOSE_SOY_TU_PADRE, walker.position);
+//				break;
+//			case 8:
+			default:
+				bubble = new Bubble(BubbleType.BUBBLE_VADER, walker.position);
 			}
 			break;
 			
